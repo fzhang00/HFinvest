@@ -1,0 +1,1 @@
+Data folder for SP500 csv files

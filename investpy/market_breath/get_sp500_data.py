@@ -4,7 +4,11 @@ import os.path as myPath
 
 from pandas_datareader import data
 from datetime import datetime
-import sp500Const as const
+import investpy.market_breath.sp500Const as const
+from investpy.market_breath.get_sp500_Names import update_sp500companyList
+import const_common as cconst
+import personal as pconst
+
 # import os
 
 ##########constant
@@ -17,9 +21,9 @@ import sp500Const as const
 # # endDate2020_const = "2020-01-01"
 
 pause_downloadrequest = 30 # in seconds
-yahooDATA_const = 'yahoo' 
-quandlData_const = 'quandl' 
-quandlKey_const = '_JyFt8HS_T8C4qsXBo68'
+yahooDATA_const = cconst.yahooDataSource_const
+quandlData_const = cconst.quandlDataSource_const 
+quandlKey_const = pconst.QUANDL_KEY
 
 #------------------------
 
@@ -173,11 +177,14 @@ def update_workingData(ticker, fillFullpath):
     if not panel_data1.empty:
         df3 = pd.concat([dfOldFile, panel_data1])#, ignore_index=True ) 
         df3.to_csv(fillFullpath,  float_format='%.3f')
-        print ("\nstock updated today: " + end_date + " - "+ ticker)
+        print ("\nstock updated today: " + end_date + " - "+ ticker + "to " + fillFullpath)
     else:
         print ("\nNo update data today: " + end_date + " - "+ ticker)
 
-def download_Update_SaveData_History_all500 (sp500info_file, start_date, sp500HisInfo_list, sp500dataWorkingDir):
+def download_Update_SaveData_History_all500 (sp500info_file, 
+                                             start_date = start_date, 
+                                             sp500HisInfo_list=const.sp500HisFile_list_const, 
+                                             sp500dataWorkingDir=const.sp500dataWorkingDir_const):
     if myPath.isfile(sp500info_file):
         df = pd.read_csv(sp500info_file)
         
@@ -195,12 +202,14 @@ def download_Update_SaveData_History_all500 (sp500info_file, start_date, sp500Hi
                 
     else:
         print ("\nSP 500 tickers file does not exist")
+        update_sp500companyList()
+        print ("Ticker file created. Relaunch application to get data ")
         
         
 #------start of the code --------------------
 
-if not myPath.exists(const.sp500dataWorkingDir_const):
-    myPath.mkdir(const.sp500dataWorkingDir_const)
+# if not myPath.exists(const.sp500dataWorkingDir_const):
+#     myPath.mkdir(const.sp500dataWorkingDir_const)
    
 # download_Update_SaveData_History_all500 (const.sp500Info_file_const, start_date, const.sp500HisFile_list_const, const.sp500dataWorkingDir_const)    
 

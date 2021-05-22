@@ -65,12 +65,6 @@ sp500Ratios_quandlList = [["INFLADJprice","MULTPL/SP500_INFLADJ_MONTH"],
 ["BVPSshare_Q","MULTPL/SP500_BVPS_QUARTER"]] #book value share
 
 #------------------------
-quandlData_const = 'quandl' 
-quandlKey_const = '_JyFt8HS_T8C4qsXBo68'
-
-
-
-
 
 #------------------ 
 # sp500dataDir2006_const = "./sp500History/2006"

@@ -6,7 +6,7 @@ Created on Thu Mar 18 13:11:58 2021
 """
 
 import requests
-import sp500Const as const
+import HFinvest.sp500Const as const
 
 import pandas as pd  
 import xlrd

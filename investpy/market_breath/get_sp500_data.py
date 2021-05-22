@@ -4,7 +4,10 @@ import os.path as myPath
 
 from pandas_datareader import data
 from datetime import datetime
-import sp500Const as const
+import HFinvest.sp500Const as const
+import const_common as cconst
+import personal as pconst
+
 # import os
 
 ##########constant
@@ -17,9 +20,9 @@ import sp500Const as const
 # # endDate2020_const = "2020-01-01"
 
 pause_downloadrequest = 30 # in seconds
-yahooDATA_const = 'yahoo' 
-quandlData_const = 'quandl' 
-quandlKey_const = '_JyFt8HS_T8C4qsXBo68'
+yahooDATA_const = cconst.yahooDataSource_const
+quandlData_const = cconst.quandlDataSource_const 
+quandlKey_const = pconst.QUANDL_KEY
 
 #------------------------
 

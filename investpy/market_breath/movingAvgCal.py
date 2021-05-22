@@ -2,19 +2,20 @@ import pandas as pd
 # from pandas_datareader import data
 import os.path as myPath
 from datetime import date, datetime, timedelta
+import HFinvest.sp500Const as const
 # import os
 
 ##########constant
 
-todayDate_str = datetime.today().strftime('%Y-%m-%d') 
-todayDateOffset_str = ( datetime.today() + timedelta(days=-720) ).strftime('%Y-%m-%d')  
-now_str = str(datetime.now())
+todayDate_str = const.todayDate_str 
+todayDateOffset_str = const.todayDateOffset_str  
+now_str = const.now_str
 
-errorTxtfileName_const = todayDate_str + ' errorlog.txt'
+errorTxtfileName_const = const.errorTxtfileName_const
 
-sp500dataWorkingDir_const = "./sp500_data"
-sp500Info_file_const = "SP500-info.csv"
-sp500dataPrepDir_const    = "./sp500_prepData"
+sp500dataWorkingDir_const = const.sp500dataWorkingDir_const
+sp500Info_file_const = const.sp500Info_file_const 
+sp500dataPrepDir_const    = const.sp500dataPrepDir_const
 
 #------------------ 
 # sp500dataDir2006_const = "./sp500History/2006"
@@ -23,9 +24,7 @@ sp500dataPrepDir_const    = "./sp500_prepData"
 # endDate2006_const = "2006-01-01"
 # endDate2012_const = "2012-01-01"
 # endDate2020_const = "2020-01-01"
-sp500HisFile_list_const = [ ["2006-01-01", "./sp500History/2006"], 
-               ["2012-01-01", "./sp500History/2012"],
-               ["2020-01-01", "./sp500History/2020"] ]
+sp500HisFile_list_const = const.sp500HisFile_list_const
 
 #------------------------------
 

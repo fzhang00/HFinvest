@@ -1,7 +1,7 @@
 import pandas as pd
 import os.path as myPath
 
-import sp500Const as const
+import HFinvest.sp500Const as const
 import get_sp500_data as getDateFrame
 from numpy import floor
 import glob

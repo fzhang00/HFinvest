@@ -1,8 +1,8 @@
 import pandas as pd
 import os.path as myPath
 
-import HFinvest.sp500Const as const
-import get_sp500_data as getDateFrame
+import investpy.market_breath.sp500Const as const
+import investpy.market_breath.get_sp500_data as getDateFrame
 from numpy import floor
 import glob
 #------------------------------ 
@@ -68,8 +68,8 @@ def calMA_SP500Sector(maDay_int, logOn):
         df_Sector.to_csv(sectorFilePath, index='Date', float_format='% .0f')        
         # print("")
         
-import seaborn as sb
-import matplotlib.pyplot as plt
+# import seaborn as sb
+# import matplotlib.pyplot as plt
 def updateMarketBreadth_SP500Sector(maDay_int):    
     """
     Update market breath

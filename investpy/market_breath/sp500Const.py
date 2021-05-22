@@ -23,19 +23,19 @@ errorTxtfileName_const = todayDate_str + ' errorlog.txt'
 
 #-----------------------
 sp500Info_file_const = "SP500-info.csv"
+module_dir = "./investpy/market_breath"
 
+sp500dataWorkingDir_const   = module_dir+"/sp500_data"
+sp500_sectorsDir_const      = module_dir+"/sp500_sectors"
+sp500_sectorsDir_tempConst      = module_dir+"/sp500_sectors/temp"
+sp500_sectorsDir_marketBreadthConst      = module_dir+"/sp500_sectors/market_breadth"
 
-sp500dataWorkingDir_const   = "./sp500_data"
-sp500_sectorsDir_const      = "./sp500_sectors"
-sp500_sectorsDir_tempConst      = "./sp500_sectors/temp"
-sp500_sectorsDir_marketBreadthConst      = "./sp500_sectors/market_breadth"
-
-sp500dataPrepDir_const      = "./sp500_prepData"
+sp500dataPrepDir_const      = module_dir+"/sp500_prepData"
 
 # sp500_ratiosDir_const      = "./sp500_ratios"
-sp500_ratiosFillPath_const      = "./sp500_ratios/sp500ratios.csv"
+sp500_ratiosFillPath_const      = module_dir+"/sp500_ratios/sp500ratios.csv"
 
-shillerPE_FillPath_const      = "./sp500_ratios/ShillerPE.xls"
+shillerPE_FillPath_const      = module_dir+"/sp500_ratios/ShillerPE.xls"
 
 #------------------------
 sp500Ratios_quandlList = [["INFLADJprice","MULTPL/SP500_INFLADJ_MONTH"],
@@ -73,9 +73,9 @@ sp500Ratios_quandlList = [["INFLADJprice","MULTPL/SP500_INFLADJ_MONTH"],
 # endDate2006_const = "2006-01-01"
 # endDate2012_const = "2012-01-01"
 # endDate2020_const = "2020-01-01"
-sp500HisFile_list_const = [ ["2006-01-01", "./sp500History/2006"], 
-               ["2012-01-01", "./sp500History/2012"],
-               ["2020-01-01", "./sp500History/2020"] ]
+sp500HisFile_list_const = [ ["2006-01-01", module_dir+"/sp500History/2006"], 
+               ["2012-01-01", module_dir+"/sp500History/2012"],
+               ["2020-01-01", module_dir+"/sp500History/2020"] ]
 
 #---------------------
 

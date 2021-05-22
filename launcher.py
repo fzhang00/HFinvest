@@ -11,6 +11,7 @@ import os
 import calendar
 import const_common as cconst
 import personal as pconst
+from investpy.market_breath.run import main as run_sp500
 
 
 
@@ -21,13 +22,14 @@ def log_info(msg):
         append_write = 'w' # make a new file if not        
     f = open(cconst.errorTxtfileName_const, append_write)
     f.write('\n'+cconst.now_str + '  error - ' + msg )
+    print(msg)
     f.close() 
 
 os.chdir(pconst.ROOT_DIR)
-schedule = {'sp500': {'app':['\\market_breath\\', 'run.py' ] , 'freq':'daily', 'timezone':'US/Eastern'},
+schedules = {'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
             #'commodity': {'app':['\\Commodity\\', 'comodityDailyRun.py'] , 'freq':'daily', 'timezone':'US/Eastern'},
             # 'day_of_week': 0 for Monday, 6 for Sunday
-            'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
+            #'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
             #'oil1':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'US/Eastern'},
             #'oil2':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'Europe/London'}
             }
@@ -36,25 +38,19 @@ def is_business_day(date, tz):
     # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
     return bool(len(pd.bdate_range(date, date, tz=tz)))
 
-
 # ------------
 print("Data downloader launcher")
-for (key,app) in schedule.items():
+for (name,schedule) in schedules.items():
     # key is just a label for human. The program process the content of app. 
-    if app['freq']=='daily': # tested
-        if is_business_day(datetime.today(), app['timezone']):
-            log_info("Running"+  pconst.ROOT_DIR+app['app'][0]+app['app'][1])
-            os.chdir(pconst.ROOT_DIR+app['app'][0])
-            subprocess.run([pconst.PYTHON, app['app'][1]], shell=True)
-            os.chdir(pconst.ROOT_DIR)
-    if app['freq']=='weekly': # tested
-        if datetime.today().weekday() == app['day_of_week']:
-            log_info("Running "+ pconst.ROOT_DIR+app['app'][0]+app['app'][1] + " weekly on "+calendar.day_name[app['day_of_week']])
-            os.chdir(pconst.ROOT_DIR+app['app'][0])
-            subprocess.run(pconst.PYTHON, app['app'][1]], shell=True)
-            os.chdir(pconst.ROOT_DIR)
-    if key=='custom':
-        for (custom_day, script) in app.items():
+    if schedule['freq']=='daily': # tested
+        if is_business_day(datetime.today(), schedule['timezone']):
+            log_info("Runing "+name)
+            schedule['app']
+    if schedule['freq']=='weekly': # tested
+        if datetime.today().weekday() == schedule['day_of_week']:
+            schedule['app']
+    if name=='custom':
+        for (custom_day, script) in schedule.items():
             pass
 
 # with open(_ROOT_DIR+'/test_run.txt', 'a+') as f:

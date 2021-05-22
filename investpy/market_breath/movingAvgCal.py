@@ -2,7 +2,7 @@ import pandas as pd
 # from pandas_datareader import data
 import os.path as myPath
 from datetime import date, datetime, timedelta
-import HFinvest.sp500Const as const
+import investpy.market_breath.sp500Const as const
 # import os
 
 ##########constant

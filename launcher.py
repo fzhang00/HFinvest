@@ -12,6 +12,7 @@ import calendar
 import const_common as cconst
 import personal as pconst
 from investpy.market_breath.run import main as run_sp500
+from investpy.Commodity.comodityDailyRun_A import daily_runCommodity as run_commodity
 
 
 
@@ -26,8 +27,8 @@ def log_info(msg):
     f.close() 
 
 os.chdir(pconst.ROOT_DIR)
-schedules = {'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
-            #'commodity': {'app':['\\Commodity\\', 'comodityDailyRun.py'] , 'freq':'daily', 'timezone':'US/Eastern'},
+schedules = {#'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
+             'commodity': {'app':run_commodity() , 'freq':'daily', 'timezone':'US/Eastern'},
             # 'day_of_week': 0 for Monday, 6 for Sunday
             #'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
             #'oil1':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'US/Eastern'},

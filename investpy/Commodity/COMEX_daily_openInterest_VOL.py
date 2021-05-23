@@ -13,7 +13,7 @@ sys.path.append("../")
 
 import const_common as constA
 import downloadUpdateData as mydownPy
-import Const_NYMEXCOMEX_A as constCOMEX_A
+import investpy.Commodity.Const_NYMEXCOMEX_A as constCOMEX_A
 
 
 from os import makedirs

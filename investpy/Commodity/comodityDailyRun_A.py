@@ -13,18 +13,18 @@ http://www.kitconet.com/
 import sys
 sys.path.append("../")
 
-import SHFE_A as mySHFE_A
-import COMEX_A as myCOMEX_A
-import COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
+import investpy.Commodity.SHFE_A as mySHFE_A
+import investpy.Commodity.COMEX_A as myCOMEX_A
+import investpy.Commodity.COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
 
 
-import LME_A as myLME_A
+import investpy.Commodity.LME_A as myLME_A
 
 from datetime import datetime
-import LME_daily_volume as myLME_dailyVol
+import investpy.Commodity.LME_daily_volume as myLME_dailyVol
 
-import LME_weekly_traderReport as myLME_weeklyTraderReport
-import LME_daily_openInterest_E as myLME_daily_openInterest
+import investpy.Commodity.LME_weekly_traderReport as myLME_weeklyTraderReport
+import investpy.Commodity.LME_daily_openInterest_E as myLME_daily_openInterest
 
 #----------------------------------
 errorFileTargetDir = '../'

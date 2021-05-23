@@ -12,7 +12,7 @@ http://www.kitconet.com/
 import sys
 sys.path.append("../")
 import const_common as constA
-import Const_NYMEXCOMEX_A as constCOMEX_A
+import investpy.Commodity.Const_NYMEXCOMEX_A as constCOMEX_A
 
 # import requests
 from os import makedirs

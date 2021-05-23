@@ -11,7 +11,7 @@ sys.path.append("../")
 
 import const_common as constA
 import downloadUpdateData as mydownPy
-import Const_LME_A as constLME_a
+import investpy.Commodity.Const_LME_A as constLME_a
 
 # import requests
 from os import makedirs

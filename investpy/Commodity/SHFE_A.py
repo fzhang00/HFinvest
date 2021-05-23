@@ -51,7 +51,7 @@ https://docs.microsoft.com/en-us/sql/machine-learning/data-exploration/python-da
 
 # import requests
 
-import Const_Shanghai_A as constSHFE
+import investpy.Commodity.Const_Shanghai_A as constSHFE
 
 import sys
 sys.path.append("../")

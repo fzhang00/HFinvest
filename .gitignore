@@ -132,6 +132,11 @@ dmypy.json
 *.csv
 *.txt
 *.html
+*.xls
+*.download
+*.css
+*.jpg
+
 
 # personal config file
 personal*

@@ -27,7 +27,7 @@ def log_info(msg):
     f.close() 
 
 os.chdir(pconst.ROOT_DIR)
-schedules = {#'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
+schedules = {'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
              'commodity': {'app':run_commodity() , 'freq':'daily', 'timezone':'US/Eastern'},
             # 'day_of_week': 0 for Monday, 6 for Sunday
             #'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},

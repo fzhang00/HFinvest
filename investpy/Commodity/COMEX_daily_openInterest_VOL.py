@@ -44,10 +44,11 @@ pd.set_option('mode.chained_assignment', None)
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
 # ------ Ryan's PC -----------
-_server = 'RyanPC'
-_database = 'Commodity_A1' 
-_username = 'hl' 
-_password = '123'     
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_database = pconst.RYAN_SQL['database']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']   
 
 #--------table name ---------
 _sqlTable_COMEX_Daily_Vol_OpenInterest_Agriculture      = 'COMEX_Daily_Volume_OpenInterest_Agriculture'

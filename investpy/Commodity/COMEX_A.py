@@ -32,17 +32,18 @@ import time
 from selenium import webdriver
 
 import ntpath
+
 #----------------------------------
 errorFileTargetDir = '../'
 
 # mydownPy.logError("my test message")
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
-
-_server = 'RyanPC'
-_database = 'Commodity_A1' 
-_username = 'hl' 
-_password = '123'   
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_database = pconst.RYAN_SQL['database']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']
 
 pd.set_option('mode.chained_assignment', None)
 

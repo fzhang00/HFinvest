@@ -6,10 +6,11 @@ Created on Sun May  2 12:48:47 2021
 """
 
 def sql_load_csvFile_goldSilver_Vol_OI(fileFullPath):
-    _server = 'RyanPC'
-    _database = 'Commodity_A1' 
-    _username = 'hl' 
-    _password = '123' 
+    import personal as pconst
+    _server = pconst.RYAN_SQL['server']
+    _database = pconst.RYAN_SQL['database']
+    _username = pconst.RYAN_SQL['username']
+    _password = pconst.RYAN_SQL['password']  
     
     _sqlTable_LME_baseMetal_stock = 'LME_baseMetal_stock'
     _sqlTable_LME_baseMetal_price = 'LME_baseMetal_price'
@@ -51,10 +52,11 @@ print()
 
 
 def sql_load_csvFile_baseMetal_price(fileFullPath):
-    _server = 'RyanPC'
-    _database = 'Commodity_A1' 
-    _username = 'hl' 
-    _password = '123' 
+    import personal as pconst
+    _server = pconst.RYAN_SQL['server']
+    _database = pconst.RYAN_SQL['database']
+    _username = pconst.RYAN_SQL['username']
+    _password = pconst.RYAN_SQL['password']
     
     _sqlTable_LME_baseMetal_stock = 'LME_baseMetal_stock'
     _sqlTable_LME_baseMetal_price = 'LME_baseMetal_price'

@@ -133,9 +133,7 @@ dmypy.json
 *.txt
 *.html
 *.xls
-*.download
-*.css
-*.jpg
+temp/
 
 
 # personal config file

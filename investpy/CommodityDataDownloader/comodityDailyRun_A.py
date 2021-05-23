@@ -53,18 +53,20 @@ def daily_runCommodity():
         myLME_weeklyTraderReport.weekly_traderReport()
         mySHFE_A.weeklyRun_SHFE_Stock()
     else:
-        myCOMEX_A.COMEX_daily_Run()        
-        myCOMEX_dailyVolOI.CME_Vio_daily_run() 
-        
         #------------------
         myLME_A.LME_A_daily_Run()
         myLME_dailyVol.LME_volume_daily_run() 
         myLME_daily_openInterest.LME_openInterest_daily()
         
+        #------------------
+        myCOMEX_A.COMEX_daily_Run()        
+        myCOMEX_dailyVolOI.CME_Vio_daily_run() 
+        
+        
         if datetime.today().weekday() == 3: # Thursday
             myCOMEX_A.COMEX_gainStock_Tuesday_weekly_Run()
             
-#myCOMEX_A.COMEX_bondsFuture_Delivered_Q_Run()    
+# myCOMEX_A.COMEX_bondsFuture_Delivered_Q_Run()    
   
 
 daily_runCommodity()

@@ -35,6 +35,7 @@ from datetime import datetime
 
 from urllib.request import urlopen, Request
 
+
 #----------------------------------
 errorFileTargetDir = '../'
 pd.set_option('mode.chained_assignment', None)
@@ -160,79 +161,30 @@ def extrac_sql_subFolder(sourceDir, dbName):
         #---sql to db
         sourceFileFullpath = csvfileFullPath
         sql_daily_Vol_OI_comex(sourceFileFullpath, dbName)
-
-
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_Agricultural
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_Agricultural + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Vol_OpenInterest_Agriculture  
 # extrac_sql_subFolder(sourceDir, dbName)
 
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_Energy 
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_Energy + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_Energy 
 # extrac_sql_subFolder(sourceDir, dbName)
 
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_Equity
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_Equity + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_Equity  
 # extrac_sql_subFolder(sourceDir, dbName)
 
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_FX
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_FX + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_FX  
 # extrac_sql_subFolder(sourceDir, dbName)
 
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_InterestRate
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_InterestRate + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_InterestRate
 # extrac_sql_subFolder(sourceDir, dbName)
 
-# sourceDir = constCOMEX_A.CME_Vol_openInterest_Metal
+# sourceDir = constCOMEX_A.CME_Vol_openInterest_Metal + '/workDir'
 # dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_Metal  
 # extrac_sql_subFolder(sourceDir, dbName)
     
-
-def downloadExcelFile(targetDir, fileName, webAddress):
-    makeTodayDataDir(targetDir)    
-    newFilefullPath = targetDir + '/' + fileName + '.xls'   
-    if os.path.isfile(newFilefullPath):
-        os.remove(newFilefullPath)
-        print('file removed: ' + newFilefullPath)
-    
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"}
-    # reg_url = url
-    req = Request(url = webAddress, headers = headers) 
-    html = urlopen(req).read()  
-    with open(newFilefullPath, 'wb') as outfile:
-        outfile.write(html)   
-    
-    print('Downloaded COMEX daily Stock: ' + newFilefullPath)
-    return newFilefullPath
-
-def saveWebCME_daily_vol_OpenInterest(url, targetDir, fileName ):  
-    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
-    dateDropDown_ID = 'tradesDropdown'
-    dateDropDown_option_tagName = 'option'
-    iconDownload_ID = 'excel'    
-
-    driver.get(url)
-    time.sleep(1)
-    pyautogui.hotkey("f5")   
-    time.sleep(1)      
-    #-------get the date information
-    date_field = driver.find_element_by_id(dateDropDown_ID)
-    dateDropDown_Options = date_field.find_elements_by_tag_name(dateDropDown_option_tagName)
-    dateDropDown_Options[0].click()
-    dateStr1 = (dateDropDown_Options[0].text)
-    dateStr = getDateFromString_CME(dateStr1)    
-    # for option in date_field.find_elements_by_tag_name('option'):
-    #     print(option.text)  Monday, May 10, 2021 
-    
-    href_field = driver.find_element_by_id(iconDownload_ID)   
-    url_file = href_field.get_attribute('href')
-    targetDir = targetDir + '/' + dateStr
-    fileName2 = dateStr + '_'+ fileName   
-    webAddress = url_file
-    savedFileFullPath = downloadExcelFile(targetDir, fileName2, webAddress) 
-
-    driver.quit()
-    time.sleep(1)        
-    return savedFileFullPath
 
 def saveWebCME_daily_vol_OpenInterest_3(url, targetDir, fileName, driver ):  
     # driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
@@ -242,8 +194,8 @@ def saveWebCME_daily_vol_OpenInterest_3(url, targetDir, fileName, driver ):
 
     driver.get(url)
     time.sleep(1)
-    pyautogui.hotkey("f5")   
-    time.sleep(1)     
+    # pyautogui.hotkey("f5")   
+    # time.sleep(1)     
     #-------get the date information
     date_field = driver.find_element_by_id(dateDropDown_ID)
     dateDropDown_Options = date_field.find_elements_by_tag_name(dateDropDown_option_tagName)
@@ -254,15 +206,34 @@ def saveWebCME_daily_vol_OpenInterest_3(url, targetDir, fileName, driver ):
         dateStr1 = (option.text)
         dateStr = getDateFromString_CME(dateStr1)    
         option.click()
-        time.sleep(1)    
+        time.sleep(3)    
         href_field = driver.find_element_by_id(iconDownload_ID)   
-        url_file = href_field.get_attribute('href')
-    # print (url_file)        
+        # url_file = href_field.get_attribute('href')
+        href_field.click()    
+        
         targetDir2 = targetDir + '/' + dateStr
-        fileName2 = dateStr + '_'+ fileName   
-        webAddress = url_file
-        savedFileFullPath = downloadExcelFile(targetDir2, fileName2, webAddress) 
-        li.append(savedFileFullPath)
+        fileName2 = dateStr + '_'+ fileName 
+        makeTodayDataDir(targetDir2)    
+        newFilefullPath = targetDir2 + '/' + fileName2 + '.xls'  
+        
+        if os.path.isfile(newFilefullPath):
+            os.remove(newFilefullPath)
+            print('file removed: ' + newFilefullPath)
+        
+        #-----convert python dir to windows dir 
+        fileAbsPath = os.path.abspath(newFilefullPath)   
+        winPath = fileAbsPath.replace(os.sep,ntpath.sep)    
+        
+        time.sleep(2)
+        pyautogui.typewrite(winPath)
+        time.sleep(2)
+        
+        pyautogui.hotkey('enter')
+        time.sleep(2) #wait for download finish
+        # driver.quit()
+        # time.sleep(1) 
+        print('Downloaded COMEX daily Stock: ' + newFilefullPath)  
+        li.append(newFilefullPath)
     # driver.quit()
     # time.sleep(1)        
     return li
@@ -274,39 +245,75 @@ def saveWebCME_daily_vol_OpenInterest_2(url, targetDir, fileName, driver ):
     iconDownload_ID = 'excel'       
 
     driver.get(url)
-    time.sleep(1)
-    pyautogui.hotkey("f5")   
-    time.sleep(3)     
+    time.sleep(2)
+  
     #-------get the date information
     date_field = driver.find_element_by_id(dateDropDown_ID)
     # for option in date_field.find_elements_by_tag_name('option'):
     dateDropDown_Options = date_field.find_elements_by_tag_name(dateDropDown_option_tagName)
-    time.sleep(1)
+    time.sleep(2)
     dateStr1 = (dateDropDown_Options[0].text)
     dateStr = getDateFromString_CME(dateStr1)      
     
     dateDropDown_Options[0].click()
-    time.sleep(1)
+    time.sleep(2) 
+    
     
     href_field = driver.find_element_by_id(iconDownload_ID)   
-    url_file = href_field.get_attribute('href')
-    # print (url_file)        
+    # url_file = href_field.get_attribute('href')
+    # print (url_file)
+    href_field.click()    
+    
     targetDir2 = targetDir + '/' + dateStr
-    fileName2 = dateStr + '_'+ fileName   
-    webAddress = url_file
-    savedFileFullPath = downloadExcelFile(targetDir2, fileName2, webAddress)
+    fileName2 = dateStr + '_'+ fileName 
+    makeTodayDataDir(targetDir2)    
+    newFilefullPath = targetDir2 + '/' + fileName2 + '.xls'  
+    
+    if os.path.isfile(newFilefullPath):
+        os.remove(newFilefullPath)
+        print('file removed: ' + newFilefullPath)
+    
+    #-----convert python dir to windows dir 
+    fileAbsPath = os.path.abspath(newFilefullPath)   
+    winPath = fileAbsPath.replace(os.sep,ntpath.sep)    
+    
+    time.sleep(2)
+    pyautogui.typewrite(winPath)
+    time.sleep(2)
+    
+    pyautogui.hotkey('enter')
+    time.sleep(2) #wait for download finish
     # driver.quit()
-    # time.sleep(1)        
-    return savedFileFullPath
+    # time.sleep(1) 
+    print('Downloaded COMEX daily Stock: ' + newFilefullPath)  
+    return newFilefullPath
 
 def CME_Vio_daily_run():
-    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
-    #---------------------------        
+    prefs = {#"download.default_directory" : winPath,
+            "download.prompt_for_download": True,
+            "download.directory_upgrade": True,
+            "safebrowsing_for_trusted_sources_enabled": False,
+            "safebrowsing.enabled": False,            
+            'download.manager.showWhenStarting': True,
+            'helperApps.neverAsk.saveToDisk': 'text/csv/xls, application/vnd.ms-excel, application/octet-stream'
+             }  #("network.http.response.timeout", 30)     
+    chromeOptions = webdriver.ChromeOptions()
+    chromeOptions.add_experimental_option("prefs",prefs)     
+    driver = webdriver.Chrome('chromedriver.exe', options= chromeOptions)
+    
+    url			=constCOMEX_A.url_daily_Voi_Agricultural
+    driver.get(url)
+    time.sleep(1)
+    href_field = driver.find_element_by_id("pardotCookieButton") 
+    href_field.click()
+    # pyautogui.hotkey("f5") 
+    # time.sleep(1)   
+
+#---------------------------        
     url			=constCOMEX_A.url_daily_Voi_Agricultural		
     targetDir	=constCOMEX_A.CME_Vol_openInterest_Agricultural 
     fileName	=constCOMEX_A.fileName_daily_Voi_Agricultural    
     fullPath_Agricultural = saveWebCME_daily_vol_OpenInterest_2(url, targetDir, fileName, driver )
-
        
     url			=constCOMEX_A.url_daily_Voi_Energy        
     targetDir	=constCOMEX_A.CME_Vol_openInterest_Energy 
@@ -336,6 +343,8 @@ def CME_Vio_daily_run():
     #-----------------    
     driver.quit()
     time.sleep(1) 
+    
+    # return
     
     #----extrac files and save to SQL--------------------------------
     sourceFullpath = fullPath_Agricultural
@@ -376,5 +385,52 @@ def CME_Vio_daily_run():
     
 # CME_Vio_daily_run()    
 
+#-----------------------------
+def notWorking_downloadExcelFile(targetDir, fileName, webAddress):
+    makeTodayDataDir(targetDir)    
+    newFilefullPath = targetDir + '/' + fileName + '.xls'   
+    if os.path.isfile(newFilefullPath):
+        os.remove(newFilefullPath)
+        print('file removed: ' + newFilefullPath)
+    
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"}
+    # reg_url = url
+    req = Request(url = webAddress, headers = headers) 
+    html = urlopen(req).read()  
+    with open(newFilefullPath, 'wb') as outfile:
+        outfile.write(html)   
+    
+    print('Downloaded COMEX daily Stock: ' + newFilefullPath)
+    return newFilefullPath
+
+def NotWorking_saveWebCME_daily_vol_OpenInterest(url, targetDir, fileName ):  
+    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
+    dateDropDown_ID = 'tradesDropdown'
+    dateDropDown_option_tagName = 'option'
+    iconDownload_ID = 'excel'    
+
+    driver.get(url)
+    time.sleep(1)
+    pyautogui.hotkey("f5")   
+    time.sleep(1)      
+    #-------get the date information
+    date_field = driver.find_element_by_id(dateDropDown_ID)
+    dateDropDown_Options = date_field.find_elements_by_tag_name(dateDropDown_option_tagName)
+    dateDropDown_Options[0].click()
+    dateStr1 = (dateDropDown_Options[0].text)
+    dateStr = getDateFromString_CME(dateStr1)    
+    # for option in date_field.find_elements_by_tag_name('option'):
+    #     print(option.text)  Monday, May 10, 2021 
+    
+    href_field = driver.find_element_by_id(iconDownload_ID)   
+    url_file = href_field.get_attribute('href')
+    targetDir = targetDir + '/' + dateStr
+    fileName2 = dateStr + '_'+ fileName   
+    webAddress = url_file
+    savedFileFullPath = downloadExcelFile(targetDir, fileName2, webAddress) 
+
+    driver.quit()
+    time.sleep(1)        
+    return savedFileFullPath
 
 

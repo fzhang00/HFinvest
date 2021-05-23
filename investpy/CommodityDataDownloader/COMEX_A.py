@@ -27,6 +27,11 @@ import os
 
 import pyodbc
 import numpy as np
+
+import time
+from selenium import webdriver
+
+import ntpath
 #----------------------------------
 errorFileTargetDir = '../'
 
@@ -245,7 +250,8 @@ def extract_sql_StockData_COMX_Folders(sourceDir):
 #extract_sql_StockData_COMX_Folders(sourceDir)
 
 def extract_sql_OIshortLongPositon_Folder(sourceDir, dbName):
-    pathlist = Path(sourceDir).glob('**/*.xls')
+    # pathlist = Path(sourceDir).glob('**/*.xls')
+    pathlist = Path(sourceDir).glob('**/*.*')
     for path in pathlist:
          sourceFillpath = str(path)         
          csvOutPutFilePath = extract_OIshortLongPositon_File(sourceFillpath)
@@ -270,7 +276,7 @@ def downloadExcelFile(targetDir, fileName, webAddress):
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.3"}
     # reg_url = url
     req = Request(url = webAddress, headers = headers) 
-    html = urlopen(req).read()  
+    html = urlopen(req, timeout= 5).read()  
     with open(newFilefullPath, 'wb') as outfile:
         outfile.write(html)   
     
@@ -282,7 +288,7 @@ def downloadExcelFile(targetDir, fileName, webAddress):
     
     # f = open(newFilefullPath, 'wb')  
     # f.write(r.content)
-    # f.close()      
+    # f.close()
 
 def download_webpageReport_Files(save_toDataDir, comexWebsite_List):
     makeTodayDataDir(save_toDataDir)    
@@ -291,19 +297,66 @@ def download_webpageReport_Files(save_toDataDir, comexWebsite_List):
         targetDir = save_toDataDir
         fileName = filename
         webAddress = comexWebsite_List[i][1]        
-        downloadExcelFile(targetDir, fileName, webAddress)        
+        downloadExcelFile(targetDir, fileName, webAddress)   
 
+def downloadExcelFile_2(targetDir, url):
+    prefs = {"download.default_directory" : targetDir,
+            "download.prompt_for_download": False,
+            "download.directory_upgrade": True,
+            "safebrowsing_for_trusted_sources_enabled": False,
+            "safebrowsing.enabled": False,            
+            'download.manager.showWhenStarting': False,
+            'helperApps.neverAsk.saveToDisk': 'text/csv/xls, application/vnd.ms-excel, application/octet-stream'
+             }  #("network.http.response.timeout", 30)     
+    chromeOptions = webdriver.ChromeOptions()
+    chromeOptions.add_experimental_option("prefs",prefs)
+    driver = webdriver.Chrome('chromedriver.exe', chrome_options = chromeOptions)  # Optional argument, if not specified will search path.
+    time.sleep(1)
+    driver.get(url)
+    time.sleep(1)
+    driver.quit()
+    time.sleep(1)       
+# url = "http://www.cmegroup.com/delivery_reports/Gold_Stocks.xls"
+# targetDir = 'G:\\test.xls'
+# downloadExcelFile_2(url, downloadDir)
+
+def download_webpageReport_Files_2(save_toDataDir, comexWebsite_List):
+    makeTodayDataDir(save_toDataDir) 
+    
+    fileAbsPath = os.path.abspath(save_toDataDir)   
+    winPath = fileAbsPath.replace(os.sep,ntpath.sep)
+    prefs = {"download.default_directory" : winPath,
+            "download.prompt_for_download": False,
+            "download.directory_upgrade": True,
+            "safebrowsing_for_trusted_sources_enabled": False,
+            "safebrowsing.enabled": False,            
+            'download.manager.showWhenStarting': False,
+            'helperApps.neverAsk.saveToDisk': 'text/csv/xls, application/vnd.ms-excel, application/octet-stream'
+             }  #("network.http.response.timeout", 30)     
+    chromeOptions = webdriver.ChromeOptions()
+    chromeOptions.add_experimental_option("prefs",prefs)
+    driver = webdriver.Chrome('chromedriver.exe', options = chromeOptions)  # Optional argument, if not specified will search path.
+    time.sleep(1) 
+    
+    for i in range(len(comexWebsite_List)): 
+        url = comexWebsite_List[i][1]      
+        driver.get(url)
+        time.sleep(1)
+        
+    driver.quit()
+    time.sleep(1)
+        
 
 def COMEX_gainStock_Tuesday_weekly_Run():
     save_toDataDir = constCOMEX_A.CME_gainStock_Tuesday_dir + '/' + constA.todayDate_str
     comexWebsite_List =  constCOMEX_A.comexWebsite_gainStock_Tuesday_List
-    download_webpageReport_Files(save_toDataDir, comexWebsite_List)
+    download_webpageReport_Files_2(save_toDataDir, comexWebsite_List)
 # COMEX_gainStock_Tuesday_weekly_Run()
 
 def COMEX_bondsFuture_Delivered_Q_Run():
     save_toDataDir = constCOMEX_A.CME_bonds_dilivered_Q + '/' + constA.todayDate_str
     comexWebsite_List =  constCOMEX_A.comexWebsite_bondsDelivered_Q_List
-    download_webpageReport_Files(save_toDataDir, comexWebsite_List)
+    download_webpageReport_Files_2(save_toDataDir, comexWebsite_List)
 # COMEX_bondsFuture_Delivered_Q_Run()
 
 
@@ -311,12 +364,14 @@ def COMEX_bondsFuture_Delivered_Q_Run():
 def COMEX_daily_Run():
     save_toDataDir = constCOMEX_A.commodityNYMEXCOMEX_fileDir + '/' + constA.todayDate_str
     comexWebsite_List =  constCOMEX_A.comexWebsite_StockList
-    download_webpageReport_Files(save_toDataDir, comexWebsite_List)
+    # download_webpageReport_Files(save_toDataDir, comexWebsite_List)
+    download_webpageReport_Files_2(save_toDataDir, comexWebsite_List)
+
 
     save_toDataDir_OIshortLongPositon = constCOMEX_A.CME_positionOffsetReport_dir + '/' + constA.todayDate_str
     comexWebsite_OIshortLongPosition_List =  constCOMEX_A.comexWebsite_OI_shortLongPosition_List
-    download_webpageReport_Files(save_toDataDir_OIshortLongPositon, comexWebsite_OIshortLongPosition_List)
-
+    # download_webpageReport_Files(save_toDataDir_OIshortLongPositon, comexWebsite_OIshortLongPosition_List)
+    download_webpageReport_Files_2(save_toDataDir_OIshortLongPositon, comexWebsite_OIshortLongPosition_List)
     #------------extra informaiton save to csv file
     sourceDir = save_toDataDir
     extract_sql_StockData_COMX_Folders(sourceDir)  
@@ -325,7 +380,7 @@ def COMEX_daily_Run():
     dbName = _sqlTable_COMEX_Daily_Report_OpenInterest_LongShortPositon
     extract_sql_OIshortLongPositon_Folder(sourceDir, dbName)
     
-COMEX_daily_Run()
+# COMEX_daily_Run()
 
 
 

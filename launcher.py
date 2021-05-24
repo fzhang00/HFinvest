@@ -27,8 +27,8 @@ def log_info(msg):
     f.close() 
 
 os.chdir(pconst.ROOT_DIR)
-schedules = {'sp500': {'app':run_sp500(), 'freq':'daily', 'timezone':'US/Eastern'},
-             'commodity': {'app':run_commodity() , 'freq':'daily', 'timezone':'US/Eastern'},
+schedules = {'sp500': {'app':run_sp500, 'freq':'daily', 'timezone':'US/Eastern'},
+             'commodity': {'app':run_commodity, 'freq':'daily', 'timezone':'US/Eastern'},
             # 'day_of_week': 0 for Monday, 6 for Sunday
             #'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
             #'oil1':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'US/Eastern'},
@@ -46,10 +46,10 @@ for (name,schedule) in schedules.items():
     if schedule['freq']=='daily': # tested
         if is_business_day(datetime.today(), schedule['timezone']):
             log_info("Runing "+name)
-            schedule['app']
+            schedule['app']()
     if schedule['freq']=='weekly': # tested
         if datetime.today().weekday() == schedule['day_of_week']:
-            schedule['app']
+            schedule['app']()
     if name=='custom':
         for (custom_day, script) in schedule.items():
             pass

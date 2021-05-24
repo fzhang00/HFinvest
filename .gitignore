@@ -133,7 +133,7 @@ dmypy.json
 *.txt
 *.html
 *.xls
-temp/
+temp*/
 
 
 # personal config file

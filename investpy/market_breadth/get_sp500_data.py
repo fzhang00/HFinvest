@@ -4,8 +4,8 @@ import os.path as myPath
 
 from pandas_datareader import data
 from datetime import datetime
-import investpy.market_breath.sp500Const as const
-from investpy.market_breath.get_sp500_Names import update_sp500companyList
+import investpy.market_breadth.sp500Const as const
+from investpy.market_breadth.get_sp500_Names import update_sp500companyList
 import const_common as cconst
 import personal as pconst
 

@@ -11,7 +11,7 @@ import os
 import calendar
 import const_common as cconst
 import personal as pconst
-from investpy.market_breath.run import main as run_sp500
+from investpy.market_breadth.run import main as run_sp500
 from investpy.Commodity.comodityDailyRun_A import daily_runCommodity as run_commodity
 
 

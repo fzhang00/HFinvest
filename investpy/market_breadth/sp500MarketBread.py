@@ -1,8 +1,8 @@
 import pandas as pd
 import os.path as myPath
 
-import investpy.market_breath.sp500Const as const
-import investpy.market_breath.get_sp500_data as getDateFrame
+import investpy.market_breadth.sp500Const as const
+import investpy.market_breadth.get_sp500_data as getDateFrame
 from numpy import floor
 import glob
 #------------------------------ 

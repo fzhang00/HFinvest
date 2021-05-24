@@ -6,7 +6,7 @@ Created on Thu Mar 18 13:11:58 2021
 """
 
 import requests
-import investpy.market_breath.sp500Const as const
+import investpy.market_breadth.sp500Const as const
 
 import pandas as pd  
 import xlrd

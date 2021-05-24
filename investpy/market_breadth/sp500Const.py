@@ -23,7 +23,7 @@ errorTxtfileName_const = todayDate_str + ' errorlog.txt'
 
 #-----------------------
 sp500Info_file_const = "SP500-info.csv"
-module_dir = "./investpy/market_breath"
+module_dir = "./investpy/market_breadth"
 
 sp500dataWorkingDir_const   = module_dir+"/sp500_data"
 sp500_sectorsDir_const      = module_dir+"/sp500_sectors"

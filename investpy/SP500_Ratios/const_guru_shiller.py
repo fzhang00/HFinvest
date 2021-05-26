@@ -10,7 +10,7 @@ Created on Fri May 14 10:32:38 2021
 # SP500_Ratios_Dir = "./SP500_Ratios"
 
 # SP500_Ratios_dir_PE = './SP500_Ratios/PE' 
-SP500_Ratios_dir_PE = './PE' 
+SP500_Ratios_dir_PE = './investpy/SP500_Ratios/PE' 
 
 SP500_Ratios_dir_ShillerPE = SP500_Ratios_dir_PE + '/ShillerPE'
 

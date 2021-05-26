@@ -13,10 +13,7 @@ import const_common as cconst
 import personal as pconst
 from investpy.market_breadth.run import *
 from investpy.Commodity.comodityDailyRun_A import *
-
-# Define scripts to be run here. They must be imported first.
-
-
+from investpy.SP500_Ratios.Guru_shiller_sectors import *
 
 
 def is_business_day(date, tz):
@@ -47,8 +44,9 @@ print("Data downloader launcher")
 # Run on every business day
 if is_business_day(datetime.today(), tz='US/Eastern'):
     print("Running tasks on every business day.")
-    daily_market_breadth()
+    # daily_market_breadth()
     daily_runCommodity()
+    sp500_daily_run_PE()
 
 # Run on weekend
 if is_weekend(datetime.today()):

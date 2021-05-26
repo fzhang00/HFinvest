@@ -19,7 +19,7 @@ from urllib.request import urlopen, Request
 import requests
 
 # import SP500_Ratios.const_guru_shiller as myguruShiller
-import const_guru_shiller as myguruShiller
+import investpy.SP500_Ratios.const_guru_shiller as myguruShiller
 # import const_guru_shiller as myguruShiller
 
 _server = 'RyanPC'
@@ -351,7 +351,7 @@ def sp500_daily_run_PE():
     #-----------Sector-----------------
     guru_sp500_PE_shillerSector_daily()
     
-sp500_daily_run_PE()
+# sp500_daily_run_PE()
 
 
     

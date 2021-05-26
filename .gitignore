@@ -135,6 +135,12 @@ dmypy.json
 *.xls
 *.xlsx
 temp*/
+*.download
+*.css
+*.js
+*.jpg
+*.zip
+*.gif
 
 
 # personal config file

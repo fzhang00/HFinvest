@@ -11,7 +11,7 @@ https://www.lme.com/api/Lists/StockBreakdownReportPaging/Download?fileId=11714&f
 @author: haoli
 """
 
-commodityDir = "./data"
+commodityDir = "./investpy/Commodity/data"
 commodityNYMEXCOMEXDir       = commodityDir + "/NYMEXCOMEX"
 commodityNYMEXCOMEX_fileDir  = commodityNYMEXCOMEXDir  + "/temp" #"./data/LME/temp"
 

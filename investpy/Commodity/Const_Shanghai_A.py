@@ -8,7 +8,7 @@ http://www.kitconet.com/
 @author: haoli
 """
 
-commodityDir = "./data"
+commodityDir = "./investpy/Commodity/data"
 commodityShanghaiDir       = commodityDir + "/Shanghai"      #"./data/LME"
 commodityShanghai_dataDir  = commodityShanghaiDir   + "/temp" #"./data/LME/temp"
 

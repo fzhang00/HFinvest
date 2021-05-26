@@ -133,6 +133,7 @@ dmypy.json
 *.txt
 *.html
 *.xls
+*.xlsx
 temp*/
 
 

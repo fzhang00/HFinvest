@@ -43,33 +43,33 @@ errorFileTargetDir = '../'
 # num = 4
 # print (isToday_weekday(dateStr, num) )
 
-def isToday_weekend():
-    dd = datetime.today()
-    result = ( (dd.weekday() == 5) or  (dd.weekday() == 6) )
-    return result
+# def isToday_weekend():
+#     dd = datetime.today()
+#     result = ( (dd.weekday() == 5) or  (dd.weekday() == 6) )
+#     return result
 
+def weekend_runCommodity():
+    myLME_weeklyTraderReport.weekly_traderReport()
+    mySHFE_A.weeklyRun_SHFE_Stock()
 def daily_runCommodity():
-    if isToday_weekend():    
-        myLME_weeklyTraderReport.weekly_traderReport()
-        mySHFE_A.weeklyRun_SHFE_Stock()
-    else:
-        #------------------
-        myLME_A.LME_A_daily_Run()
-        myLME_dailyVol.LME_volume_daily_run() 
-        myLME_daily_openInterest.LME_openInterest_daily()
-        
-        #------------------
-        myCOMEX_A.COMEX_daily_Run()        
-        myCOMEX_dailyVolOI.CME_Vio_daily_run() 
-        
-        
-        if datetime.today().weekday() == 3: # Thursday
-            myCOMEX_A.COMEX_gainStock_Tuesday_weekly_Run()
+    #------------------
+    myLME_A.LME_A_daily_Run()
+    myLME_dailyVol.LME_volume_daily_run() 
+    myLME_daily_openInterest.LME_openInterest_daily()
+    
+    #------------------
+    myCOMEX_A.COMEX_daily_Run()        
+    myCOMEX_dailyVolOI.CME_Vio_daily_run() 
+    
+    
+    if datetime.today().weekday() == 3: # Thursday
+        myCOMEX_A.COMEX_gainStock_Tuesday_weekly_Run()
             
 # myCOMEX_A.COMEX_bondsFuture_Delivered_Q_Run()    
-  
 
-daily_runCommodity()
+#daily_runCommodity()
+
+
 
 
 

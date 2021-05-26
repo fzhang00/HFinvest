@@ -11,9 +11,22 @@ import os
 import calendar
 import const_common as cconst
 import personal as pconst
-from investpy.market_breadth.run import main as run_sp500
-from investpy.Commodity.comodityDailyRun_A import daily_runCommodity as run_commodity
+from investpy.market_breadth.run import *
+from investpy.Commodity.comodityDailyRun_A import *
 
+# Define scripts to be run here. They must be imported first.
+
+
+
+
+def is_business_day(date, tz):
+    """Return True if it is a business day in tz timezone"""
+    # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
+    return bool(len(pd.bdate_range(date, date, tz=tz)))
+
+def is_weekend(date):
+    """Return True if it is a weekend"""
+    return ( (date.weekday() == 5) or  (date.weekday() == 6) )
 
 
 def log_info(msg):
@@ -27,35 +40,24 @@ def log_info(msg):
     f.close() 
 
 os.chdir(pconst.ROOT_DIR)
-schedules = {'sp500': {'app':run_sp500, 'freq':'daily', 'timezone':'US/Eastern'},
-             'commodity': {'app':run_commodity, 'freq':'daily', 'timezone':'US/Eastern'},
-            # 'day_of_week': 0 for Monday, 6 for Sunday
-            #'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
-            #'oil1':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'US/Eastern'},
-            #'oil2':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'Europe/London'}
-            }
-
-def is_business_day(date, tz):
-    # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
-    return bool(len(pd.bdate_range(date, date, tz=tz)))
 
 # ------------
 print("Data downloader launcher")
-for (name,schedule) in schedules.items():
-    # key is just a label for human. The program process the content of app. 
-    if schedule['freq']=='daily': # tested
-        if is_business_day(datetime.today(), schedule['timezone']):
-            log_info("Runing "+name)
-            schedule['app']()
-    if schedule['freq']=='weekly': # tested
-        if datetime.today().weekday() == schedule['day_of_week']:
-            schedule['app']()
-    if name=='custom':
-        for (custom_day, script) in schedule.items():
-            pass
 
-# with open(_ROOT_DIR+'/test_run.txt', 'a+') as f:
-#     if is_business_day(datetime.today()):
-#         f.write(datetime.now().strftime("%m/%d/%Y, %H:%M:%S")+" Today is a busines day.\n")
-#     else:
-#         f.write(datetime.now().strftime("%m/%d/%Y, %H:%M:%S")+" Not a business day.\n")
+# Run on every business day
+if is_business_day(datetime.today(), tz='US/Eastern'):
+    print("Running tasks on every business day.")
+    daily_market_breadth()
+    daily_runCommodity()
+
+# Run on weekend
+if is_weekend(datetime.today()):
+    print("Running tasks on weekend")
+    weekend_runCommodity()
+
+
+
+
+
+
+

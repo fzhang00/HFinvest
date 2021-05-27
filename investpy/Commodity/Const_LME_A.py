@@ -7,11 +7,17 @@ http://www.kitconet.com/
 
 @author: haoli
 """
+from const_common import makedir_ifnonexists
 
 commodityDir = "./investpy/Commodity/data"
 commodityLMEDir         = commodityDir + "/LME"      #"./data/LME"
 # commodityLME_workDir    = commodityLMEDir  + "/temp" #"./data/LME/temp"
 commodityLME_workDir_A    = commodityLMEDir  + "/temp_A" #"./data/LME/temp"
+
+makedir_ifnonexists(commodityDir)
+makedir_ifnonexists(commodityLMEDir)
+makedir_ifnonexists(commodityLME_workDir_A)
+
 
 KEY_NONFERROUS = 'NONFERROUS' 
 KEY_GOLD = 'Gold' 
@@ -32,7 +38,7 @@ DICT_URL_A_FILENAME = { KEY_NONFERROUS : _NONFERROUS_FILENAME,  KEY_GOLD : _GOLD
 #-------daily volume-----------------------
 commodityLME_dailyVolumeDir     = commodityDir  + "/LME_Volume_Daily" 
 dialyVolume_url      = 'https://www.lme.com/LME-Clear/Technology/Reports/Volumes'
-
+makedir_ifnonexists(commodityLME_dailyVolumeDir)
 
 #---------------- weekly trader report----------
 
@@ -41,6 +47,11 @@ trderReport_ALDir = commodityLME_trderReportDir +'/Aluminium'
 trderReport_CADir = commodityLME_trderReportDir +'/Copper'
 trderReport_goldDir = commodityLME_trderReportDir +'/Gold'
 trderReport_silverDir = commodityLME_trderReportDir +'/Silver'
+makedir_ifnonexists(commodityLME_trderReportDir)
+makedir_ifnonexists(trderReport_ALDir)
+makedir_ifnonexists(trderReport_CADir)
+makedir_ifnonexists(trderReport_goldDir)
+makedir_ifnonexists(trderReport_silverDir)
 
 #https://www.lme.com/Market-Data/Reports-and-data/Commitments-of-traders#tabIndex=0
 ALTraderReport_url      = 'https://www.lme.com/en-GB/Market-Data/Reports-and-data/Commitments-of-traders/Aluminium'
@@ -52,11 +63,14 @@ silverTraderReport_url  = 'https://www.lme.com/en-GB/Market-Data/Reports-and-dat
 
 #-------daily Open interest-----------------------
 commodityLME_openInterestDir    = commodityDir  + "/LME_OpenInterest" 
+makedir_ifnonexists(commodityLME_openInterestDir)
 
 commodityLME_openInterestDir_base = commodityLME_openInterestDir + '/base_E' 
+makedir_ifnonexists(commodityLME_openInterestDir_base)
 dialyOpenInterest_base_url      = 'https://www.lme.com/Market-Data/Reports-and-data/Open-interest/EOI'
 
-commodityLME_openInterestDir_precious = commodityLME_openInterestDir + '/precious_E'  
+commodityLME_openInterestDir_precious = commodityLME_openInterestDir + '/precious_E' 
+makedir_ifnonexists(commodityLME_openInterestDir_precious) 
 dialyOpenInterest_precious_url      = 'https://www.lme.com/Market-Data/Reports-and-data/Open-interest/EOI#tabIndex=1'
 
 

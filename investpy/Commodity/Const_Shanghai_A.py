@@ -7,6 +7,7 @@ http://www.kitconet.com/
 
 @author: haoli
 """
+from const_common import makedir_ifnonexists
 
 commodityDir = "./investpy/Commodity/data"
 commodityShanghaiDir       = commodityDir + "/Shanghai"      #"./data/LME"
@@ -14,7 +15,11 @@ commodityShanghai_dataDir  = commodityShanghaiDir   + "/temp" #"./data/LME/temp"
 
 commodityShanghaiDir_OIVolPrice = commodityDir + '/ShanghaitempOpenInterestVolumePrice'
 commodityShanghai_dataDir_OIVolPrice  = commodityShanghaiDir_OIVolPrice + '/temp'
-
+makedir_ifnonexists(commodityDir)
+makedir_ifnonexists(commodityShanghaiDir)
+makedir_ifnonexists(commodityShanghai_dataDir)
+makedir_ifnonexists(commodityShanghaiDir_OIVolPrice)
+makedir_ifnonexists(commodityShanghai_dataDir_OIVolPrice)
 # SHStock_url_weekly = "http://www.shfe.com.cn/statements/dataview.html?paramid=weeklystock"
 
 SHStock_url_weekly = 'http://www.shfe.com.cn/en/MarketData/dataview.html?paramid=week'

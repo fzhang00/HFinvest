@@ -10,6 +10,7 @@ https://www.lme.com/api/Lists/StockBreakdownReportPaging/Download?fileId=11714&f
 
 @author: haoli
 """
+from const_common import makedir_ifnonexists
 
 commodityDir = "./investpy/Commodity/data"
 commodityNYMEXCOMEXDir       = commodityDir + "/NYMEXCOMEX"
@@ -20,6 +21,13 @@ CME_positionOffsetReport_dir = CME_deliveryReport_dir + '/OI_shortLongPositionRe
 CME_gainStock_Tuesday_dir = CME_deliveryReport_dir + '/gain_Stock_weekly_Tuesday'
 CME_bonds_dilivered_Q = CME_deliveryReport_dir + '/bondsDelivered_Q' 
 
+makedir_ifnonexists(commodityDir)
+makedir_ifnonexists(commodityNYMEXCOMEXDir)
+makedir_ifnonexists(commodityNYMEXCOMEX_fileDir)
+makedir_ifnonexists(CME_deliveryReport_dir)
+makedir_ifnonexists(CME_positionOffsetReport_dir)
+makedir_ifnonexists(CME_gainStock_Tuesday_dir)
+makedir_ifnonexists(CME_bonds_dilivered_Q)
 
 comexWebsite_OI_shortLongPosition_List = [["OpentInterest_shortLongPosition_deliverable", 'https://www.cmegroup.com/delivery_reports/position-offset-report-deliverable-product.csv'],
                           ["OpentInterest_shortLongPosition_NonDeliverable", 'https://www.cmegroup.com/delivery_reports/position-offset-report-nondeliverable-product.csv'   ] ]
@@ -36,6 +44,13 @@ CME_Vol_openInterest_Equity         = CME_daily_Vol_OI + '/CME_Vol_openInterest_
 CME_Vol_openInterest_FX             = CME_daily_Vol_OI + '/CME_Vol_openInterest_FX'
 CME_Vol_openInterest_InterestRate   = CME_daily_Vol_OI + '/CME_Vol_openInterest_InterestRate'
 CME_Vol_openInterest_Metal          = CME_daily_Vol_OI + '/CME_Vol_openInterest_Metal'
+makedir_ifnonexists(CME_daily_Vol_OI)
+makedir_ifnonexists(CME_Vol_openInterest_Agricultural)
+makedir_ifnonexists(CME_Vol_openInterest_Energy)
+makedir_ifnonexists(CME_Vol_openInterest_Equity)
+makedir_ifnonexists(CME_Vol_openInterest_FX)
+makedir_ifnonexists(CME_Vol_openInterest_InterestRate)
+makedir_ifnonexists(CME_Vol_openInterest_Metal)
 
 fileName_daily_Voi_Agricultural = 'daily_Voi_Agricultural'
 fileName_daily_Voi_Energy       = 'daily_Voi_Energy'

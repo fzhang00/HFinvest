@@ -45,7 +45,7 @@ print("Data downloader launcher")
 # Run on every business day
 if is_business_day(datetime.today(), tz='US/Eastern'):
     print("Running tasks on every business day.")
-    daily_market_breadth() # run sp500 market breadth
+    # daily_market_breadth() # run sp500 market breadth
     daily_runCommodity() # run commodity
     sp500_daily_run_PE() # run shiller ratio
     html_monthly_3ndWeek_Margin_Statistics()

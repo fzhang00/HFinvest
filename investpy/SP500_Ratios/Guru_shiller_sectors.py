@@ -266,8 +266,8 @@ def guru_sp500_PE_TotalNormal_daily(url, dbName, saveFileFullPath):
     df = df.replace({np.NAN: None})    
     df = df.sort_values(by = df.columns[0],  ascending=False)
 #********    
-    # df4 = df.head(5)
-    df4 = df
+    df4 = df.head(5)
+    # df4 = df
 #********       
     df4.to_csv(saveFileFullPath, mode='a', index = False, header=False)
     df_a = pd.read_csv(saveFileFullPath).drop_duplicates()
@@ -334,24 +334,33 @@ def Multpl_sp500_PE_TotalNormal_monthly(fileFullPath, dbName):
 # Multpl_sp500_PE_TotalNormal_monthly(fileFullPath, dbName)
 # print()
 
-
-def sp500_daily_run_PE():
-    dbName = _sqlTable_SP500_Ratios_daily_sector_shillerPE
-    
+def multpl_sp500Total_shillerPE_daily_run():
     #----mulpl shiller total PE------
+    dbName = _sqlTable_SP500_Ratios_daily_sector_shillerPE    
     url = myguruShiller._multpl_shillerTotal_URL
     saveFileFullPath = myguruShiller.SP500_Ratios_dir_PE + '/Multpl_sp500_PE_TotalShiller_dailyUpdated.csv'
-    multpl_sp500Total_shillerPE_daily(url, saveFileFullPath, dbName) 
+    multpl_sp500Total_shillerPE_daily(url, saveFileFullPath, dbName)     
+    
+
+def sp500_daily_run_PE():
+    # dbName = _sqlTable_SP500_Ratios_daily_sector_shillerPE    
+    # #----mulpl shiller total PE------
+    # url = myguruShiller._multpl_shillerTotal_URL
+    # saveFileFullPath = myguruShiller.SP500_Ratios_dir_PE + '/Multpl_sp500_PE_TotalShiller_dailyUpdated.csv'
+    # multpl_sp500Total_shillerPE_daily(url, saveFileFullPath, dbName) 
+    
+    multpl_sp500Total_shillerPE_daily_run()
+
+    #-----------Sector-----------------
+    guru_sp500_PE_shillerSector_daily()
     
     #---------guru total normal PE-------------
+    dbName = _sqlTable_SP500_Ratios_daily_sector_shillerPE
     url = myguruShiller._Guru_sp500_PE_totalNormal_URL
     saveFileFullPath = myguruShiller.SP500_Ratios_dir_PE + '/Guru_sp500_PE_TotalNormal_dailyUpdated.csv'
     guru_sp500_PE_TotalNormal_daily(url, dbName, saveFileFullPath)
     
-    #-----------Sector-----------------
-    guru_sp500_PE_shillerSector_daily()
-    
-# sp500_daily_run_PE()
+#sp500_daily_run_PE()
 
 
     

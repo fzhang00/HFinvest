@@ -9,10 +9,10 @@ https://docs.microsoft.com/en-us/sql/machine-learning/data-exploration/python-da
 
 
 import sys
-sys.path.append("../")
+#sys.path.append("../")
 
 import const_common as constA
-import downloadUpdateData as mydownPy
+# import downloadUpdateData as mydownPy
 import investpy.Commodity.Const_NYMEXCOMEX_A as constCOMEX_A
 
 
@@ -62,7 +62,6 @@ _sqlTable_COMEX_Daily_Volume_OpenInterest_Metal         = 'COMEX_Daily_Volume_Op
 # server = 'DESKTOP-45300G7'
 
 def makeTodayDataDir(newDir):
-    # if not myPath.lexists(newDir): #lexists
     if not myPath.exists(newDir):
         makedirs(newDir)
 
@@ -265,10 +264,12 @@ def saveWebCME_daily_vol_OpenInterest_2(url, targetDir, fileName, driver ):
     # print (url_file)
     href_field.click()    
     
-    targetDir2 = targetDir + '/' + dateStr
-    fileName2 = dateStr + '_'+ fileName 
-    makeTodayDataDir(targetDir2)    
-    newFilefullPath = targetDir2 + '/' + fileName2 + '.xls'  
+    # targetDir2 = targetDir + '/' + dateStr
+    targetDir2 = myPath.join(targetDir, dateStr)
+    makeTodayDataDir(targetDir2)     
+    fileName2 = dateStr + '_'+ fileName + '.xls' 
+    # newFilefullPath = targetDir2 + '/' + fileName2     
+    newFilefullPath = myPath.join(targetDir2, fileName2)
     
     if os.path.isfile(newFilefullPath):
         os.remove(newFilefullPath)
@@ -384,7 +385,7 @@ def CME_Vio_daily_run():
     dbName = _sqlTable_COMEX_Daily_Volume_OpenInterest_Metal 
     sql_daily_Vol_OI_comex(csvfileFullPath, dbName)     
     
-# CME_Vio_daily_run()    
+CME_Vio_daily_run()    
 
 #-----------------------------
 def notWorking_downloadExcelFile(targetDir, fileName, webAddress):

@@ -227,8 +227,10 @@ def extract_OIshortLongPositon_File(sourceFillpath):
     df_data.insert(0, 'Date', dateObj)    
     
     filePath = constA.getFilePathInfo(sourceFillpath, 0)
+    filePath2 = constA.getFilePathInfo(filePath, 0)
     fileName = constA.getFilePathInfo(sourceFillpath, 2)      
-    fillFullPath = filePath + '/' + dateStr + '_' +fileName + '.csv' 
+    # fillFullPath = filePath + '/' + dateStr + '_' +fileName + '.csv' 
+    fillFullPath = filePath2 + '/' + dateStr + '_' +fileName + '.csv' 
     # df_data.to_csv(fillFullPath, float_format='%.3f')
     df_data.to_csv(fillFullPath, index = False)
     return fillFullPath     

@@ -230,6 +230,7 @@ def download_href_traderReport_weekly(url, targetDir):
             if count_First10File >9:
                 # print('no more the href')
                 break                
+    time.sleep(3)
     driver.quit()    
     time.sleep(1)
     return list_fullPath

@@ -37,7 +37,7 @@ comexWebsite_gainStock_Tuesday_List = [['GainStock_weekly', 'https://www.cmegrou
 comexWebsite_bondsDelivered_Q_List = [['T_bondsDelivered', 'https://www.cmegroup.com/market-data/reports/CUSIPS-delivered-for-financial-contracts.xls']]
 
 #--------daily volume and open interest--------------------------------
-CME_daily_Vol_OI = './CME_daily_Vol_openInterest'
+CME_daily_Vol_OI = './investpy/Commodity/CME_daily_Vol_openInterest'
 CME_Vol_openInterest_Agricultural   = CME_daily_Vol_OI + '/CME_Vol_openInterest_Agricultural'
 CME_Vol_openInterest_Energy         = CME_daily_Vol_OI + '/CME_Vol_openInterest_Energy'
 CME_Vol_openInterest_Equity         = CME_daily_Vol_OI + '/CME_Vol_openInterest_Equity'

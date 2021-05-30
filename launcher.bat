@@ -1,2 +1,2 @@
-@CALL "C:\Users\fzhan\miniconda3\Scripts\activate.bat" invest
-@CALL python C:\Users\fzhan\Projects\MyProjects\Investment\HFinvest\launcher.py
+@CALL "C:\ProgramData\Anaconda3\Scripts\activate.bat" Anaconda3
+@CALL python C:\Users\haoli\Desktop\python\Investment\HFinvest\launcher.py

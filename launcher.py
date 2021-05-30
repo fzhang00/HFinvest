@@ -15,9 +15,10 @@ import subprocess
 import os
 import calendar
 import const_common as const
+import personal as pconst
 
-_PYTHON = 'C:\\Users\\fzhan\\miniconda3\\envs\\invest\\python.exe'
-_ROOT_DIR = "c:\\Users\\fzhan\\Projects\\MyProjects\\Investment\\HFinvest"
+_PYTHON = pconst.PYTHON
+_ROOT_DIR = pconst.ROOT_DIR
 
 today = datetime.today()
 
@@ -125,7 +126,7 @@ Examples:
     run_script("\\Commodity\\", "run.py")
 """
 
-run_script("\\market_breadth\\", "run.py")
+#run_script("\\market_breadth\\", "run.py")
 run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
 #run_daily("\\market_breadth\\", "run.py", "US/Eastern")
 

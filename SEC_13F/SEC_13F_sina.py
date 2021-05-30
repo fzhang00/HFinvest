@@ -45,10 +45,12 @@ dir_SEC_13F_sina = './SEC_13F_sina'
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
 
-_server = 'RyanPC'
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']  
 _database = 'SEC' 
-_username = 'hl' 
-_password = '123'   
+
 
 pd.set_option('mode.chained_assignment', None)
 

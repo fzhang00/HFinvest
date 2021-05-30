@@ -15,10 +15,12 @@ import numpy as np
 
 import FINRA.Const_FINRA as myFINRA
 
-_server = 'RyanPC'
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']  
 _database = 'FINRA' 
-_username = 'hl' 
-_password = '123'        
+      
 
 _sqlTable_FINRA_monthly_Margin_Stast= 'FINRA_monthly_Margin_Stast'
 

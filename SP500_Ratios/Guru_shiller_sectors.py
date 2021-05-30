@@ -22,10 +22,11 @@ import requests
 import const_guru_shiller as myguruShiller
 # import const_guru_shiller as myguruShiller
 
-_server = 'RyanPC'
-_database = 'SP500_Ratios' 
-_username = 'hl' 
-_password = '123'        
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']  
+_database = 'SP500_Ratios'     
 
 _sqlTable_SP500_Ratios_daily_sector_shillerPE = 'SP500_Ratios_daily_PE_sector_shillerPE'
 

@@ -1,27 +1,12 @@
 """
-This version of launcher uses subprocess to run subfolder Python script. 
+Top level python launcher
 
-User must define the schedule in a dictionary:
-    schedule = {schedule_name: {'app':path_to_script, 
-                                'freq':<choose from 'daily', 'weekly', 'monthly', 'custom'>,
-                                'day_of': <for weekly, enter the day of the week in number,
-                                           for monthly, enter the day of the month in number,
-                                           for custom, enter the specific day>,
-                                'timezone': Enter the timezone in text. For north america, use 'US/Eastern'}}
-    - subfolder name and the python script name
-    - How frequent do you want to run this file. Choises are daily, weekly, or custom
-        - If weekly, you can specify which day of the week to run the script, by dictionary key
+User must define a few constant: 
+
+_PYTHON : the complete path to your Python exe
+_ROOT_DIR: the complete path to the location of this repository
 """
 
-
-
-schedule = {'sp500': {'app':['\\market_breath\\', 'run.py' ] , 'freq':'daily', 'timezone':'US/Eastern'},
-            #'commodity': {'app':['\\Commodity\\', 'comodityDailyRun.py'] , 'freq':'daily', 'timezone':'US/Eastern'},
-            # 'day_of_week': 0 for Monday, 6 for Sunday
-            'fred1': {'app':['\\FED\\', 'run.py'] , 'freq':'weekly', 'day_of_week':5, 'timezone':'US/Eastern'},
-            #'oil1':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'US/Eastern'},
-            #'oil2':{'app':'commodity/run.py', 'freq':'04-10', 'timezone':'Europe/London'}
-            }
 
 import argparse
 from datetime import datetime
@@ -36,7 +21,7 @@ _ROOT_DIR = "c:\\Users\\fzhan\\Projects\\MyProjects\\Investment\\HFinvest"
 
 today = datetime.today()
 
-def log_info(msg, severity):
+def log_info(msg, severity=1):
     """ Log message into launcher log, filename patterh: launcher_subproc_log_<date>.log
 
     Input:
@@ -53,9 +38,6 @@ def log_info(msg, severity):
     f = open(fname, append_write)
     f.write('\n'+now.strftime("%Y-%m-%d %H:%M:%S") + '  {} - '.format(_LOG_TYPE[severity]) + msg )
     f.close() 
-
-
-
 
 def is_business_day(date, tz):
     """Check if today is a business day. 
@@ -123,39 +105,29 @@ def run_custom_date(script_folder_name, script_name, date_list):
         run_script(script_folder_name, script_name)
     else:
         log_info("Custom run exit. Day not matched.",1)     
-# ------------
+
+
+
+# ------------ Main Script ----------------------
 print("Data downloader launcher")
 os.chdir(_ROOT_DIR)
-# ----------- List your script here:
 
-# use run_daily() to run script on every business day
-#run_daily("\\Commodity\\", "commodityDailyRun_A.py", 'US/Eastern')
+# ----------- List your script here----------------
 
-# use run_script() to run any script regardless of the timec:\Users\fzhan\Projects\MyProjects\Investment\HFinvest\Commodity\data\Shanghai\temp\2021-05-28\ShanghaiStock_weekly.csv.html
+"""
+Examples: 
+
+- To run a script on every business day, use run_daily()
+    run_daily("\\Commodity\\", "commodityDailyRun_A.py", "US/Eastern")
+- To run a script on specific day of a week on weekly basis, use run_day_of_week()
+    run_day_of_week("\\market_breadth\\", "run.py", 5)
+- To run a script regardless of schedule, use run_script()
+    run_script("\\Commodity\\", "run.py")
+"""
 
 run_script("\\market_breadth\\", "run.py")
-#run_script("\\Commodity\\", "comodityDailyRun_A.py")
-# run_day_of_week()
+run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+#run_daily("\\market_breadth\\", "run.py", "US/Eastern")
 
 
-
-
-
-# for (key,app) in schedule.items():
-#     # key is just a label for human. The program process the content of app. 
-#     if app['freq']=='daily': # tested
-#         if is_business_day(datetime.today(), app['timezone']):
-#             log_info("Running"+  _ROOT_DIR+app['app'][0]+app['app'][1])
-#             os.chdir(_ROOT_DIR+app['app'][0])
-#             subprocess.run([_PYTHON, app['app'][1]], shell=True)
-#             os.chdir(_ROOT_DIR)
-#     if app['freq']=='weekly': # tested
-#         if datetime.today().weekday() == app['day_of_week']:
-#             log_info("Running "+ _ROOT_DIR+app['app'][0]+app['app'][1] + " weekly on "+calendar.day_name[app['day_of_week']])
-#             os.chdir(_ROOT_DIR+app['app'][0])
-#             subprocess.run([_PYTHON, app['app'][1]], shell=True)
-#             os.chdir(_ROOT_DIR)
-#     if key=='custom':
-#         for (custom_day, script) in app.items():
-#             pass
 

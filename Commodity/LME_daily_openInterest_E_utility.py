@@ -48,10 +48,11 @@ _waitTime_loadWebsite_LME = 3
 
 _columnName_goldSilver = ['Date', 'Volume', 'Open Interest']
 
-_server = 'RyanPC'
-_database = 'Commodity_A1' 
-_username = 'hl' 
-_password = '123'     
+import personal as pconst
+_server = pconst.RYAN_SQL['server']
+_database = pconst.RYAN_SQL['database']
+_username = pconst.RYAN_SQL['username']
+_password = pconst.RYAN_SQL['password']      
 
 _sqlTable_LME_baseMetal_stock = 'LME_baseMetal_stock'
 _sqlTable_LME_baseMetal_price = 'LME_baseMetal_price'

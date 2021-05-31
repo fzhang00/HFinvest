@@ -42,7 +42,7 @@ def log_info(msg, severity=1):
 
 def is_business_day(date, tz):
     """Check if today is a business day. 
-    tz is a string specifying timezone. New York is US/Eastern"""
+    tz is a string specifying timezone. New York is "US/Eastern", London is "GMT""""
     # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
     return bool(len(pd.bdate_range(date, date, tz=tz)))
 
@@ -118,12 +118,14 @@ os.chdir(_ROOT_DIR)
 """
 Examples: 
 
-- To run a script on every business day, use run_daily()
-    run_daily("\\Commodity\\", "commodityDailyRun_A.py", "US/Eastern")
-- To run a script on specific day of a week on weekly basis, use run_day_of_week()
-    run_day_of_week("\\market_breadth\\", "run.py", 5)
-- To run a script regardless of schedule, use run_script()
-    run_script("\\Commodity\\", "run.py")
+- To run a script on every business day, use run_daily(subfolder_name, script_name, timezone_name). 
+    - New York timezone is "US/Eastern". London timezone is "GMT"
+    - Example: run_daily("\\Commodity\\", "commodityDailyRun_A.py", "US/Eastern")
+- To run a script on specific day of a week on weekly basis, use run_day_of_week(subfolder_name, script_name, day_of_week)
+    - day_of_week: a integer. 0 is Monday, 6 is Sunday
+    - Example: run_day_of_week("\\market_breadth\\", "run.py", 5)
+- To run a script regardless of schedule, use run_script(subfolder_name, script_name)
+    - Example: run_script("\\Commodity\\", "run.py")
 """
 
 #run_script("\\market_breadth\\", "run.py")

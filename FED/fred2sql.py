@@ -8,6 +8,8 @@ import personal as pconst
 
 _DEFAULT_START_DATE = datetime.datetime(1970,1,1)
 _DEFAULT_END_DATE = datetime.datetime.today()
+_FED_SYMBOL_TABLE = "FED_US_SYMBOL"
+_FED_TABLE_PREFIX = "FED_"
 
 def fred_to_sql(symbol_list, db, table_name, start_date=_DEFAULT_START_DATE,
                 end_date=_DEFAULT_END_DATE):
@@ -28,9 +30,6 @@ def fred_to_sql(symbol_list, db, table_name, start_date=_DEFAULT_START_DATE,
 def update_fred_data(db_info):
     """Update FED data using symbol included in FED_US_SYMBOL table
     """
-    _FED_SYMBOL_TABLE = "FED_US_SYMBOL"
-    _FED_TABLE_PREFIX = "FED_"
-
     db = InvestDB(db_info)
     ins = inspect(db.sqlcon)
     db_tables = ins.get_table_names()
@@ -53,6 +52,12 @@ def update_fred_data(db_info):
         fred_to_sql(symbol_lst['Symbol'], db, table_name)
     db.close()
 
+def update_fred_symbol_table( db_info, symbol_file="FRED_symbol.csv"):
+    db = InvestDB(db_info)
+    csv_to_sql("FRED_symbol.csv", db.sqlcon, _FED_SYMBOL_TABLE, "replace")
+    db.close()
+
 db_info = pconst.RYAN_SQL
 db_info['database'] = "FED"
 update_fred_data(db_info)
+#update_fred_symbol_table(db_info, "FRED_symbol.csv")

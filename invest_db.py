@@ -11,24 +11,7 @@ import sqlalchemy
 from sqlalchemy import text, inspect
 from personal import QUANDL_KEY, RYAN_SQL, FAN_SQL
 import pandas_datareader as web
-import datetime
 
-
-
-
-#cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+password)
-# sqlcon = sqlalchemy.create_engine('mssql+pyodbc://'+database_fan['username']+':'+database_fan['password']+\
-#                                   '@' + database_fan['server'] + \
-#                                   '/' + database_fan['database'] + \
-#                                   '?driver=ODBC+Driver+17+for+SQL+Server')
-
-# 
-# load source csv
-# df = pd.read_csv(const.sp500Info_file_const, index_col=0,
-                #  parse_dates = ['Date first added'])
-# df = df.replace(np.nan, None, regex=True)
-# df = df.sort_index()
-# df.to_sql('SP500_COMPANY_INFO', sqlcon, if_exists='replace')
 class InvestDB():
     def __init__(self, db_info):
         """Create connection engine to investment database
@@ -129,7 +112,10 @@ def csv_to_sql(file_name, engine, table_name, if_exists):
         if_exists: "append" or "replace"
     """
     data = pd.read_csv(file_name)
-    # TODO remove white space. 
+    # Excel sometimes fill white space when extract to csv
+    # remove white space in column name. 
+    data.rename(columns = {c:c.strip() for c in data.columns}, inplace=True)
+    # remove white space in data
     for c in data.columns:
-        data[c.strip()] = data[c].str.strip() # remove white space in column name
+        data[c] = data[c].str.strip()
     data.to_sql(table_name, engine, if_exists=if_exists, index=False)

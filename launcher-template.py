@@ -39,10 +39,11 @@ Examples:
 #run_script("\\market_breadth\\", "run.py")
 if util.is_us_business_day():
     util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
-    # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
-    util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
-    util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
-# util.run_daily("\\Commodity\\", "comodityDailyRun_A.py", "US/Eastern")
+    util.run_script("\\Commodity\\", "comodityDailyRun_A.py")
 
+    # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
+    # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 
+    # # TODO: this to be run monthly
+    # util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
 

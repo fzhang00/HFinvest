@@ -10,7 +10,7 @@ _ROOT_DIR: the complete path to the location of this repository
 from datetime import datetime
 import os
 import key as pconst
-import util
+import top_runner_util as util
 
 _ROOT_DIR = pconst.ROOT_DIR
 

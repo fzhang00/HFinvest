@@ -9,7 +9,7 @@ _ROOT_DIR: the complete path to the location of this repository
 
 from datetime import datetime
 import os
-import personal as pconst
+import key as pconst
 import util
 
 _ROOT_DIR = pconst.ROOT_DIR
@@ -37,13 +37,18 @@ Examples:
 """
 
 #run_script("\\market_breadth\\", "run.py")
+
+util.run_script("\\Commodity\\", "comodityDailyRun_A.py")
+
 if util.is_us_business_day():
     util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
-    util.run_script("\\Commodity\\", "comodityDailyRun_A.py")
+    
 
     # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
     # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 
     # # TODO: this to be run monthly
     # util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
+
+
 

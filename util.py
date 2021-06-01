@@ -134,13 +134,14 @@ def is_uk_business_day():
     return is_business_day(_TODAY, 'GMT', 'UK')
 
 def is_COMEX_thursday_run(date=_TODAY):
-    if is_day_of_week(date-timedelta(days=1), 3) and \
+    day_of_week=3
+    if is_day_of_week(date-timedelta(days=1), day_of_week) and \
         (not is_not_holiday(date-timedelta(days=1), 'US')):
         # if yesterday is Thursday, and it's a holiday, run COMEX today
         return True
     else:
         # return true if today is Thursday and not a holiday
-        return is_day_of_week(date, 3, True, 'US')
+        return is_day_of_week(date, day_of_week, True, 'US')
 
 
 #---------------------------TESTING--------------------------------

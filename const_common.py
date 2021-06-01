@@ -96,6 +96,11 @@ def convertDDMM_date(df, timeRef): # used for LME gold and silver
     #     print()
     # print()
     return df
+
+def makedir_ifnonexists(directory):
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+        
 # import pandas as pd
 # df = pd.read_csv('testFile_date.csv')
 # timeRef = '2021-03-06' 

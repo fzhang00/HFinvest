@@ -7,17 +7,19 @@ _PYTHON : the complete path to your Python exe
 _ROOT_DIR: the complete path to the location of this repository
 """
 
-from datetime import datetime
+from datetime import datetime, timedelta
 import holidays
 import pandas as pd
 import subprocess
 import os
+
+from pandas.core.indexes.datetimes import date_range
 import personal as pconst
 
 _PYTHON = pconst.PYTHON
 _ROOT_DIR = pconst.ROOT_DIR
 
-today = datetime.today()
+_TODAY = datetime.today()
 
 def log_info(msg, severity=1):
     """ Log message into launcher log, filename patterh: launcher_subproc_log_<date>.log
@@ -94,7 +96,7 @@ def run_script(script_folder_name, script_name):
 def run_daily(script_folder_name, script_name, timezone):
     """Run script on every business day"""
     log_info("Running daily run {}\{}".format(script_folder_name,script_name), 1)
-    if is_business_day(today, timezone):
+    if is_business_day(_TODAY, timezone):
         run_script(script_folder_name, script_name)
     else:
         log_info("Daily run exit. Not a business day.", 1)
@@ -102,7 +104,7 @@ def run_daily(script_folder_name, script_name, timezone):
 def run_day_of_week(script_folder_name, script_name, day_of_week):
     """Run script on specific day of a week. 0 for Monday, 6 for Sunday"""
     log_info("Running weekly run {}\{}".format(script_folder_name,script_name), 1)
-    if is_day_of_week(today, day_of_week):
+    if is_day_of_week(_TODAY, day_of_week):
         run_script(script_folder_name, script_name)
     else:
         log_info("Weekly run exit. Day not matched.",1)
@@ -110,7 +112,7 @@ def run_day_of_week(script_folder_name, script_name, day_of_week):
 def run_day_of_month(script_folder_name, script_name, day_of_month):
     """Run script on specific day of a month."""
     log_info("Running monthly run {}\{}".format(script_folder_name,script_name), 1)
-    if is_day_of_month(today, day_of_month):
+    if is_day_of_month(_TODAY, day_of_month):
         run_script(script_folder_name, script_name)
     else:
         log_info("Monthly run exit. Day not matched.",1)    
@@ -119,15 +121,33 @@ def run_custom_date(script_folder_name, script_name, date_list):
     """Run script on specific date specified in date_list.
     date_list = ['YYYY-MM-DD', 'YYYY-MM-DD',...]"""
     log_info("Running custom run {}\{}".format(script_folder_name,script_name), 1)
-    if is_date(today, date_list):
+    if is_date(_TODAY, date_list):
         run_script(script_folder_name, script_name)
     else:
         log_info("Custom run exit. Day not matched.",1)     
+
+# --------------------- TOP LEVEL USER FUNCTION -------------------
+def is_us_business_day():
+    return is_business_day(_TODAY, 'US/Eastern', 'US')
+
+def is_uk_business_day():
+    return is_business_day(_TODAY, 'GMT', 'UK')
+
+def is_COMEX_thursday_run(date=_TODAY):
+    day_of_week=3
+    if is_day_of_week(date-timedelta(days=1), day_of_week) and \
+        (not is_not_holiday(date-timedelta(days=1), 'US')):
+        # if yesterday is Thursday, and it's a holiday, run COMEX today
+        return True
+    else:
+        # return true if today is Thursday and not a holiday
+        return is_day_of_week(date, day_of_week, True, 'US')
 
 
 #---------------------------TESTING--------------------------------
 def test():
     # ---------- Test is_business_day() ---------------
+    print("------Test is_business_day()------")
     # this function requires python module holidays
     # pip install holidays
     # China is not available from the holiday module.
@@ -140,16 +160,18 @@ def test():
                     }
     for key, value in biz_dates_test.items():
         is_biz_date = is_business_day(datetime.strptime(key, "%Y-%m-%d"), value[1], value[2])
-        if is_biz_date == value[0]:
-            print(key, value, "good")
-        else:
-            print(key, value, "wrong")
+        print(key, "is a business day?",is_biz_date, ". Correct answer:", value[0])
 
     # ----------- Run on specific Date -----------------
+    print("------Test is_date()------")
     siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17']
     for s in siwu:
         print(s, "is a SIWU day", is_date(datetime.strptime(s, "%Y-%m-%d"), siwu, 
                                              check_holiday=True, country='US'))
-
+    # ----------- Test is_Comex_thusday_run()
+    print("------Test is_COMEX_thursday_run()------")
+    date_list = [_TODAY - timedelta(days=x) for x in range(8)]
+    for d in date_list:
+        print(d.strftime("%Y-%m-%d"), "day of the week:", d.weekday(), is_COMEX_thursday_run(d))
 if __name__ == "__main__":
     test()

@@ -145,4 +145,6 @@ temp*/
 
 # personal config file
 personal*
+password*
 launcher.bat
+launcher.py

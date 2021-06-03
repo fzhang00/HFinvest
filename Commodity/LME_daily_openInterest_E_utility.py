@@ -48,7 +48,7 @@ _waitTime_loadWebsite_LME = 3
 
 _columnName_goldSilver = ['Date', 'Volume', 'Open Interest']
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _database = pconst.RYAN_SQL['database']
 _username = pconst.RYAN_SQL['username']

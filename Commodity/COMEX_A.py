@@ -39,7 +39,7 @@ errorFileTargetDir = '../'
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _database = pconst.RYAN_SQL['database']
 _username = pconst.RYAN_SQL['username']

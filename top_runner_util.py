@@ -14,7 +14,7 @@ import subprocess
 import os
 
 from pandas.core.indexes.datetimes import date_range
-import personal as pconst
+import key as pconst
 
 _PYTHON = pconst.PYTHON
 _ROOT_DIR = pconst.ROOT_DIR

@@ -15,7 +15,7 @@ import numpy as np
 
 import FINRA.Const_FINRA as myFINRA
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _username = pconst.RYAN_SQL['username']
 _password = pconst.RYAN_SQL['password']  

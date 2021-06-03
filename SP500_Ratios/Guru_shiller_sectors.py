@@ -22,7 +22,7 @@ import requests
 import const_guru_shiller as myguruShiller
 # import const_guru_shiller as myguruShiller
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _username = pconst.RYAN_SQL['username']
 _password = pconst.RYAN_SQL['password']  

@@ -97,7 +97,7 @@ _volOI_clinkID = 'week' #value = 'Weekly Inventory'
 # mydownPy.logError(errorFileTargetDir, "my test message")
 
 # ------ Ryan's PC -----------
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _database = pconst.RYAN_SQL['database']
 _username = pconst.RYAN_SQL['username']

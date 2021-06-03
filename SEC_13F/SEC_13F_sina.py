@@ -45,7 +45,7 @@ dir_SEC_13F_sina = './SEC_13F_sina'
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _username = pconst.RYAN_SQL['username']
 _password = pconst.RYAN_SQL['password']  

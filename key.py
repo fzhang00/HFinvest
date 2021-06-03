@@ -1,10 +1,10 @@
 # Hao
-#PYTHON = 'C:\\ProgramData\\Anaconda3\\python.exe'
-#ROOT_DIR = "G:\\Projects\\HFinvest"
+PYTHON = 'C:\\ProgramData\\Anaconda3\\python.exe'
+ROOT_DIR = "G:\\Projects\\HFinvest"
 
 # Fan
-PYTHON = 'C:\\Users\\fzhan\\miniconda3\\envs\\invest\\python.exe'
-ROOT_DIR = "C:\\Users\\fzhan\\Projects\\MyProjects\\Investment\\HFinvest"
+# PYTHON = 'C:\\Users\\fzhan\\miniconda3\\envs\\invest\\python.exe'
+# ROOT_DIR = "C:\\Users\\fzhan\\Projects\\MyProjects\\Investment\\HFinvest"
 
 QUANDL_KEY = '_JyFt8HS_T8C4qsXBo68'
 

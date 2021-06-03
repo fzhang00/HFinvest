@@ -6,7 +6,7 @@ Created on Sun May  2 12:48:47 2021
 """
 
 def sql_load_csvFile_goldSilver_Vol_OI(fileFullPath):
-    import personal as pconst
+    import key as pconst
     _server = pconst.RYAN_SQL['server']
     _database = pconst.RYAN_SQL['database']
     _username = pconst.RYAN_SQL['username']

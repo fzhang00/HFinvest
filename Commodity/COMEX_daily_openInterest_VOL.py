@@ -44,7 +44,7 @@ pd.set_option('mode.chained_assignment', None)
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
 # ------ Ryan's PC -----------
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _database = pconst.RYAN_SQL['database']
 _username = pconst.RYAN_SQL['username']

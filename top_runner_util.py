@@ -16,8 +16,6 @@ import os
 from pandas.core.indexes.datetimes import date_range
 import key as pconst
 
-_PYTHON = pconst.PYTHON
-_ROOT_DIR = pconst.ROOT_DIR
 
 _TODAY = datetime.today()
 
@@ -37,7 +35,9 @@ def log_info(msg, severity=1):
     else:
         append_write = 'w' # make a new file if not        
     f = open(fname, append_write)
-    f.write('\n'+now.strftime("%Y-%m-%d %H:%M:%S") + '  {} - '.format(_LOG_TYPE[severity]) + msg )
+    log_msg='\n'+now.strftime("%Y-%m-%d %H:%M:%S") + '  {} - '.format(_LOG_TYPE[severity]) + msg 
+    f.write(log_msg)
+    print(log_msg)
     f.close() 
 
 def is_not_holiday(date, country='US'):
@@ -86,14 +86,14 @@ def run_script(script_folder_name, script_name):
     """Run script with exception handling"""
     try:
         log_info("Running run {}\{}".format(script_folder_name,script_name), 1)
-        os.chdir(_ROOT_DIR+script_folder_name)
-        print(os.getcwd())
-        subprocess.run([_PYTHON, script_name], shell=True)
+        os.chdir(os.path.join(os.getcwd()+script_folder_name))
+        subprocess.run(['python', script_name], shell=True)
     except Exception as e:
+        log_info(str(e), 3)
         print(e)
-        #log_info(e, 3)
+        
     finally:
-        os.chdir(_ROOT_DIR)
+        os.chdir("..")
 
 def run_daily(script_folder_name, script_name, timezone):
     """Run script on every business day"""

@@ -36,10 +36,15 @@ import ntpath
 # import pyautogui, time
 # pyautogui.PAUSE =2.5
 #----------------------------------
+def makedir_ifnonexists(directory):
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+
 errorFileTargetDir = '../'
 
 
 dir_SEC_13F_sina = './SEC_13F_sina'
+makedir_ifnonexists(dir_SEC_13F_sina)
 
 # mydownPy.logError("my test message")
 #logError(errorFileTargetDir, msg)

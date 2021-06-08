@@ -29,7 +29,6 @@ def log_info(msg, severity=1):
     _LOG_TYPE = {1:'INFO', 2:'DEBUG',3:'ERROR'}
     now = datetime.today()
     fname = "./log/launcher_subproc_log_{}.log".format(now.strftime("%Y-%m-%d"))
-    print("log file: ", fname)
     if os.path.exists(fname):
         append_write = 'a' # append if already exists
     else:

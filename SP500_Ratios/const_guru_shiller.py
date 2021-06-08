@@ -6,14 +6,22 @@ Created on Fri May 14 10:32:38 2021
 """
 # import sys
 # sys.path.append("../")
+import os
 
 # SP500_Ratios_Dir = "./SP500_Ratios"
 
 # SP500_Ratios_dir_PE = './SP500_Ratios/PE' 
+
+def makedir_ifnonexists(directory):
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+
 SP500_Ratios_dir_PE = './PE' 
 
 SP500_Ratios_dir_ShillerPE = SP500_Ratios_dir_PE + '/ShillerPE'
 
+makedir_ifnonexists(SP500_Ratios_dir_PE)
+makedir_ifnonexists(SP500_Ratios_dir_ShillerPE)
 
 
 # commodityLMEDir         = commodityDir + "/LME"      #"./data/LME"

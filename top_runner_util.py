@@ -80,6 +80,23 @@ def is_date(date, date_list, check_holiday=False, country='US'):
     not_holiday = is_not_holiday(date, country) if check_holiday else True
     return (date.strftime("%Y-%m-%d") in date_list) and not_holiday
 
+def run_script2(script_folder_name, script_name):
+    """Run script with exception handling"""
+    try:
+        log_info("Running run {}\{}".format(script_folder_name,script_name), 1)
+        os.chdir(os.path.join(os.getcwd()+script_folder_name))
+        # subprocess.run(['python', script_name], shell=True)
+        proc = subprocess.run(['python', script_name],stdout=subprocess.PIPE, universal_newlines=True, shell=True)
+        print (proc.stdout) 
+# proc = subprocess.run(cmd, stdout=subprocess.PIPE, universal_newlines=True)
+# print(proc.stdout)        
+        
+    except Exception as e:
+        log_info(str(e), 3)
+        print(e)
+        
+    finally:
+        os.chdir("..")
 
 def run_script(script_folder_name, script_name):
     """Run script with exception handling"""

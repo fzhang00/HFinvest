@@ -212,11 +212,12 @@ def saveWebCME_daily_vol_OpenInterest_3(url, targetDir, fileName, driver ):
         # url_file = href_field.get_attribute('href')
         href_field.click()    
         
-        targetDir2 = targetDir + '/' + dateStr
-        fileName2 = dateStr + '_'+ fileName 
-        makeTodayDataDir(targetDir2)    
-        newFilefullPath = targetDir2 + '/' + fileName2 + '.xls'  
-        
+        # targetDir2 = targetDir + '/' + dateStr
+        targetDir2 = os.path.join(targetDir, dateStr)
+        makeTodayDataDir(targetDir2)        
+        fileName2 = dateStr + '_'+ fileName + '.xls'              
+        # newFilefullPath = targetDir2 + '/' + fileName2 
+        newFilefullPath = os.path.join(targetDir2, fileName2) 
         if os.path.isfile(newFilefullPath):
             os.remove(newFilefullPath)
             print('file removed: ' + newFilefullPath)
@@ -265,10 +266,16 @@ def saveWebCME_daily_vol_OpenInterest_2(url, targetDir, fileName, driver ):
     # print (url_file)
     href_field.click()    
     
-    targetDir2 = targetDir + '/' + dateStr
-    fileName2 = dateStr + '_'+ fileName 
-    makeTodayDataDir(targetDir2)    
-    newFilefullPath = targetDir2 + '/' + fileName2 + '.xls'  
+    # targetDir2 = targetDir + '/' + dateStr
+    # fileName2 = dateStr + '_'+ fileName + '.xls'
+    # makeTodayDataDir(targetDir2)    
+    # newFilefullPath = targetDir2 + '/' + fileName2     
+
+    targetDir2 = os.path.join(targetDir, dateStr)
+    makeTodayDataDir(targetDir2)        
+    fileName2 = dateStr + '_'+ fileName + '.xls'
+    newFilefullPath = os.path.join(targetDir2, fileName2)     
+    
     
     if os.path.isfile(newFilefullPath):
         os.remove(newFilefullPath)

@@ -19,5 +19,8 @@ cd %ROOT_DIR%
 @CALL python top_daily_run.py 1>%logfile% 2>&1
 
 @REM Fan's Laptop config
-@REM CALL "C:\Users\fzhan\miniconda3\Scripts\activate.bat" invest
-@REM CALL python top_daily_run.py 1>%logfile% 2>&1
+
+set ROOT_DIR="C:\Users\fzhan\Projects\MyProjects\Investment\HFinvest"
+cd %ROOT_DIR%
+CALL "C:\Users\fzhan\miniconda3\Scripts\activate.bat" invest
+CALL python top_daily_run.py 1>%logfile% 2>&1

@@ -66,3 +66,9 @@ class InvestDB():
     def close(self):
         self.sqlcon.dispose()
 
+def sp500_market_breadth_prep():
+    from ..market_breadth import sp500Const as spconst
+    mb_dir = spconst.sp500_sectorsDir_marketBreadthConst
+    mb_df = pd.read_csv(mb_dir+"/20MA.csv", parse_dates=[0])
+    sp500 = web.DataReader('^GSPC', 'yahoo', mb_df['Date'].min(), mb_df['Date'].max())#， api_key=QUANDL_KEY)
+    sp500.reset_index(inplace=True)

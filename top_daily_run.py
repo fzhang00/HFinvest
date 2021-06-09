@@ -12,8 +12,8 @@ import os
 import key as pconst
 import top_runner_util as util
 
-_ROOT_DIR = pconst.ROOT_DIR
-
+_ROOT_DIR = os.getcwd() #pconst.ROOT_DIR
+print(_ROOT_DIR)
 today = datetime.today()
 
 
@@ -35,20 +35,23 @@ Examples:
 - To run a script regardless of schedule, use run_script(subfolder_name, script_name)
     - Example: run_script("\\Commodity\\", "run.py")
 """
-
+util.log_info("======= Start of daily run =======", 1)
 #run_script("\\market_breadth\\", "run.py")
 
-util.run_script("\\Commodity\\", "comodityDailyRun_A.py")
+
 
 if util.is_us_business_day():
-    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+    util.run_script2("\\Commodity\\", "test.py")  
+    # util.run_script("\\Commodity\\", "comodityDailyRun_A.py")    
+    # util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
     
 
     # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
     # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 
+
     # # TODO: this to be run monthly
-    # util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
+# util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
 
 
 

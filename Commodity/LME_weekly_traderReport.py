@@ -321,7 +321,7 @@ def weekly_traderReport():
     weekly_traderReport_gold()
     weekly_traderReport_silver()
     
-    
+weekly_traderReport()    
     
 
 

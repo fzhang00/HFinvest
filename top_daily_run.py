@@ -38,14 +38,40 @@ Examples:
 util.log_info("======= Start of daily run =======", 1)
 #run_script("\\market_breadth\\", "run.py")
 
+# import SHFE_A as mySHFE_A
+# import LME_weekly_traderReport as myLME_weeklyTraderReport
+
+# import LME_A as myLME_A
+# import LME_daily_volume as myLME_dailyVol
+# import LME_daily_openInterest_E as myLME_daily_openInterest
 
 
+# import COMEX_A as myCOMEX_A
+import COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
+
+
+#----Saturday --------
+if util.isToday_Saturday():
+    util.run_script("\\Commodity\\", "SHFE_A.py")
+    util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")
+    
+#----LME daily --------    
+if util.is_uk_business_day():
+    util.run_script("\\Commodity\\", "LME_A.py")
+    util.run_script("\\Commodity\\", "LME_daily_volume.py")    
+    util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")  
+    
 if util.is_us_business_day():
-    util.run_script2("\\Commodity\\", "test.py")  
-    # util.run_script("\\Commodity\\", "comodityDailyRun_A.py")    
-    # util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+    # util.run_script("\\Commodity\\", "test.py")  
+    util.run_script("\\Commodity\\", "COMEX_A.py")      
+    util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
+
+  
+    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
     
 
+
+    
     # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
     # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 

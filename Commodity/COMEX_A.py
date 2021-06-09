@@ -384,7 +384,7 @@ def COMEX_daily_Run():
     dbName = _sqlTable_COMEX_Daily_Report_OpenInterest_LongShortPositon
     extract_sql_OIshortLongPositon_Folder(sourceDir, dbName)
     
-# COMEX_daily_Run()
+COMEX_daily_Run()
 
 
 

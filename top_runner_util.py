@@ -127,6 +127,15 @@ def run_custom_date(script_folder_name, script_name, date_list):
         log_info("Custom run exit. Day not matched.",1)     
 
 # --------------------- TOP LEVEL USER FUNCTION -------------------
+# def isToday_weekend():
+#     dd = datetime.today()
+#     result = ( (dd.weekday() == 5) or  (dd.weekday() == 6) )
+#     return result
+
+def isToday_Saturday():
+    dd = datetime.today()
+    return (dd.weekday() == 5)
+
 def is_us_business_day():
     return is_business_day(_TODAY, 'US/Eastern', 'US')
 

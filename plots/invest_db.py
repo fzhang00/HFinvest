@@ -9,8 +9,23 @@ import numpy as np
 # import sp500Const as const
 import sqlalchemy
 from sqlalchemy import text, inspect
-from ..key import QUANDL_KEY, RYAN_SQL, FAN_SQL
+# from ..key import QUANDL_KEY, RYAN_SQL, FAN_SQL
 import pandas_datareader as web
+
+QUANDL_KEY = '_JyFt8HS_T8C4qsXBo68'
+
+BEA_Key = "5FCFE8A8-1714-4DE1-9F49-E8AFA9BEFB93"
+
+# ------ SQL server on Ryan's PC -----------
+RYAN_SQL = {'server':'RyanPC' , 
+            'database':'Commodity_A1' ,
+            'username': 'fz',
+            'password': '123'} 
+FAN_SQL = {'server':'DESKTOP-45300G7',
+                'database':"Investment",
+                'username':"hliu",
+                'password':"123"}
+
 
 class InvestDB():
     def __init__(self, db_info):

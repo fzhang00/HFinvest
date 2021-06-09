@@ -3,7 +3,7 @@ import pandas as pd
 import pandas_datareader as web
 import sqlalchemy
 from sqlalchemy import text, inspect
-from .. import key as pconst
+from HFinvest import key as pconst
 
 _DEFAULT_START_DATE = datetime.datetime(1970,1,1)
 _DEFAULT_END_DATE = datetime.datetime.today()
@@ -124,5 +124,5 @@ db = sqlalchemy.create_engine('mssql+pyodbc://'+db_info['username']+':'+db_info[
                             '@' + db_info['server'] + \
                             '/' + db_info['database'] + \
                             '?driver=ODBC+Driver+17+for+SQL+Server')
+update_fred_symbol_table(db, "FRED_symbol.csv")
 update_fred_data(db)
-#update_fred_symbol_table(db_info, "FRED_symbol.csv")

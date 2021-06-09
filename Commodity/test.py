@@ -52,7 +52,7 @@ _waitTime_loadWebsite_LME = 3
 
 _columnName_goldSilver = ['Date', 'Volume', 'Open Interest']
 
-import personal as pconst
+import key as pconst
 _server = pconst.RYAN_SQL['server']
 _database = pconst.RYAN_SQL['database']
 _username = pconst.RYAN_SQL['username']
@@ -72,6 +72,11 @@ _sqlTable_LME_TraderReport_silver = 'LME_weeklyTraderReport_Silver'
 # mydownPy.logError("my test message")
 #logError(errorFileTargetDir, msg)
 # mydownPy.logError(errorFileTargetDir, "my test message")
+def test():
+    print ("test print out")
+
+test()
+
 
 def makeTodayDataDir(newDir):
     # if not myPath.lexists(newDir): #lexists
@@ -255,11 +260,11 @@ def download_href_traderReport_weekly(url, targetDir):
     return list_fullPath
 
 
-url = 'https://www.lme.com/LME-Clear/Technology/Reports/Volumes'  
-# url = constLME_a.commodityLME_dailyVolumeDir
-targetDir = constLME_a.commodityLME_dailyVolumeDir
-list_fullPath = download_href_traderReport_weekly(url, targetDir)
-print (list_fullPath)
+# url = 'https://www.lme.com/LME-Clear/Technology/Reports/Volumes'  
+# # url = constLME_a.commodityLME_dailyVolumeDir
+# targetDir = constLME_a.commodityLME_dailyVolumeDir
+# list_fullPath = download_href_traderReport_weekly(url, targetDir)
+# print (list_fullPath)
 
 
 

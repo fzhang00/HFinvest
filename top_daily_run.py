@@ -47,7 +47,7 @@ util.log_info("======= Start of daily run =======", 1)
 
 
 # import COMEX_A as myCOMEX_A
-import COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
+# import COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
 
 
 #----Saturday --------

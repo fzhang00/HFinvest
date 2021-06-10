@@ -133,13 +133,11 @@ def run_custom_date(script_folder_name, script_name, date_list):
 #     return result
 def is_US_day_of_month(day_number, date=_TODAY):
     """Return True for US day of month. If that day is a holiday, return True the next day
-
-    Note: The next day doesn't row over to next month.
-        ie. If you check for May 31st and it's a holiday, you won't get True for June 1
     """
     # if yesterday was a holiday, and today is not
-    if is_day_of_month(date, day_number+1, check_holiday=True, country='US') and \
-        (not is_not_holiday(date-timedelta(days=1),'US')):
+    yesterday = date-timedelta(days=1)
+    if is_day_of_month(yesterday, day_number) and (not is_not_holiday(yesterday,'US')):
+        log_info("Yesterday was holiday, running today.")
         return True
     else:
         return is_day_of_month(date, day_number, check_holiday=True, country='US')
@@ -197,8 +195,8 @@ def test():
 
     # ----------- Test is_US_day_of_month()---------
     print("-------Test is_US_day_of_month ----------")
-    date_list = [datetime.strptime('2021-07-01', "%Y-%m-%d")+timedelta(days=x) for x in range(8)]
+    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(8)]
     for d in date_list:
-        print(d.strftime("%Y-%m-%d"), "is day 5 of month", is_US_day_of_month(5, d))
+        print(d.strftime("%Y-%m-%d"), "is day 31 of month", is_US_day_of_month(31, d))
 if __name__ == "__main__":
     test()

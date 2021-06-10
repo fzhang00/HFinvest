@@ -62,13 +62,16 @@ if util.is_uk_business_day():
     util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")  
     
 if util.is_us_business_day():
-    # util.run_script("\\Commodity\\", "test.py")  
+    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+    # util.run_script("\\Commodity\\", "test.py") 
+    
     util.run_script("\\Commodity\\", "COMEX_A.py")      
     util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
 
   
-    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
-    
+#FINRA generally publishes updates to the Margin Statistics on the third week of the month following the reference month. 
+    # # TODO: this to be run monthly
+# util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")    
 
 
     
@@ -76,8 +79,7 @@ if util.is_us_business_day():
     # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 
 
-    # # TODO: this to be run monthly
-# util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")
+
 
 
 

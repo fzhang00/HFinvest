@@ -131,6 +131,16 @@ def run_custom_date(script_folder_name, script_name, date_list):
 #     dd = datetime.today()
 #     result = ( (dd.weekday() == 5) or  (dd.weekday() == 6) )
 #     return result
+def is_US_day_of_month(day_number, date=_TODAY):
+    """Return True for US day of month. If that day is a holiday, return True the next day
+    """
+    # if yesterday was a holiday, and today is not
+    yesterday = date-timedelta(days=1)
+    if is_day_of_month(yesterday, day_number) and (not is_not_holiday(yesterday,'US')):
+        log_info("Yesterday was holiday, running today.")
+        return True
+    else:
+        return is_day_of_month(date, day_number, check_holiday=True, country='US')
 
 def isToday_Saturday():
     dd = datetime.today()
@@ -182,5 +192,11 @@ def test():
     date_list = [_TODAY - timedelta(days=x) for x in range(8)]
     for d in date_list:
         print(d.strftime("%Y-%m-%d"), "day of the week:", d.weekday(), is_COMEX_thursday_run(d))
+
+    # ----------- Test is_US_day_of_month()---------
+    print("-------Test is_US_day_of_month ----------")
+    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(8)]
+    for d in date_list:
+        print(d.strftime("%Y-%m-%d"), "is day 31 of month", is_US_day_of_month(31, d))
 if __name__ == "__main__":
     test()

@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Mar 29 13:15:30 2021
 
-http://www.kitconet.com/
-
-
-@author: haoli
 """
-
 
 import sys
 sys.path.append("../")

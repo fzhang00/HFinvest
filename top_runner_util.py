@@ -54,7 +54,7 @@ def is_business_day(date, tz, country):
     """
     # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
     try:
-    return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
+        return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
     except ValueError:
         return False
 
@@ -205,7 +205,7 @@ def test():
     for key, value in biz_dates_test.items():
         is_biz_date = is_business_day(datetime.strptime(key, "%Y-%m-%d"), value[1], value[2])
         print(key, "is a business day?",is_biz_date, ". Correct answer:", value[0])
-
+    print("None is a business day?", is_business_day(None, "US/Eastern", "US"))
     # ----------- Run on specific Date -----------------
     print("------Test is_date()------")
     siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17']
@@ -220,8 +220,8 @@ def test():
 
     # ----------- Test is_US_day_of_month()---------
     print("-------Test is_US_day_of_month ----------")
-    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(8)]
+    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(10)]
     for d in date_list:
-        print(d.strftime("%Y-%m-%d"), "is day 31 of month", is_US_day_of_month(31, d))
+        print(d.strftime("%Y-%m-%d"), "is business day for 31 of month", is_US_biz_day_of_month(31, d))
 if __name__ == "__main__":
     test()

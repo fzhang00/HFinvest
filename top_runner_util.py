@@ -19,8 +19,8 @@ import key as pconst
 
 _TODAY = datetime.today()
 
-def log_info(msg, severity=1):
-    """ Log message into launcher log, filename patterh: launcher_subproc_log_<date>.log
+def log_info(msg, fname_prefix="daily_log_", severity=1):
+    """ Log message into launcher log, filename patter: daily_log_<date>.log
 
     Input:
         - msg: str, the text message you want to include to the log,
@@ -28,7 +28,7 @@ def log_info(msg, severity=1):
     """
     _LOG_TYPE = {1:'INFO', 2:'DEBUG',3:'ERROR'}
     now = datetime.today()
-    fname = "./log/launcher_subproc_log_{}.log".format(now.strftime("%Y-%m-%d"))
+    fname = "./log/"+fname_prefix+"{}.log".format(now.strftime("%Y-%m-%d"))
     if os.path.exists(fname):
         append_write = 'a' # append if already exists
     else:

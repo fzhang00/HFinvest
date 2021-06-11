@@ -54,6 +54,10 @@ util.log_info("======= Start of daily run =======", 1)
 if util.isToday_Saturday():
     util.run_script("\\Commodity\\", "SHFE_A.py")
     util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")
+
+#----Thursday --------
+if util.is_COMEX_thursday_run:
+    util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
     
 #----LME daily --------    
 if util.is_uk_business_day():
@@ -68,7 +72,13 @@ if util.is_us_business_day():
     util.run_script("\\Commodity\\", "COMEX_A.py")      
     util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
 
-  
+
+    
+        
+
+
+
+
 #FINRA generally publishes updates to the Margin Statistics on the third week of the month following the reference month. 
     # # TODO: this to be run monthly
 # util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")    
@@ -78,6 +88,8 @@ if util.is_us_business_day():
     # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
     # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
 
+# util.run_script("\\Commodity\\", "COMEX_A_bondsFuture_Delivered_Q_Run.py")  
+  
 
 
 

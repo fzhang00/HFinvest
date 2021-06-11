@@ -349,20 +349,7 @@ def download_webpageReport_Files_2(save_toDataDir, comexWebsite_List):
     driver.quit()
     time.sleep(1)
         
-
-def COMEX_gainStock_Tuesday_weekly_Run():
-    save_toDataDir = constCOMEX_A.CME_gainStock_Tuesday_dir + '/' + constA.todayDate_str
-    comexWebsite_List =  constCOMEX_A.comexWebsite_gainStock_Tuesday_List
-    download_webpageReport_Files_2(save_toDataDir, comexWebsite_List)
-# COMEX_gainStock_Tuesday_weekly_Run()
-
-def COMEX_bondsFuture_Delivered_Q_Run():
-    save_toDataDir = constCOMEX_A.CME_bonds_dilivered_Q + '/' + constA.todayDate_str
-    comexWebsite_List =  constCOMEX_A.comexWebsite_bondsDelivered_Q_List
-    download_webpageReport_Files_2(save_toDataDir, comexWebsite_List)
-# COMEX_bondsFuture_Delivered_Q_Run()
-
-
+    
 #-----COMEX_daily_Run()-------
 def COMEX_daily_Run():
     save_toDataDir = constCOMEX_A.commodityNYMEXCOMEX_fileDir + '/' + constA.todayDate_str

@@ -49,7 +49,10 @@ def is_business_day(date, tz, country):
     tz is a string specifying timezone. New York is "US/Eastern", London is "GMT"
     """
     # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
+    try:
     return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
+    except ValueError:
+        return False
 
 def is_day_of_week(date, day_of_week, check_holiday=False, country='US'):
     """Check if you are on specific day of a week.

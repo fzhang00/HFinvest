@@ -68,7 +68,19 @@ if util.is_us_business_day():
     util.run_script("\\Commodity\\", "COMEX_A.py")      
     util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
 
-  
+# Schedule monthly tasks. If the scheduled date is a holiday, task will be run on the next business day. US only!
+day_on_every_month = 5
+if util.is_US_biz_day_of_month(day_on_every_month):
+    util.log_info("Running monthly US procedure on day {} of every month".format(day_on_every_month), fname_prefix="monthly_log_")
+
+# Schedule tasks based on fixed day of nth week of certain month. 
+# For example, 四巫日, is third Friday of 3,6,9,12 month
+day_of_week=4 # Friday
+week_of_month=3 # Third week
+months=[3,6,9,12]
+if util.is_day_of_nweek(day_of_week, week_of_month, months):
+    util.log_info("Running tasks for every third Friday of {} months".format(months), fname_prefix="quarterly_log_")
+
 #FINRA generally publishes updates to the Margin Statistics on the third week of the month following the reference month. 
     # # TODO: this to be run monthly
 # util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")    

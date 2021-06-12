@@ -166,16 +166,21 @@ def is_US_biz_day_of_month(day_number, datein=_TODAY):
         # this is the day but could be a holiday or weekend, add the next business day as run schedule
         return False
 
-def is_day_of_nweek(day, week, month, datein=_TODAY):
+def is_day_of_nweek(day, week, months, datein=_TODAY):
     """Return True for certain day of nth week for every month. 
     Example, every third friday of every month would be is_day_of_nweek(4,3)
+    
+    Input: 
+        day: day of the week, 0 for Monday, 6 for Sunday
+        week: nth week of the month, 1, 2, or 3
+        months: list, a list of months number to match. ie： [3,6,9,12]
     """
     if week==3:
-        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month==month
+        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month in months
     elif week==2:
-        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month==month
+        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month in months
     elif week==1:
-        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month==month
+        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month in months
     else:
         print("Number of week not supported")
         return False
@@ -240,9 +245,9 @@ def test():
     # ---------- Test third friday of every quater 2021---------------------
     print("-------- Test third Friday of last month of a quarter ---------")
     siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17', '2021-03-12', '2021-06-25']
-    months=[3,6,9,12, 3, 6]
-    for (s,m) in zip(siwu, months):
+    months=[3,6,9,12]
+    for s in siwu:
         datein=datetime.strptime(s, "%Y-%m-%d")
-        print(s, "is third Friday of {} month".format(m), is_day_of_nweek(4, 3, m, datein=datein))
+        print(s, "is third Friday of {} month".format(months), is_day_of_nweek(4, 3, months, datein=datein))
 if __name__ == "__main__":
     test()

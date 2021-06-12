@@ -8,6 +8,7 @@ _ROOT_DIR: the complete path to the location of this repository
 """
 
 from datetime import datetime, timedelta
+from datetime import date as ddate
 import holidays
 import pandas as pd
 import subprocess
@@ -18,9 +19,12 @@ import key as pconst
 
 
 _TODAY = datetime.today()
+_US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
+              '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04', '2022-09-05', '2022-11-24', '2022-12-26',
+              '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
 
-def log_info(msg, severity=1):
-    """ Log message into launcher log, filename patterh: launcher_subproc_log_<date>.log
+def log_info(msg, fname_prefix="daily_log_", severity=1):
+    """ Log message into launcher log, filename patter: daily_log_<date>.log
 
     Input:
         - msg: str, the text message you want to include to the log,
@@ -28,7 +32,7 @@ def log_info(msg, severity=1):
     """
     _LOG_TYPE = {1:'INFO', 2:'DEBUG',3:'ERROR'}
     now = datetime.today()
-    fname = "./log/launcher_subproc_log_{}.log".format(now.strftime("%Y-%m-%d"))
+    fname = "./log/"+fname_prefix+"{}.log".format(now.strftime("%Y-%m-%d"))
     if os.path.exists(fname):
         append_write = 'a' # append if already exists
     else:
@@ -49,7 +53,10 @@ def is_business_day(date, tz, country):
     tz is a string specifying timezone. New York is "US/Eastern", London is "GMT"
     """
     # pd.bdate_range return a fixed frequency DatetimeIndex, with business day as the default frequency.
-    return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
+    try:
+        return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
+    except ValueError:
+        return False
 
 def is_day_of_week(date, day_of_week, check_holiday=False, country='US'):
     """Check if you are on specific day of a week.
@@ -131,16 +138,52 @@ def run_custom_date(script_folder_name, script_name, date_list):
 #     dd = datetime.today()
 #     result = ( (dd.weekday() == 5) or  (dd.weekday() == 6) )
 #     return result
-def is_US_day_of_month(day_number, date=_TODAY):
+def is_US_biz_day_of_month(day_number, datein=_TODAY):
     """Return True for US day of month. If that day is a holiday, return True the next day
     """
-    # if yesterday was a holiday, and today is not
-    yesterday = date-timedelta(days=1)
-    if is_day_of_month(yesterday, day_number) and (not is_not_holiday(yesterday,'US')):
-        log_info("Yesterday was holiday, running today.")
+    # get previous schedule date
+    if datein.day>day_number:
+        previous_schedule=ddate(datein.year, datein.month, day_number)
+    elif datein.day<day_number: # previous schedule is previous month
+        try:
+            previous_schedule=ddate(datein.year, datein.month-1, day_number)
+        except ValueError:
+            previous_schedule=None # previous month doesn't have that day
+    else: previous_schedule=None #datein.day==day_number, let is_day_of_month handle it.
+    #
+    if (previous_schedule is not None) and (not is_business_day(previous_schedule, "US/Eastern", "US")): # if previous schedule is not a business day5
+        if len(pd.bdate_range(previous_schedule, datein, tz='US/Eastern', freq='C', holidays=_US_HOLIDAYS, weekmask='1111100'))==1 and \
+            (is_not_holiday(datein)):# datein is the first business day after schedule
+            log_info("\t Matched first business day {} for schedule {}".format(datein.date(), previous_schedule),fname_prefix="monthly_log")
+            return True
+        else:
+            return False
+    # Return True if day match and is business day
+    elif is_day_of_month(datein, day_number, check_holiday=True, country='US') and is_business_day(datein, "US/Eastern", 'US'):
+        log_info("/t Matched {} day of {} month".format(day_number, datein.month), fname_prefix="monthly_log")
         return True
     else:
-        return is_day_of_month(date, day_number, check_holiday=True, country='US')
+        # this is the day but could be a holiday or weekend, add the next business day as run schedule
+        return False
+
+def is_day_of_nweek(day, week, months, datein=_TODAY):
+    """Return True for certain day of nth week for every month. 
+    Example, every third friday of every month would be is_day_of_nweek(4,3)
+    
+    Input: 
+        day: day of the week, 0 for Monday, 6 for Sunday
+        week: nth week of the month, 1, 2, or 3
+        months: list, a list of months number to match. ie： [3,6,9,12]
+    """
+    if week==3:
+        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month in months
+    elif week==2:
+        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month in months
+    elif week==1:
+        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month in months
+    else:
+        print("Number of week not supported")
+        return False
 
 def isToday_Saturday():
     dd = datetime.today()
@@ -180,7 +223,7 @@ def test():
     for key, value in biz_dates_test.items():
         is_biz_date = is_business_day(datetime.strptime(key, "%Y-%m-%d"), value[1], value[2])
         print(key, "is a business day?",is_biz_date, ". Correct answer:", value[0])
-
+    print("None is a business day?", is_business_day(None, "US/Eastern", "US"))
     # ----------- Run on specific Date -----------------
     print("------Test is_date()------")
     siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17']
@@ -195,8 +238,16 @@ def test():
 
     # ----------- Test is_US_day_of_month()---------
     print("-------Test is_US_day_of_month ----------")
-    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(8)]
+    date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(10)]
     for d in date_list:
-        print(d.strftime("%Y-%m-%d"), "is day 31 of month", is_US_day_of_month(31, d))
+        print(d.strftime("%Y-%m-%d"), "is business day for 31 of month", is_US_biz_day_of_month(31, d))
+
+    # ---------- Test third friday of every quater 2021---------------------
+    print("-------- Test third Friday of last month of a quarter ---------")
+    siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17', '2021-03-12', '2021-06-25']
+    months=[3,6,9,12]
+    for s in siwu:
+        datein=datetime.strptime(s, "%Y-%m-%d")
+        print(s, "is third Friday of {} month".format(months), is_day_of_nweek(4, 3, months, datein=datein))
 if __name__ == "__main__":
     test()

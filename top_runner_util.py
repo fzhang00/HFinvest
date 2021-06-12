@@ -141,7 +141,6 @@ def run_custom_date(script_folder_name, script_name, date_list):
 def is_US_biz_day_of_month(day_number, datein=_TODAY):
     """Return True for US day of month. If that day is a holiday, return True the next day
     """
-    log_info("function: is_US_biz_day_of_month({})".format(day_number), fname_prefix="monthly_log")
     # get previous schedule date
     if datein.day>day_number:
         previous_schedule=ddate(datein.year, datein.month, day_number)

@@ -167,6 +167,20 @@ def is_US_biz_day_of_month(day_number, datein=_TODAY):
         # this is the day but could be a holiday or weekend, add the next business day as run schedule
         return False
 
+def is_day_of_nweek(day, week, month, datein=_TODAY):
+    """Return True for certain day of nth week for every month. 
+    Example, every third friday of every month would be is_day_of_nweek(4,3)
+    """
+    if week==3:
+        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month==month
+    elif week==2:
+        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month==month
+    elif week==1:
+        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month==month
+    else:
+        print("Number of week not supported")
+        return False
+
 def isToday_Saturday():
     dd = datetime.today()
     return (dd.weekday() == 5)
@@ -223,5 +237,13 @@ def test():
     date_list = [datetime.strptime('2021-05-25', "%Y-%m-%d")+timedelta(days=x) for x in range(10)]
     for d in date_list:
         print(d.strftime("%Y-%m-%d"), "is business day for 31 of month", is_US_biz_day_of_month(31, d))
+
+    # ---------- Test third friday of every quater 2021---------------------
+    print("-------- Test third Friday of last month of a quarter ---------")
+    siwu = ['2021-03-19', '2021-06-18', '2021-09-17', '2021-12-17', '2021-03-12', '2021-06-25']
+    months=[3,6,9,12, 3, 6]
+    for (s,m) in zip(siwu, months):
+        datein=datetime.strptime(s, "%Y-%m-%d")
+        print(s, "is third Friday of {} month".format(m), is_day_of_nweek(4, 3, m, datein=datein))
 if __name__ == "__main__":
     test()

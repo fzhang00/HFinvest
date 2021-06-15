@@ -114,6 +114,11 @@ def get_fed_db_data(db, symbols,
     output.rename(columns={'index':'Date'}, inplace=True)
     return output, changes, symbol_tb
 
+def get_sp500_index(start_date=datetime.datetime(2000,1,1), 
+                    end_date=datetime.datetime.today()):
+    """Returns a dataframe with SP500 INDEX"""
+    return web.DataReader('^GSPC', 'yahoo', start_date, end_date)
+    
 
 def test():
     db = InvestDB(FAN_SQL)    

@@ -82,6 +82,13 @@ class InvestDB():
     def close(self):
         self.sqlcon.dispose()
 
+class fed_db(InvestDB):
+    def __init__():
+        #Initialize using InvestDB's init
+        symbol_df = db.get_filtered_data('FED_US_SYMBOL', 
+                                        ['Symbol', 'Description', 'Category'], 
+                                        with_date=False)
+        pass
 def get_fed_db_data(db, symbols, 
                     start_date=datetime.datetime(2000,1,1), 
                     end_date=datetime.datetime.today()):

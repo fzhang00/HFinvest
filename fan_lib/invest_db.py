@@ -15,6 +15,7 @@ import pandas_datareader as web
 _START_DATE = datetime.datetime(2000,1,1)
 _END_DATE = datetime.datetime.today()
 QUANDL_KEY = '_JyFt8HS_T8C4qsXBo68'
+QUANDL_FAN = 'MexC5aYeLh-nUoe8u-39'
 
 BEA_Key = "5FCFE8A8-1714-4DE1-9F49-E8AFA9BEFB93"
 
@@ -66,12 +67,12 @@ class InvestDB():
         select_columns = ', '.join(columns)
         if with_date:
             if column_to_match is None:
-                query = text("""SELECT Date, %s FROM %s.dbo.%s"""%(select_columns, self.database, table))
+                query = text("""SELECT DATE, %s FROM %s.dbo.%s"""%(select_columns, self.database, table))
             else:
-                query = text("""SELECT Date, %s FROM %s WHERE %s = '%s' ORDER BY Date ASC;"""%(select_columns, table,
+                query = text("""SELECT DATE, %s FROM %s WHERE %s = '%s' ORDER BY Date ASC;"""%(select_columns, table,
                                                                     column_to_match, value_to_match))
             print(query)
-            return pd.read_sql(query, self.sqlcon, index_col='Date', parse_dates='Date')
+            return pd.read_sql(query, self.sqlcon, index_col='DATE', parse_dates='DATE')
         else:
             if column_to_match is None:
                 query = text("""SELECT %s FROM %s"""%(select_columns, table))

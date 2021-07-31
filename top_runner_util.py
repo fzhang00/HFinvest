@@ -18,7 +18,10 @@ from pandas.core.indexes.datetimes import date_range
 import key as pconst
 
 
+
 _TODAY = datetime.today()
+
+
 _US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
               '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04','2022-07-05', '2022-09-05', '2022-11-24', '2022-12-26',
               '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
@@ -57,6 +60,15 @@ def is_business_day(date, tz, country):
         return bool(len(pd.bdate_range(date, date, tz=tz))) and is_not_holiday(date, country) 
     except ValueError:
         return False
+def _next_biz_day(date, tz, country, next=True):
+    """Get the next business day of a date."""
+    check_biz_day = date
+    while not is_business_day(check_biz_day, tz, country):
+        if next: 
+            check_biz_day += timedelta(days=1)
+        else:
+            check_biz_day -= timedelta(days=1)
+    return check_biz_day
 
 def is_day_of_week(date, day_of_week, check_holiday=False, country='US'):
     """Check if you are on specific day of a week.
@@ -195,16 +207,37 @@ def is_us_business_day():
 def is_uk_business_day():
     return is_business_day(_TODAY, 'GMT', 'UK')
 
+# TODO Auto download and check based on Comex holiday. This checker only based on federal US holiday. 
 def is_COMEX_thursday_run(date=_TODAY):
     day_of_week=3
-    if is_day_of_week(date-timedelta(days=1), day_of_week) and \
-        (not is_not_holiday(date-timedelta(days=1), 'US')):
-        # if yesterday is Thursday, and it's a holiday, run COMEX today
-        return True
+    # if today is not Thursday, then scroll back to find the previous Thursday
+    if not is_day_of_week(date, day_of_week):
+        for i in range(7): # going back for one week
+            past_date = date-timedelta(days=i)
+            if is_day_of_week(past_date, day_of_week): # if we find the previous thursday 
+                if is_not_holiday(past_date, 'US'): # it wasn't a holiday, so task has be run. return False
+                    return False
+                else:# it was a holiday, find the next business day
+                    next_biz_day = _next_biz_day(date-timedelta(days=i), 'US/Eastern', 'US')
+                    if (date-next_biz_day).days==0: # today is the next biz day
+                        return True
+                    else:
+                        return False
     else:
         # return true if today is Thursday and not a holiday
         return is_day_of_week(date, day_of_week, True, 'US')
+def is_weekly_us_run(date=_TODAY, day_of_week):
+    """Given day of week, return True/False if it should be run on the input date. 
+    
+    If the day_of_week was a holiday, function should return true on the next business day. """
+    pass
+def is_COMEX_thursday_run(d=_TODAY):
+    
 
+_NEXT_BIZ_DAY_US = _next_biz_day(_TODAY, 'US/Eastern', 'US', True)
+_NEXT_BIZ_DAY_UK = _next_biz_day(_TODAY, 'GMT', 'UK', True)
+_PREV_BIZ_DAY_US = _next_biz_day(_TODAY, 'US/Eastern', 'US', False)
+_PREV_BIZ_DAY_UK = _next_biz_day(_TODAY, 'GMT', 'UK', False)
 
 #---------------------------TESTING--------------------------------
 def test():
@@ -232,7 +265,7 @@ def test():
                                              check_holiday=True, country='US'))
     # ----------- Test is_Comex_thusday_run()
     print("------Test is_COMEX_thursday_run()------")
-    date_list = [_TODAY - timedelta(days=x) for x in range(8)]
+    date_list = [datetime.strptime('2021-11-27', "%Y-%m-%d") - timedelta(days=x) for x in range(8)]
     for d in date_list:
         print(d.strftime("%Y-%m-%d"), "day of the week:", d.weekday(), is_COMEX_thursday_run(d))
 

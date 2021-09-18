@@ -254,55 +254,5 @@ def LME_volume_daily_run():
         dbName = _sqlTable_LME_daily_Volume
         extractVolumeData_sql(fileFullPath, dbName)
 
-# LME_volume_daily_run()
-#----------------------------------------------------------------
-
-
- 
-def Workingbackup_download_href_traderReport_weekly(url, targetDir):
-    driver = webdriver.Chrome('chromedriver.exe')
-    driver.get(url)
-    time.sleep(2)    
-    
-    list_fullPath = []
-    while True:
-        elems = driver.find_elements_by_tag_name('a')
-        count_First10File = 0    
-        for elem in elems:
-            href = elem.get_attribute('href')
-            # str_Inhref = 'StockBreakdownReportPaging'
-            str_InText = 'daily volume'
-            if str_InText in (elem.text).lower(): # if str_Inhref in href: # is not None: 
-                count_First10File +=1
-                print(href)
-                d1 = (elem.text).split('(')
-                d2 = d1[0].split('.')
-                fileName = d2[0].strip() + '.xlsx'
-                # print (fileName) 
-                url_excel = href
-                
-                excelFileFullPath = downloadExcelFile(targetDir, fileName, url_excel)
-                if excelFileFullPath == "na":
-                    pass
-                else:
-                    list_fullPath.append(excelFileFullPath)
-                    
-                print (excelFileFullPath)    
-                # print(href)   
-            #processed the first 10 excel files     
-            if count_First10File >9:
-                break   
-                # print('not the href')
-    driver.quit()    
-    time.sleep(1)
-    return list_fullPath
-
-
-    
-    
-
-
-
-
-#---------------------------------------------------
+LME_volume_daily_run()
 

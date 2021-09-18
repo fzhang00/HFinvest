@@ -265,8 +265,8 @@ def downloadExcelFile(targetDir, fileName, url):
         outfile.write(html)
     
     fileSize = os.stat(newFilefullPath).st_size    
-    if fileSize < 1000: # 1k
-        msg = "Excel file download data <1K: " + newFilefullPath + " ; url: " + url 
+    if fileSize < 600: # 1k
+        msg = "Excel file download data <0.6K: " + newFilefullPath + " ; url: " + url 
         mydownPy.logError(errorFileTargetDir, msg)
     else: # save, update the data
         print('Downloaded weekly trader report: ' + newFilefullPath) 
@@ -357,7 +357,7 @@ def LME_openInterest_daily():
         extract_OpenInterestData_Preciou_sql(fileFullPath, dbNameFuture)
 
 
-# LME_openInterest_daily()
+LME_openInterest_daily()
 
 
 

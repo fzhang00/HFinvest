@@ -422,4 +422,4 @@ def LME_A_daily_Run():
     daily_save_sql_webPages_nonFerrous_gold_Silver()
     # saveAllwebPages_LME()       
     
-# LME_daily_Run()
+LME_A_daily_Run()

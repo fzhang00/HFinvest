@@ -11,45 +11,6 @@ https://docs.microsoft.com/en-us/sql/machine-learning/data-exploration/python-da
 @author: haoli
 
 """
-# import pyodbc
-# import pandas as pd
-# # insert data from csv file into dataframe.
-# # working directory for csv file: type "pwd" in Azure Data Studio or Linux
-# # working directory in Windows c:\users\username
-# df = pd.read_csv("c:\\user\\username\department.csv")
-# # Some other example server values are
-# # server = 'localhost\sqlexpress' # for a named instance
-# # server = 'myserver,port' # to specify an alternate port
-# server = 'yourservername' 
-# database = 'AdventureWorks' 
-# username = 'username' 
-# password = 'yourpassword' 
-# cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-# cursor = cnxn.cursor()
-# # Insert Dataframe into SQL Server:
-# for index, row in df.iterrows():
-#     cursor.execute("INSERT INTO HumanResources.DepartmentTest (DepartmentID,Name,GroupName) values(?,?,?)", row.DepartmentID, row.Name, row.GroupName)
-# cnxn.commit()
-# cursor.close()
-
-
-# import pyodbc
-# import pandas as pd
-# # Some other example server values are
-# # server = 'localhost\sqlexpress' # for a named instance
-# # server = 'myserver,port' # to specify an alternate port
-# server = 'servername' 
-# database = 'AdventureWorks' 
-# username = 'yourusername' 
-# password = 'databasename'  
-# cnxn = pyodbc.connect('DRIVER={SQL Server};SERVER='+server+';DATABASE='+database+';UID='+username+';PWD='+ password)
-# cursor = cnxn.cursor()
-# # select 26 rows from SQL table to insert in dataframe.
-# query = "SELECT [CountryRegionCode], [Name] FROM Person.CountryRegion;"
-# df = pd.read_sql(query, cnxn)
-# print(df.head(26))
-
-# import requests
 
 import Const_Shanghai_A as constSHFE
 
@@ -77,7 +38,6 @@ from datetime import datetime
 
 #----------------------------------
 errorFileTargetDir = '../'
-
 
 dateSearchBy_ClassName_LME = "delayed-date.left"
 dateSearchKeyword_LME = "Data valid for"
@@ -758,151 +718,6 @@ def weeklyRun_SHFE_Stock():
     print("insert to SQL: " + date_OIDownload_2)
     sql_SHFE_OIVol_Weekly(date_OIDownload_2)     
 
-# weeklyRun_SHFE_Stock()
+weeklyRun_SHFE_Stock()
 
 
-"""
-not userd
-"""
-#-----------not used-----
-def backup_saveWebPage_SHFE_OIVolPrice_weekly(url, elementID_click, filePath, fileName, waitTime_loadWebsite): 
-                                        # (url, filePath, stockFileName, dateSearchBy, searchKeyword, waitTime_loadWebsite):
-    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
-    driver.get(url)
-    time.sleep(1)
-    pyautogui.hotkey("f5")   
-    time.sleep(waitTime_loadWebsite * 2)  
-    
-    driver.find_element_by_id(elementID_click).click()
-    time.sleep(waitTime_loadWebsite * 2)
-
-    # #-------get the date information
-    # date_field = driver.find_element_by_id(dateSearchBy)
-    # time.sleep(3)
-  
-    # dateStr1 = (date_field.text).splitlines()
-    # dateStr2 = dateStr1[2]    
-    # keyword = searchKeyword
-    # dateStr = getDateFromString_SHFE(dateStr2, keyword)    
-
-
-    # -------- make file dir, delete old file and set the file name
-    makeTodayDataDir(filePath)     
-#-----repeat the code for anohter page -
-    fileFullPath = filePath + '/' + fileName + '.html'  
-    if os.path.isfile(fileFullPath):
-        os.remove(fileFullPath)
-        print('file removed: ' + fileFullPath)
-        time.sleep(5)        
-    #-----convert python dir to windows dir 
-    fileAbsPath = os.path.abspath(fileFullPath)   
-    winPath = fileAbsPath.replace(os.sep,ntpath.sep)    
-    #-----Save the website using windows command
-    pyautogui.hotkey('ctrl', 's')
-    time.sleep(waitTime_loadWebsite)
-    
-    pyautogui.typewrite(winPath)
-    time.sleep(3)
-    
-    pyautogui.hotkey('enter')
-    time.sleep(waitTime_loadWebsite * 2) #wait for download finish
-    
-    driver.quit()
-    time.sleep(3)
-    
-    #check if the file is download with data
-    fileSize = os.stat(fileFullPath).st_size
-    if fileSize < 5000: # 5k
-        msg = "website download data <10K: " + fileFullPath + " ; url: " + url 
-        mydownPy.logError(errorFileTargetDir, msg)
-    else: # save, update the data
-        print('file donwloaded: ' + url)        
-        
-        htmlFileFullPath = fileFullPath      
-        # htmlFileFullPath = constSHFE.commodityShanghai_dataDir + '/2021-04-16/ShanghaiStock_weekly.csv.html'
-        workDataDir     = constSHFE.commodityShanghaiDir_OIVolPrice
-        appendDataDir   = constSHFE.commodityShanghai_dataDir_OIVolPrice
-      
-        extract_SHFE_HTML_vol_OI_Weekly(htmlFileFullPath, workDataDir, appendDataDir)
-
-
-# url = constSHFE.SHStock_url_weekly
-# elementID_click = _volOI_clinkID
-
-# filePath = constSHFE.commodityShanghai_dataDir + '/2021-04-16' #constSHFE.commodityShanghai_dataDir
-
-# fileName = constSHFE.commodityShanghai_dataDir_OIVolPrice
-# waitTime_loadWebsite = waitTime_loadWebsite_SHFE
-
-# saveWebPage_SHFE_OIVolPrice_weekly(url, elementID_click, filePath, fileName, waitTime_loadWebsite)       
-
-
-
-def NotUsed_saveWebPageShangHai_weeklyStock_backup(url, filePath, stockFileName, dateSearchBy, searchKeyword, waitTime_loadWebsite): 
-    # driver = webdriver.Chrome('chromedriver.exe')
-    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
-    driver.get(url)
-    #refresh the webpage first
-    time.sleep(1)
-    pyautogui.hotkey("f5")   
-    time.sleep(waitTime_loadWebsite)  
-    
-    driver.find_element_by_id(_stock_clinkID).click()
-    time.sleep(waitTime_loadWebsite * 3)
-    
-    #-------get the date information
-    date_field = driver.find_element_by_id(dateSearchBy)
-    time.sleep(3)
-  
-    dateStr1 = (date_field.text).splitlines()
-    dateStr2 = dateStr1[2]    
-    keyword = searchKeyword
-    dateStr = getDateFromString_SHFE(dateStr2, keyword)
-    
-    # -------- make file dir, delete old file and set the file name
-    # filePath_2 = filePath + '\\' + dateStr     
-    filePath_new = filePath + '/' + dateStr  
-    makeTodayDataDir(filePath_new)    
-    # print(os.getcwd() ) 
-    
-#-----repeat the code for anohter page -
-    fileFullPath_stock = filePath_new + '/' + stockFileName + '.html'  
-    if os.path.isfile(fileFullPath_stock):
-        os.remove(fileFullPath_stock)
-        print('file removed: ' + fileFullPath_stock)
-        time.sleep(5)        
-    #-----convert python dir to windows dir 
-    fileAbsPath = os.path.abspath(fileFullPath_stock)   
-    winPath = fileAbsPath.replace(os.sep,ntpath.sep)    
-    #-----Save the website using windows command
-    pyautogui.hotkey('ctrl', 's')
-    # Wait for the Save As dialog to load. Might need to increase the wait time on slower machines
-    time.sleep(waitTime_loadWebsite)
-    
-    # Type the file path and name is Save AS dialog
-    pyautogui.typewrite(winPath)
-    time.sleep(3)
-    
-    #Hit Enter to save
-    pyautogui.hotkey('enter')
-    time.sleep(waitTime_loadWebsite * 2) #wait for download finish
-    
-    driver.quit()
-    time.sleep(3)
-    
-    #check if the file is download with data
-    fileSize = os.stat(fileFullPath_stock).st_size
-    if fileSize < 5000: # 5k
-        msg = "website download data <10K: " + fileFullPath_stock + " ; url: " + url 
-        mydownPy.logError(errorFileTargetDir, msg)
-    else: # save, update the data
-        print('file donwloaded: ' + url)        
-        
-        htmlFileFullPath = fileFullPath_stock      
-        # htmlFileFullPath = constSHFE.commodityShanghai_dataDir + '/2021-04-16/ShanghaiStock_weekly.csv.html'
-        workDataDir     = constSHFE.commodityShanghai_dataDir
-        appendDataDir   = constSHFE.commodityShanghaiDir 
-        
-        extract_SHFE_HTML_StockWeekly(htmlFileFullPath, workDataDir, appendDataDir)
-        
-    return dateStr

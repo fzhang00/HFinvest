@@ -62,29 +62,33 @@ util.log_info("======= Start of daily run =======", 1)
 # util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
 # util.run_script("\\Commodity\\", "COMEX_A.py")      
 # util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
-
+# # util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
+    
 #----Saturday --------
 if util.isToday_Saturday():
     util.run_script("\\Commodity\\", "SHFE_A.py")
     util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")
+    pass
     
 #----LME daily --------    
 if util.is_uk_business_day():
     
-    util.run_script("\\Commodity\\", "LME_A.py")
-    util.run_script("\\Commodity\\", "LME_daily_volume.py")    
-    util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")  
+    # util.run_script("\\Commodity\\", "LME_A.py")
+    # util.run_script("\\Commodity\\", "LME_daily_volume.py")    
+    # util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py") 
+    pass
     
 if util.is_us_business_day():
     #----Thursday --------
     if util.is_COMEX_thursday_run:
         util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
-    
+        pass
     util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
     # util.run_script("\\Commodity\\", "test.py") 
     
     util.run_script("\\Commodity\\", "COMEX_A.py")      
     util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
+    pass
 
 
 # Schedule monthly tasks. If the scheduled date is a holiday, task will be run on the next business day. US only!

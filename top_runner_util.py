@@ -137,7 +137,7 @@ def is_date(date, date_list):
     """
     return (date.strftime("%Y-%m-%d") in date_list)
 
-def is_day_of_nweek(day, week, months, datein=_TODAY):
+def is_day_of_nweek(day, week, monthsList, datein=_TODAY):
     """Return True for certain day of nth week for input months.
     This function does NOT check for business day or holiday. 
 
@@ -149,11 +149,11 @@ def is_day_of_nweek(day, week, months, datein=_TODAY):
         months: list, a list of months number to match. ie： [3,6,9,12]
     """
     if week==3:
-        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month in months
+        return datein.weekday() == day and 15 <= datein.day <= 21 and datein.month in monthsList
     elif week==2:
-        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month in months
+        return datein.weekday() == day and 8 <= datein.day <= 14 and datein.month in monthsList
     elif week==1:
-        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month in months
+        return datein.weekday() == day and 1 <= datein.day <= 7 and datein.month in monthsList
     else:
         print("Number of week not supported")
         return False
@@ -167,7 +167,8 @@ def is_us_business_day(date=_TODAY):
 def is_uk_business_day(date=_TODAY):
     return is_business_day(date, 'GMT', 'UK')
 
-def biz_weekday_run_US(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
+
+def _biz_weekday_run_US_a(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
     """US weekly run on business day. Return True/False.
     
     Example: to check if today is Thursday of every week,
@@ -177,6 +178,9 @@ def biz_weekday_run_US(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
     ```
     """
     return biz_weekday_run(day_of_week, date, prev, 'US/Eastern', 'US')
+
+def biz_weekday_run_US(day_of_week):
+    return _biz_weekday_run_US_a(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US)
 
 def biz_weekday_run_UK(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
     """UK weekly run on business day. Return True/False """
@@ -274,10 +278,23 @@ def biz_date_run(date_list, date, prev, tz, country):
                     return False
     else:
         return False
-
 # TODO Auto download and check based on Comex holiday. This checker only based on federal US holiday. 
-def is_COMEX_thursday_run(date=_TODAY):
-    return biz_weekday_run_US(date, 3)
+
+
+# -------Hao's code ---------------------------------------
+def is_COMEX_thursday_run():
+    day_of_week = 3
+    return biz_weekday_run_US(day_of_week)
+
+def is_3ndWeekOfMonth_Saturday():
+    day =  5
+    week  = 3
+    monthsList = [1,2,3,4,5,6,7,8,9,10,11,12]    
+    return is_day_of_nweek(day, week, monthsList, datein=_TODAY)
+
+
+
+
 #---------------------------TESTING--------------------------------
 def test():
     # ---------- Test is_business_day() ---------------

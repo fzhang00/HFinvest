@@ -9,7 +9,7 @@ _ROOT_DIR: the complete path to the location of this repository
 
 from datetime import datetime
 import os
-import key as pconst
+# import key as pconst
 import top_runner_util as util
 
 _ROOT_DIR = os.getcwd() #pconst.ROOT_DIR
@@ -36,58 +36,71 @@ Examples:
     - Example: run_script("\\Commodity\\", "run.py")
 """
 util.log_info("======= Start of daily run =======", 1)
-#run_script("\\market_breadth\\", "run.py")
-
-# import SHFE_A as mySHFE_A
-# import LME_weekly_traderReport as myLME_weeklyTraderReport
-
-# import LME_A as myLME_A
-# import LME_daily_volume as myLME_dailyVol
-# import LME_daily_openInterest_E as myLME_daily_openInterest
-
-
-# import COMEX_A as myCOMEX_A
-# import COMEX_daily_openInterest_VOL as myCOMEX_dailyVolOI
 
 
 
-#----Saturday --------
+    #----Saturday --------
 # util.run_script("\\Commodity\\", "SHFE_A.py")
 # util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")
+# util.run_script("\\Commodity\\", "LME_A2.py")
 
+    #----Tuesday --------
+# util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py") 
 
-# util.run_script("\\Commodity\\", "LME_A.py")
+    #----weekday--------
+# util.run_script("\\Commodity\\", "LME_A2.py")
 # util.run_script("\\Commodity\\", "LME_daily_volume.py")    
-# util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")   
-# util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+# util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py") 
+
+# util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")    
 # util.run_script("\\Commodity\\", "COMEX_A.py")      
 # util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
-# # util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
-    
-#----Saturday --------
+
+    # -----FINRA---3ndWeekOfMonth--------
+  
+# util.run_script("\\FINRA\\", "FINRA_Margin_Statistics_3ndWeekOfMonth.py")
+
+
+# util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")
+# util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")
+
+# util.run_script("\\Commodity\\", "LME_daily_volume.py") 
+
+util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")   
+# ------------MY CODE ----------------------------------
+
+    #----Saturday --------
 if util.isToday_Saturday():
     util.run_script("\\Commodity\\", "SHFE_A.py")
-    util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")
+    
+    util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")    
+    # Lithium download only
+    util.run_script("\\Commodity\\", "LME_A2.py") 
+
+    # -----FINRA---3ndWeekOfMonth--------
+    if util.is_3ndWeekOfMonth_Saturday():
+        util.run_script("\\FINRA\\", "FINRA_Margin_Statistics_3ndWeekOfMonth.py")
+    pass
+
+#----Thursday --------
+if util.is_COMEX_thursday_run:
+    util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
     pass
     
-#----LME daily --------    
+    #----LME daily --------    
 if util.is_uk_business_day():
-    
-    # util.run_script("\\Commodity\\", "LME_A.py")
-    # util.run_script("\\Commodity\\", "LME_daily_volume.py")    
-    # util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py") 
+    util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")     
+    util.run_script("\\Commodity\\", "LME_A2.py")
+    util.run_script("\\Commodity\\", "LME_daily_volume.py") 
     pass
     
-if util.is_us_business_day():
-    #----Thursday --------
-    if util.is_COMEX_thursday_run:
-        util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
-        pass
-    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
-    # util.run_script("\\Commodity\\", "test.py") 
-    
+if util.is_us_business_day():    
     util.run_script("\\Commodity\\", "COMEX_A.py")      
-    util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")  
+    util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
+    
+    #---other files-------------------------
+    util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")
+    util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
     pass
 
 

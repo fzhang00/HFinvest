@@ -287,11 +287,41 @@ def downloadExcelFile(targetDir, fileName, url):
 # print()
 
 
-def download_href_OpenInterest_daily(url, targetDir):
+def download_href_OpenInterest_daily(url, targetDir, isBaseMetal):
     driver = webdriver.Chrome('chromedriver.exe')
     driver.get(url)
-    time.sleep(2) 
+    time.sleep(3) 
+    
+    driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    time.sleep(4)
+    
+    if isBaseMetal: 
+        # driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - base"]').click 
+        # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[1]/button/div[1]").click()
+        # time.sleep(1) 
+        # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[1]/button").click()
+        # time.sleep(1) 
+        mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - base"]')
+                                      
+        
+    else:
+        # fieldName = 'Exchange open interest - precious'
+        # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button/div[1]").click()   
+        # time.sleep(1) 
+        # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button").click()   
+        # time.sleep(1) 
+        # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button").click()   
+        mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - precious"]')
 
+    #---MAKE 100 per page
+    action = webdriver.ActionChains(driver)    
+    action.move_to_element(mouseHover).click(mouseHover)    
+    action.perform()
+    time.sleep(4)
+    action.reset_actions()
+        
+    time.sleep(3)  
+    
     elems = driver.find_elements_by_tag_name('a')
     time.sleep(1)
     count_First10File = 0
@@ -303,11 +333,11 @@ def download_href_OpenInterest_daily(url, targetDir):
         str_InText = 'exchange open interest'
         if str_InText in (elem.text).lower(): # if str_Inhref in href: # is not None: 
             count_First10File +=1
-            # print(href)
+            print(href)
             d1 = (elem.text).split('(')
             d2 = d1[0].split('.')
             fileName = d2[0].strip() + '.csv'
-            # print (fileName) 
+            print (fileName) 
             url_excel = href            
             excelFileFullPath = downloadExcelFile(targetDir, fileName, url_excel)
             if excelFileFullPath == "na":
@@ -336,9 +366,10 @@ def LME_openInterest_daily():
     dbNameFuture = _sqlTable_LME_daily_OpenInterest_future         
     dbNameOption = _sqlTable_LME_daily_OpenInterest_option
     
+    isBasemetal = True
     url = constLME_a.dialyOpenInterest_base_url 
     targetDir = constLME_a.commodityLME_openInterestDir_base
-    list_fullPath = download_href_OpenInterest_daily(url, targetDir)      
+    list_fullPath = download_href_OpenInterest_daily(url, targetDir, isBasemetal)      
     for i in range(len(list_fullPath)):
         print (list_fullPath) 
         fileFullPath = list_fullPath[i]
@@ -346,16 +377,15 @@ def LME_openInterest_daily():
         extract_OpenInterestData_Base_sql(fileFullPath, dbNameOption, dbNameFuture)
     
     #-----precious metal---
-
-    url = constLME_a.dialyOpenInterest_precious_url 
+    isBasemetal = False
+    url = constLME_a.dialyOpenInterest_base_url
     targetDir = constLME_a.commodityLME_openInterestDir_precious
-    list_fullPath = download_href_OpenInterest_daily(url, targetDir)
+    list_fullPath = download_href_OpenInterest_daily(url, targetDir, isBasemetal)
     for i in range(len(list_fullPath)):
         print (list_fullPath)     
         fileFullPath = list_fullPath[i]
         
         extract_OpenInterestData_Preciou_sql(fileFullPath, dbNameFuture)
-
 
 LME_openInterest_daily()
 

@@ -124,6 +124,21 @@ use Commodity_A1
 --GO
 --select * from LME_precious_VolOpenInterest
 
+
+--DROP TABLE IF exists LME_precious_steel_price2021;
+--CREATE TABLE LME_precious_steel_price2021(
+--	"Date"		date NOT NULL,
+--	"Contract"	char(12) not null,
+--	"Spot"  smallmoney,
+--	"Month1" smallmoney, 	"Month2" smallmoney, 	"Month3" smallmoney,	"Month4" smallmoney, "Month5" smallmoney,"Month6" smallmoney,
+--	"Month7" smallmoney, 	"Month8" smallmoney, 	"Month9" smallmoney,	"Month10" smallmoney, "Month11" smallmoney,"Month12" smallmoney,
+--	"Month13" smallmoney, 	"Month14" smallmoney, 	"Month15" smallmoney,	"Month16" smallmoney, "Month17" smallmoney,"Month18" smallmoney,
+--	"Month19" smallmoney, 	"Month20" smallmoney, 	"Month21" smallmoney,	"Month22" smallmoney, "Month23" smallmoney,"Month24" smallmoney
+--);
+--GO
+--select * from LME_precious_steel_price2021
+
+
 --DROP TABLE IF exists LME_precious_price;
 --CREATE TABLE LME_precious_price(
 --	"Date"		date NOT NULL,
@@ -137,6 +152,48 @@ use Commodity_A1
 --GO
 --select * from LME_precious_price
 
+--DROP TABLE IF exists LME_baseMetal_OfficialPrice2021;
+--CREATE TABLE LME_baseMetal_OfficialPrice2021(
+--	"Date"		date NOT NULL,
+--	"Contract"	varchar(20) not null,
+--	"CashBid"	smallmoney,
+--	"CashOffer" smallmoney,
+--	"Month3_Bid"  smallmoney,
+--	"Month3_Offer" smallmoney,
+--	"DecBid_1"	smallmoney,
+--	"DecOffer_1" smallmoney,
+--	"DecBid_2"	smallmoney,
+--	"DecOffer_2" smallmoney,
+--	"DecBid_3"	smallmoney,
+--	"DecOffer_3" smallmoney
+--);
+--GO
+--select * from LME_baseMetal_OfficialPrice2021
+
+--DROP TABLE IF exists LME_baseMetal_ColsePrice2021;
+--CREATE TABLE LME_baseMetal_ColsePrice2021(
+--	"Date"		date NOT NULL,
+--	"Contract"	varchar(20) not null,
+--	"3-Month"	smallmoney,
+--	"Month1"	smallmoney,
+--	"Month2"	smallmoney,
+--	"Month3"	smallmoney,
+--	"Month4"	smallmoney,
+--	"Month5"	smallmoney,
+--	"Month6"	smallmoney
+--);
+--GO
+--select * from LME_baseMetal_ColsePrice2021
+
+
+--DROP TABLE IF exists LME_Lithium_ColsePrice2021;
+--CREATE TABLE LME_Lithium_ColsePrice2021(
+--	"Date"		date NOT NULL, 	
+--	"Name"		varchar(10) not null,
+--	"Price"		smallmoney
+--);
+--GO
+--select * from LME_Lithium_ColsePrice2021
 
 --DROP TABLE IF exists LME_baseMetal_price;
 --CREATE TABLE LME_baseMetal_price(

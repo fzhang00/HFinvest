@@ -117,14 +117,15 @@ def extractVolumeData_sql(fileFullPath, dbName):
     df = pd.read_excel(fileFullPath, dtype = object)
     df1 = df.dropna(how='all')
     df2 = df1.dropna(axis = 1, how='all')
+    # df3 = df2.iloc[2:-1, 1:-1]
     df3 = df2.iloc[2:-1]
     df4 = df3.fillna('NA')
     
 #-------convert date to yy-mm-dd
-    df4[df4.columns[0]] = df4[df4.columns[0]].astype(str)
-    df5 = convertDDMM_date(df4)
-    df5.columns = df2.iloc[1,:]    
-    df_data = df5
+    df4.columns = df2.iloc[1,:]    
+    df5 = df4.iloc[:, 1:]    
+    df5[df5.columns[0]] = df5[df5.columns[0]].astype(str)
+    df_data = convertDDMM_date(df5)
         
     dateStr = df_data.iloc[1,0]
     filePath = constA.getFilePathInfo(fileFullPath, 0)
@@ -138,7 +139,7 @@ def extractVolumeData_sql(fileFullPath, dbName):
     sql_dailyVolume(df, dbName)   
     
 
-# fileFullPath = constLME_a.commodityLME_dailyVolumeDir +'/Daily Volumes - 21 April 2021.xlsx'
+# fileFullPath = constLME_a.commodityLME_dailyVolumeDir +'/Daily Volumes - 25 June 2021.xlsx'
 # dbName = _sqlTable_LME_daily_Volume
 # extractVolumeData_sql(fileFullPath, dbName)
 # print()
@@ -190,16 +191,20 @@ def extract_allExcelFileSubFolders_toSql(sourceDir, dbName):
          # because path is object not string
          excelFileFullPath = str(path)
          extractVolumeData_sql(excelFileFullPath, dbName)
-         
-# sourceDir = constLME_a.commodityLME_dailyVolumeDir + '/2019-2021'
-# dbName = _sqlTable_LME_daily_Volume
-# extract_allExcelFileSubFolders_toSql(sourceDir, dbName)
+    
+sourceDir = constLME_a.commodityLME_dailyVolumeDir +'/workingDir'
+dbName = _sqlTable_LME_daily_Volume
+extract_allExcelFileSubFolders_toSql(sourceDir, dbName)
+print()
 
 
 def download_href_traderReport_weekly(url, targetDir):
     driver = webdriver.Chrome('chromedriver.exe')
     driver.get(url)
     time.sleep(2) 
+
+    driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    time.sleep(2)    
 
     elems = driver.find_elements_by_tag_name('a')
     time.sleep(2)

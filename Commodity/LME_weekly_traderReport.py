@@ -33,7 +33,7 @@ pyautogui.PAUSE = 2.5
 
 from selenium import webdriver
 from datetime import datetime
-import ntpath
+# import ntpath
 
 from pathlib import Path
 
@@ -159,6 +159,45 @@ def extractReport_sql_CA(fileFullPath, dbName):
 # dbName = _sqlTable_LME_TraderReport_CA
 # extractReport_sql_CA(fileFullPath, dbName)
 
+def extractReport_csv(fileFullPath):
+    df = pd.read_excel(fileFullPath)  
+    
+    #------get the file date
+    dateCol = df[df.columns[0]]
+    dateStr = "na"    
+    for c in dateCol:
+        dateStr = getDate_traderReport(c)
+        if not (dateStr == "na") :
+            break
+    if dateStr == "na" :
+        msg = "LME trader report date is not available: " + fileFullPath
+        print(msg)
+        mydownPy.logError(errorFileTargetDir, msg)
+        return
+    print (dateStr)
+    
+    #----find the row contains all long and short cells    
+    for index, row in df.iterrows():        
+        boolseries = row.str.contains(r'long|short', case = False, na= False)
+        if boolseries.sum() >=6 :
+            rowNum = index
+            # print (row)
+            # print (boolseries)
+            break    
+        
+    df_row = df.iloc[rowNum-1 : rowNum+4] # 1 row before and 3 rows after long row   
+    # get the columns  #'Risk Reducing directly related to commercial activities' 'Other' 'Total'
+    df_col = df_row[df_row.columns[(boolseries)]] 
+    df_data = df_col.T
+    df_data[df_data.columns[0]].fillna(method = 'ffill', inplace = True)
+    df_data.columns = ['Agent', 'Position', 'RiskReducing', 'Other', 'Total']
+    df_data.insert(loc=0,column = 'Date', value = dateStr)
+    
+    # --- save csv data 
+    filePath = constA.getFilePathInfo(fileFullPath, 0)
+    fileFullPath_new = filePath + '/' + dateStr + '.csv'
+    df_data.to_csv(fileFullPath_new, index = False)
+    
 
 def downloadExcelFile(targetDir, fileName, url):
     makeTodayDataDir(targetDir)    
@@ -213,7 +252,8 @@ def download_href_traderReport_weekly(url, targetDir):
         #processed the first 10 excel files     
         if count_First10File >9:
             break   
-            # print()
+            print("download all link from the webpage: "+ targetDir)
+            
     driver.quit()    
     time.sleep(1)
     return list_fullPath
@@ -314,6 +354,81 @@ def weekly_traderReport_silver():
         extractReport_sql_CA(fileFullPath, dbName)   
 # weekly_traderReport_silver()
 
+#------downlaod files only------------------------------
+def weekly_traderReport_Steel_rebar():
+    url = constLME_a.Steel_rebarTraderReport_url
+    targetDir = constLME_a.trderReport_Steel_rebarDir 
+    #------do not change from here-----    
+    list_fileFullPath = download_href_traderReport_weekly(url, targetDir)
+    if len(list_fileFullPath) == 0:
+        print("no new trader report - steel rebar")
+        return
+    # print (list_fullPath)  
+    # #-----extract and sql----------
+    for i in range(len(list_fileFullPath)):
+        fileFullPath = list_fileFullPath[i]
+        extractReport_csv(fileFullPath)          
+# weekly_traderReport_Steel_rebar()
+
+def weekly_traderReport_Nickel():
+    url = constLME_a.NickelTraderReport_url
+    targetDir = constLME_a.trderReport_NickelDir 
+    #------do not change from here-----    
+    list_fileFullPath = download_href_traderReport_weekly(url, targetDir)
+    if len(list_fileFullPath) == 0:
+        print("no new trader report - Ni")
+        return
+    # print (list_fullPath)  
+    # #-----extract and sql----------
+    for i in range(len(list_fileFullPath)):
+        fileFullPath = list_fileFullPath[i]
+        extractReport_csv(fileFullPath)          
+# weekly_traderReport_Nickel()
+
+def weekly_traderReport_Tin():
+    url = constLME_a.TinTraderReport_url
+    targetDir = constLME_a.trderReport_TinDir 
+    #------do not change from here-----    
+    list_fileFullPath = download_href_traderReport_weekly(url, targetDir)
+    if len(list_fileFullPath) == 0:
+        print("no new trader report - Ni")
+        return
+    # print (list_fullPath)  
+    # #-----extract and sql----------
+    for i in range(len(list_fileFullPath)):
+        fileFullPath = list_fileFullPath[i]
+        extractReport_csv(fileFullPath)          
+# weekly_traderReport_Tin()
+
+def weekly_traderReport_Zinc():
+    url = constLME_a.ZincTraderReport_url
+    targetDir = constLME_a.trderReport_ZincDir 
+    #------do not change from here-----    
+    list_fileFullPath = download_href_traderReport_weekly(url, targetDir)
+    if len(list_fileFullPath) == 0:
+        print("no new trader report - Ni")
+        return
+    # print (list_fullPath)  
+    # #-----extract and sql----------
+    for i in range(len(list_fileFullPath)):
+        fileFullPath = list_fileFullPath[i]
+        extractReport_csv(fileFullPath)          
+# weekly_traderReport_Zinc()
+
+def weekly_traderReport_Lead():
+    url = constLME_a.LeadTraderReport_url
+    targetDir = constLME_a.trderReport_LeadDir 
+    #------do not change from here-----    
+    list_fileFullPath = download_href_traderReport_weekly(url, targetDir)
+    if len(list_fileFullPath) == 0:
+        print("no new trader report - Ni")
+        return
+    # print (list_fullPath)  
+    # #-----extract and sql----------
+    for i in range(len(list_fileFullPath)):
+        fileFullPath = list_fileFullPath[i]
+        extractReport_csv(fileFullPath)          
+# weekly_traderReport_Lead()
 
 def weekly_traderReport():
     weekly_traderReport_CA()
@@ -321,6 +436,11 @@ def weekly_traderReport():
     weekly_traderReport_gold()
     weekly_traderReport_silver()
     
+    weekly_traderReport_Steel_rebar()
+    weekly_traderReport_Nickel()
+    weekly_traderReport_Tin()
+    weekly_traderReport_Zinc()
+    weekly_traderReport_Lead()
 weekly_traderReport()    
     
 

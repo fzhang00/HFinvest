@@ -40,9 +40,9 @@ import key as pconst
 _TODAY = datetime.today()
 
 
-# _US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
-#               '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04','2022-07-05', '2022-09-05', '2022-11-24', '2022-12-26',
-#               '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
+_US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
+              '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04','2022-07-05', '2022-09-05', '2022-11-24', '2022-12-26',
+              '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
 
 def log_info(msg, severity=1, fname_prefix="daily_log_"):
     """ Log message into launcher log, filename patter: daily_log_<date>.log
@@ -83,8 +83,11 @@ def run_script(script_folder_name, script_name):
 
 def _is_not_holiday(date, country='US'):
     """Return True if date is not a holiday in country"""
-    local_holidays = holidays.CountryHoliday(country)
-    return date not in local_holidays
+    if country=='US':
+        return date.strftime("%Y-%m-%d") not in _US_HOLIDAYS
+    else:
+        local_holidays = holidays.CountryHoliday(country)
+        return date not in local_holidays
 
 def is_business_day(date, tz, country):
     """Check if today is a business day, ie. not a weekend and not a holiday. 
@@ -302,17 +305,15 @@ def test():
     # this function requires python module holidays
     # pip install holidays
     # China is not available from the holiday module.
-    biz_dates_test = {'2020-12-25':[False, 'US/Eastern', 'US'], 
-                    '2021-05-31':[False, 'US/Eastern', 'US'],
-                    '2021-05-29':[False, 'US/Eastern', 'US'],
-                    '2021-05-20':[True, 'US/Eastern', 'US'],
-                    '2021-05-03':[False, 'GMT', 'UK'],
-                    '2021-05-04':[True, 'GMT', 'UK'],
-                    }
-    for key, value in biz_dates_test.items():
-        is_biz_date = is_business_day(datetime.strptime(key, "%Y-%m-%d"), value[1], value[2])
-        print(key, "is a business day?",is_biz_date, ". Correct answer:", value[0])
+    test_dates = [datetime(2021, 1, 1)+timedelta(days=x) for x in range(366)]
+    for day in test_dates:
+        # Check for US
+        if not is_business_day(day, 'US/Eastern', 'US'):
+            print(f"{day} is not business day. Is Holiday {not _is_not_holiday(day, 'US')}")
     print("None is a business day?", is_business_day(None, "US/Eastern", "US"))
+
+
+    
     # ----------- Run on specific Date -----------------
     print("------Test biz_date_US_run------")
     target_list = ['2021-12-17', '2021-12-25']

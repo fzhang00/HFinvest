@@ -40,9 +40,9 @@ import key as pconst
 _TODAY = datetime.today()
 
 
-# _US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
-#               '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04','2022-07-05', '2022-09-05', '2022-11-24', '2022-12-26',
-#               '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
+_US_HOLIDAYS=['2021-01-01', '2021-01-18', '2021-02-15', '2021-04-02', '2021-05-31', '2021-07-05', '2021-09-06', '2021-11-25', '2021-12-24',
+              '2022-01-17', '2022-02-21', '2022-04-15', '2022-05-30', '2022-07-04','2022-07-05', '2022-09-05', '2022-11-24', '2022-12-26',
+              '2023-01-02', '2023-01-16', '2023-02-20', '2023-04-07', '2023-05-29', '2023-07-04', '2023-09-04', '2023-11-23', '2023-12-26']
 
 def log_info(msg, severity=1, fname_prefix="daily_log_"):
     """ Log message into launcher log, filename patter: daily_log_<date>.log
@@ -83,8 +83,11 @@ def run_script(script_folder_name, script_name):
 
 def _is_not_holiday(date, country='US'):
     """Return True if date is not a holiday in country"""
-    local_holidays = holidays.CountryHoliday(country)
-    return date not in local_holidays
+    if country=='US':
+        return date.strftime("%Y-%m-%d") not in _US_HOLIDAYS
+    else:
+        local_holidays = holidays.CountryHoliday(country)
+        return date not in local_holidays
 
 def is_business_day(date, tz, country):
     """Check if today is a business day, ie. not a weekend and not a holiday. 
@@ -137,7 +140,7 @@ def is_date(date, date_list):
     """
     return (date.strftime("%Y-%m-%d") in date_list)
 
-def is_day_of_nweek(day, week, monthsList, datein=_TODAY):
+def is_day_of_nweek(day, week, monthsList, datein):
     """Return True for certain day of nth week for input months.
     This function does NOT check for business day or holiday. 
 
@@ -168,23 +171,31 @@ def is_uk_business_day(date=_TODAY):
     return is_business_day(date, 'GMT', 'UK')
 
 
-def _biz_weekday_run_US_a(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
-    """US weekly run on business day. Return True/False.
+# def _biz_weekday_run_US_a(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
+#     """US weekly run on business day. Return True/False.
     
-    Example: to check if today is Thursday of every week,
-    ```python
-    if biz_weekday_run_US(3):
-        run_script('script folder', 'script')
-    ```
-    """
-    return biz_weekday_run(day_of_week, date, prev, 'US/Eastern', 'US')
+#     Example: to check if today is Thursday of every week,
+#     ```python
+#     if biz_weekday_run_US(3):
+#         run_script('script folder', 'script')
+#     ```
+#     """
+#     return biz_weekday_run(day_of_week, date, prev, 'US/Eastern', 'US')
 
 def biz_weekday_run_US(day_of_week):
-    return _biz_weekday_run_US_a(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US)
+    return biz_weekday_run(day_of_week, 
+                           date=_TODAY, 
+                           prev=_PREV_BIZ_DAY_US,
+                           tz='US/Eastern',
+                           country='US')
 
-def biz_weekday_run_UK(day_of_week, date=_TODAY, prev=_PREV_BIZ_DAY_US):
+def biz_weekday_run_UK(day_of_week):
     """UK weekly run on business day. Return True/False """
-    return biz_weekday_run(day_of_week, date, prev, 'GMT', 'UK')
+    return biz_weekday_run(day_of_week, 
+                           date=_TODAY, 
+                           prev=_PREV_BIZ_DAY_UK,
+                           tz='GMT',
+                           country='UK')
 
 def biz_weekday_run(day_of_week, date, prev, tz, country):
     """Given day of week, return True/False if it should be run on the input date. 
@@ -209,7 +220,7 @@ def biz_weekday_run(day_of_week, date, prev, tz, country):
     else:
         return False
 
-def biz_monthly_run_US(day_of_month, date=_TODAY, prev=_PREV_BIZ_DAY_US):
+def biz_monthly_run_US(day_of_month):
     """US monthly run on business day. Return True/False.
     
     Example: to check if today is 15th of each month: 
@@ -218,11 +229,19 @@ def biz_monthly_run_US(day_of_month, date=_TODAY, prev=_PREV_BIZ_DAY_US):
         run_script('script_folder', 'script')
     ```
     """
-    return biz_monthly_run(day_of_month, date, prev, 'US/Eastern', 'US')
+    return biz_monthly_run(day_of_month, 
+                           date=_TODAY, 
+                           prev=_PREV_BIZ_DAY_US, 
+                           tz='US/Eastern', 
+                           country='US')
 
-def biz_monthly_run_UK(day_of_month, date=_TODAY, prev=_PREV_BIZ_DAY_UK):
-    """US monthly run on business day. Return True/False """
-    return biz_monthly_run(day_of_month, date, prev, 'GMT', 'UK')
+def biz_monthly_run_UK(day_of_month):
+    """UK monthly run on business day. Return True/False """
+    return biz_monthly_run(day_of_month, 
+                        date=_TODAY, 
+                        prev=_PREV_BIZ_DAY_UK, 
+                        tz='GMT', 
+                        country='UK')
 
 def biz_monthly_run(day_of_month, date, prev, tz, country):
     """Given day of month, return True/False if it should be run on the input date. 
@@ -245,13 +264,13 @@ def biz_monthly_run(day_of_month, date, prev, tz, country):
     else:
         return False
 
-def biz_date_run_US(date_list, date=_TODAY, prev=_PREV_BIZ_DAY_US):
+def biz_date_run_US(date_list):
     """US custom date run on business day. Return True/False """
-    return biz_date_run(date_list, date, prev, 'US/Eastern', 'US')
+    return biz_date_run(date_list, date=_TODAY, prev=_PREV_BIZ_DAY_US, tz='US/Eastern', country='US')
 
-def biz_date_run_UK(date_list, date=_TODAY, prev=_PREV_BIZ_DAY_UK):
+def biz_date_run_UK(date_list):
     """US custom date run on business day. Return True/False """
-    return biz_date_run(date_list, date, prev, 'GMT', 'UK')
+    return biz_date_run(date_list, date=_TODAY, prev=_PREV_BIZ_DAY_UK, tz='GMT', country='UK')
 
 def biz_date_run(date_list, date, prev, tz, country):
     """Given a list of calender date string in "%Y-%m-%d format, return True/False if it should be run on the input date. 
@@ -302,37 +321,38 @@ def test():
     # this function requires python module holidays
     # pip install holidays
     # China is not available from the holiday module.
-    biz_dates_test = {'2020-12-25':[False, 'US/Eastern', 'US'], 
-                    '2021-05-31':[False, 'US/Eastern', 'US'],
-                    '2021-05-29':[False, 'US/Eastern', 'US'],
-                    '2021-05-20':[True, 'US/Eastern', 'US'],
-                    '2021-05-03':[False, 'GMT', 'UK'],
-                    '2021-05-04':[True, 'GMT', 'UK'],
-                    }
-    for key, value in biz_dates_test.items():
-        is_biz_date = is_business_day(datetime.strptime(key, "%Y-%m-%d"), value[1], value[2])
-        print(key, "is a business day?",is_biz_date, ". Correct answer:", value[0])
+    test_dates = [datetime(2021, 1, 1)+timedelta(days=x) for x in range(366)]
+    for day in test_dates:
+        # Check for US
+        if not is_business_day(day, 'US/Eastern', 'US'):
+            print(f"{day} is not business day. Is Holiday {not _is_not_holiday(day, 'US')}")
+        if is_day_of_nweek(5, 3, [1,2,3,4,5,6,7,8,9,10,11,12], datein=day):
+            print(f"{day} is 3 Saturday of the month. ")
+        # if biz_weekday_run_US(day_of_week=3,)
     print("None is a business day?", is_business_day(None, "US/Eastern", "US"))
+
+
+    
     # ----------- Run on specific Date -----------------
-    print("------Test biz_date_US_run------")
+    print("------Test biz_date_US_run, 12/25 is holiday, should run on 12/27------")
     target_list = ['2021-12-17', '2021-12-25']
     input_list = [datetime.strptime('2021-12-15', "%Y-%m-%d")+timedelta(days=x) for x in range(22)]
     for d in input_list:
         print(d.strftime("%Y-%m-%d"), "matches", target_list, 
-              biz_date_run_US(target_list, d, _find_biz_day(d, 'US/Eastern', 'US', False)))
+              biz_date_run(target_list, d, _find_biz_day(d, 'US/Eastern', 'US', False), 'US/Eastern', 'US'))
     # ----------- Test is_Comex_thusday_run()
-    print("------Test is_COMEX_thursday_run()------")
+    print("------Test is_COMEX_thursday_run(), 11/25 is a holiday. Should run on 11/26 ------")
     date_list = [datetime.strptime('2021-11-22', "%Y-%m-%d") + timedelta(days=x) for x in range(8)]
     for d in date_list:
         print(d.strftime("%Y-%m-%d"), "day of the week:", d.weekday(),
-              biz_weekday_run_US(3,d,_find_biz_day(d, 'US/Eastern', 'US', False)))
+              biz_weekday_run(3,d,_find_biz_day(d, 'US/Eastern', 'US', False), 'US/Eastern', 'US'))
 
     # ----------- Test is_US_day_of_month()---------
-    print("-------Test is_US_day_of_month ----------")
+    print("-------Test is_US_day_of_month (12/25 is a holiday. Should run on 12/27 ----------")
     date_list = [datetime.strptime('2021-12-23', "%Y-%m-%d")+timedelta(days=x) for x in range(10)]
     for d in date_list:
         print(d.strftime("%Y-%m-%d"), "is business day for 25 of month", 
-              biz_monthly_run_US(25, d, _find_biz_day(d, 'US/Eastern', 'US', False)))
+              biz_monthly_run(25, d, _find_biz_day(d, 'US/Eastern', 'US', False), 'US/Eastern', 'US'))
 
     # ---------- Test third friday of every quater 2021---------------------
     print("-------- Test third Friday of last month of a quarter ---------")
@@ -341,5 +361,24 @@ def test():
     for s in siwu:
         datein=datetime.strptime(s, "%Y-%m-%d")
         print(s, "is third Friday of {} month".format(months), is_day_of_nweek(4, 3, months, datein=datein))
+
 if __name__ == "__main__":
-    test()
+    #test()
+    if isToday_Saturday():
+        print("Today is Saturday")
+
+    # -----FINRA---3ndWeekOfMonth--------
+    if is_3ndWeekOfMonth_Saturday():
+        print("Today is the Saturday in the 3rd week of a month")
+
+    #----Thursday --------
+    if is_COMEX_thursday_run():
+        print("Today is Thursday biz day.")
+        
+        #----LME daily --------    
+    if is_uk_business_day():
+        print("Today is UK business day.")
+        
+    if is_us_business_day():    
+        print("Today is US business day")
+

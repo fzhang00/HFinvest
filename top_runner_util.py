@@ -83,7 +83,7 @@ def run_script(script_folder_name, script_name):
 
 def _is_not_holiday(date, country='US'):
     """Return True if date is not a holiday in country"""
-    local_holidays = holidays.CountryHoliday(country)
+    local_holidays = holidays.CountryHoliday(country) 
     return date not in local_holidays
 
 def is_business_day(date, tz, country):
@@ -294,7 +294,6 @@ def is_3ndWeekOfMonth_Saturday():
 
 
 
-
 #---------------------------TESTING--------------------------------
 def test():
     # ---------- Test is_business_day() ---------------
@@ -343,3 +342,4 @@ def test():
         print(s, "is third Friday of {} month".format(months), is_day_of_nweek(4, 3, months, datein=datein))
 if __name__ == "__main__":
     test()
+    

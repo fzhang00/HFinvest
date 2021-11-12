@@ -35,7 +35,6 @@ Examples:
 - To run a script regardless of schedule, use run_script(subfolder_name, script_name)
     - Example: run_script("\\Commodity\\", "run.py")
 """
-util.log_info("======= Start of daily run =======", 1)
 
 
 
@@ -65,9 +64,11 @@ util.log_info("======= Start of daily run =======", 1)
 # util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")
 
 # util.run_script("\\Commodity\\", "LME_daily_volume.py") 
-
-util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")   
+# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily.py")
+# util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")   
 # ------------MY CODE ----------------------------------
+
+util.log_info("======= Start of daily run =======", 1)
 
     #----Saturday --------
 if util.isToday_Saturday():
@@ -83,7 +84,7 @@ if util.isToday_Saturday():
     pass
 
 #----Thursday --------
-if util.is_COMEX_thursday_run:
+if util.is_COMEX_thursday_run():
     util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
     pass
     
@@ -99,6 +100,7 @@ if util.is_us_business_day():
     util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
     
     #---other files-------------------------
+    util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily.py")
     util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")
     util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
     pass

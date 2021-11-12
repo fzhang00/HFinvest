@@ -146,4 +146,6 @@ select * from COMEX_Daily_Volume_OpenInterest_Metal order by date desc
 --	"Volume" int,
 --	"TurnOver" money
 --);
---GO
+
+
+GO

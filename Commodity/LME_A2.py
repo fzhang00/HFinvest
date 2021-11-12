@@ -355,7 +355,7 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     time.sleep(2)
     
     pyautogui.hotkey('enter')
-    time.sleep(waitTime_loadWebsite * 2) #wait for download finish
+    time.sleep(15) #wait for download finish
     
     driver.quit()    
     # time.sleep(2)

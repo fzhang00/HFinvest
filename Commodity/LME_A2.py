@@ -27,6 +27,8 @@ import pyautogui, time
 pyautogui.PAUSE = 2.5
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+
 from datetime import datetime
 import ntpath
 
@@ -317,7 +319,17 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     driver.get(url)
     time.sleep(3)
     
-    driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    # from selenium.common.exceptions import NoSuchElementException
+
+    try:
+        driver.find_element_by_id("onetrust-accept-btn-handler").click()
+        # elem = driver.find_element_by_xpath(".//*[@id='SORM_TB_ACTION0']")
+        # elem.click()
+    except NoSuchElementException:  #spelling error making this code not work as expected
+        pass
+
+
+    # driver.find_element_by_id("onetrust-accept-btn-handler").click() 
     time.sleep(3)    
         # pyautogui.hotkey("f5")
         # time.sleep(waitTime_loadWebsite)
@@ -355,7 +367,7 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     time.sleep(2)
     
     pyautogui.hotkey('enter')
-    time.sleep(15) #wait for download finish
+    time.sleep(25) #wait for download finish
     
     driver.quit()    
     # time.sleep(2)

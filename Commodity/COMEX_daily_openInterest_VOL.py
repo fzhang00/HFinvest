@@ -28,6 +28,8 @@ import pyautogui, time
 pyautogui.PAUSE =2.5     #Set up a 2.5 second pause after each PyAutoGUI call:
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+
 import ntpath
 # import glob
 from pathlib import Path 
@@ -312,8 +314,15 @@ def CME_Vio_daily_run():
     url			=constCOMEX_A.url_daily_Voi_Agricultural
     driver.get(url)
     time.sleep(1)
-    href_field = driver.find_element_by_id("pardotCookieButton") 
-    href_field.click()
+    
+    try:
+        href_field = driver.find_element_by_id("pardotCookieButton") 
+        href_field.click()
+    
+    except NoSuchElementException:  #spelling error making this code not work as expected
+        pass
+    
+
     # pyautogui.hotkey("f5") 
     # time.sleep(1)   
 

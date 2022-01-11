@@ -129,6 +129,7 @@ def webpage_table_13F_sina_stock(saveDir):
     dateStr = (datetime.today()).strftime( '%Y-%m-%d' )  #'2016-03-31'
     currentYear     = driver.find_element_by_xpath("/html/body/div[10]/div[2]/div[1]/div/div/table/tbody/tr[1]/td[1]/span[1]").text
     currentQuarter  = driver.find_element_by_xpath("/html/body/div[10]/div[2]/div[1]/div/div/table/tbody/tr[2]/td[1]/span").text
+    
     if currentQuarter == "Q1":
         currentQuarter = "03-31"
     elif currentQuarter == "Q2":
@@ -138,7 +139,7 @@ def webpage_table_13F_sina_stock(saveDir):
     elif currentQuarter == "Q4":
         currentQuarter = "12-31"        
     reportTime = currentYear.strip() + "-" + currentQuarter.strip()    
-    
+    print ("Current quarter:  " + reportTime)
     nextButton = driver.find_element_by_id("next")    
     # webObj = driver.find_element_by_xpath("//*[@id= 'SymbolStats']/tbody/tr[1]/td")
     webObj = driver.find_elements_by_xpath("//table[@id= 'SymbolStats']/tbody/tr[1]/td")     
@@ -271,7 +272,6 @@ def extract_allFileSubFolders_toSql(sourceDir):
 # csvFileDir = _Dir_SEC_13F_sina + "/workDir"
 # extract_allFileSubFolders_toSql(csvFileDir)
 # print()
-
 
 
 def SEC_13F_sina_stock_Q():

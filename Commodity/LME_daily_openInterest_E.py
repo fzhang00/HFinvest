@@ -26,6 +26,8 @@ import pyautogui, time
 pyautogui.PAUSE = 2.5
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
+
 from datetime import datetime
 # import ntpath
 # from pathlib import Path
@@ -292,16 +294,23 @@ def download_href_OpenInterest_daily(url, targetDir, isBaseMetal):
     driver.get(url)
     time.sleep(3) 
     
-    driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    
+    
+    try:
+        driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    except NoSuchElementException:  #spelling error making this code not work as expected
+        pass
+
     time.sleep(4)
     
     if isBaseMetal: 
         # driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - base"]').click 
         # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[1]/button/div[1]").click()
-        # time.sleep(1) 
+        # time.sleep(1)                
         # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[1]/button").click()
-        # time.sleep(1) 
-        mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - base"]')
+        # time.sleep(1)                                                         Exchange open interest - base
+        # mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - base"]')
+        mouseHover = driver.find_element_by_xpath("/html/body/main/div/div[2]/div[1]/button/div[1]")
                                       
         
     else:
@@ -309,9 +318,11 @@ def download_href_OpenInterest_daily(url, targetDir, isBaseMetal):
         # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button/div[1]").click()   
         # time.sleep(1) 
         # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button").click()   
-        # time.sleep(1) 
+        # time.sleep(1)  
         # driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button").click()   
-        mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - precious"]')
+        # mouseHover = driver.find_element_by_xpath('//button[normalize-space()="Exchange open interest - precious"]')
+        mouseHover = driver.find_element_by_xpath("/html/body/main/div/div[2]/div[2]/button/div[1]")
+
 
     #---MAKE 100 per page
     action = webdriver.ActionChains(driver)    

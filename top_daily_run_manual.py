@@ -82,54 +82,37 @@ if util.isToday_Saturday():
     if util.is_3ndWeekOfMonth_Saturday():
         util.run_script("\\FINRA\\", "FINRA_Margin_Statistics_3ndWeekOfMonth.py")
     pass
-
+    # ---------13F SEC_13F_sina_Stock
+    # if util.is_3ndWeekOfMonth_Saturday():
+    #     util.run_script("\\SEC_13F\\", "13F SEC_13F_sina_Stock.py")
+    
+    
 #----Thursday --------
 # if util.is_COMEX_thursday_run():
 # util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
     # pass
     
-    #----LME daily --------    
-# if util.is_uk_business_day(): 
+# if util.is_uk_business_day():
 # util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")     
 # util.run_script("\\Commodity\\", "LME_A2.py")
-util.run_script("\\Commodity\\", "LME_daily_volume.py") 
-pass
-    
+# util.run_script("\\Commodity\\", "LME_daily_volume.py") 
+# pass
+
 # if util.is_us_business_day():    
 # util.run_script("\\Commodity\\", "COMEX_A.py")      
 # util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
 
-# #---other files-------------------------
-# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily.py")
-# util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")
+#-------cboe
+# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_CbeoOnly.py")
+# util.run_script("\\Cboe\\", "Cboe_EquityTrading_ValueVolume_daily.py") 
+# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_Summary_VolNotional.py")
+
+#---other files-------------------------
+# util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")   
 # util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
-pass
 
 
-# Schedule monthly tasks. If the scheduled date is a holiday, task will be run on the next business day. US only!
-# day_on_every_month = 5
-# if util.is_US_biz_day_of_month(day_on_every_month):
-#     util.log_info("Running monthly US procedure on day {} of every month".format(day_on_every_month), fname_prefix="monthly_log_")
-
-# # Schedule tasks based on fixed day of nth week of certain month. 
-# # For example, 四巫日, is third Friday of 3,6,9,12 month
-# day_of_week=4 # Friday
-# week_of_month=3 # Third week
-# months=[3,6,9,12]
-# if util.is_day_of_nweek(day_of_week, week_of_month, months):
-#     util.log_info("Running tasks for every third Friday of {} months".format(months), fname_prefix="quarterly_log_")
-
-
-#FINRA generally publishes updates to the Margin Statistics on the third week of the month following the reference month. 
-    # # TODO: this to be run monthly
-# util.run_script("\\FINRA\\", "FINRA_Margin_Statistics.py")    
-
-
-    
-    # # TODO: 13F is updated quaterly over a few weeks time. Schedule needs special treatment.
-    # util.run_script("\\SEC_13F\\", "SEC_13F_sina.py") 
-
-# util.run_script("\\Commodity\\", "COMEX_A_bondsFuture_Delivered_Q_Run.py")  
+ 
   
 
 

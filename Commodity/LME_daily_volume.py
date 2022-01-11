@@ -32,6 +32,7 @@ import pyautogui, time
 pyautogui.PAUSE = 2.5
 
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 # from datetime import datetime
 # import ntpath
 
@@ -203,7 +204,12 @@ def download_href_traderReport_weekly(url, targetDir):
     driver.get(url)
     time.sleep(2) 
 
-    driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    try:
+        driver.find_element_by_id("onetrust-accept-btn-handler").click() 
+    except NoSuchElementException:  #spelling error making this code not work as expected
+        pass
+    
+    # driver.find_element_by_id("onetrust-accept-btn-handler").click() 
     time.sleep(2)    
 
     elems = driver.find_elements_by_tag_name('a')

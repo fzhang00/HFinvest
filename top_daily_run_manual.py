@@ -72,44 +72,49 @@ util.log_info("======= Start of daily run =======", 1)
 
     #----Saturday --------
 if util.isToday_Saturday():
-    util.run_script("\\Commodity\\", "SHFE_A.py")
-    
+    util.run_script("\\Commodity\\", "SHFE_A.py")    
     util.run_script("\\Commodity\\", "LME_weekly_traderReport.py")    
-    # Lithium download only
-    util.run_script("\\Commodity\\", "LME_A2.py") 
 
     # -----FINRA---3ndWeekOfMonth--------
-    if util.is_3ndWeekOfMonth_Saturday():
-        util.run_script("\\FINRA\\", "FINRA_Margin_Statistics_3ndWeekOfMonth.py")
-    pass
+    # if util.is_3ndWeekOfMonth_Saturday():
+util.run_script("\\FINRA\\", "FINRA_Margin_Statistics_3ndWeekOfMonth.py")
+    # pass
+
     # ---------13F SEC_13F_sina_Stock
     # if util.is_3ndWeekOfMonth_Saturday():
     #     util.run_script("\\SEC_13F\\", "13F SEC_13F_sina_Stock.py")
     
-    
 #----Thursday --------
-# if util.is_COMEX_thursday_run():
-# util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
-    # pass
+if util.is_COMEX_thursday_run():
+    util.run_script("\\Commodity\\", "COMEX_A_gainStock_Tuesday_weekly_Run.py")      
+    pass    
+
+    #----LME daily --------   # Lithium download weekend
+# util.run_script("\\Commodity\\", "LME_A2.py")  # date was taken care in the file  
     
 # if util.is_uk_business_day():
-# util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")     
-# util.run_script("\\Commodity\\", "LME_A2.py")
-# util.run_script("\\Commodity\\", "LME_daily_volume.py") 
-# pass
-
-# if util.is_us_business_day():    
-# util.run_script("\\Commodity\\", "COMEX_A.py")      
-# util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
-
-#-------cboe
-# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_CbeoOnly.py")
-# util.run_script("\\Cboe\\", "Cboe_EquityTrading_ValueVolume_daily.py") 
-# util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_Summary_VolNotional.py")
-
-#---other files-------------------------
-# util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py")   
-# util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+#     util.run_script("\\Commodity\\", "LME_daily_openInterest_E.py")    
+#     util.run_script("\\Commodity\\", "LME_daily_volume.py") 
+#     pass
+    
+if util.is_us_business_day():    
+    # util.run_script("\\Commodity\\", "COMEX_A.py")      
+    # util.run_script("\\Commodity\\", "COMEX_daily_openInterest_VOL.py")
+    
+    #---other files-------------------------
+    # util.run_script("\\SP500_Ratios\\", "Guru_shiller_sectors.py")
+    pass
+    #-------cboe
+if datetime.today().weekday() == 5 or datetime.today().weekday() == 6:
+    pass
+else:   
+    pass
+    # util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_CbeoOnly.py")
+    # util.run_script("\\Cboe\\", "Cboe_EquityTrading_ValueVolume_daily.py") 
+    # util.run_script("\\Cboe\\", "Cboe_OptionMarketStat_daily_Summary_VolNotional.py")
+    
+    #---other files-------------------------
+    # util.run_script("\\Fear_Greed\\", "Fear_Greed_CNN.py") 
 
 
  

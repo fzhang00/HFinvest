@@ -417,9 +417,9 @@ def downloadHistory_2019(dir_destFile, destFileName, date_list):
             if (d.strftime("%m-%d") == "12-31"):
             # if (d.strftime("%m-%d") == "05-06"):
                 break
-            
+    driver.quit()        
     print (datetime.now())        
-    driver.quit()    
+        
 
 def download_perod_ofDays():    
     dir_destFile = "G:\Projects\HFinvest\Cboe\OptionCbeoOnly_history_VolOI_a"

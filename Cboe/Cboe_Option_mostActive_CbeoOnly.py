@@ -104,10 +104,11 @@ def saveWebPage_OptionCboeOnly_daily(url, dir_destFile):
     driver = webdriver.Chrome('../chromedriver.exe')
     driver.implicitly_wait(10)    
     driver.get(url)
-    time.sleep(3)
+    time.sleep(2)
 
-    #--- agreemnet 
-    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    #--- agreemnet   /html/body/div[3]/div[1]/div/div/button[2]
+    # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    driver.find_element_by_xpath("//html/body/div[3]/div[1]/div/div/button[2]").click()
     time.sleep(2)    
 #https://stackoverflow.com/questions/47828481/convert-dynamically-loaded-table-into-pandas-dataframe 
 # soup = BeautifulSoup(htmlSource, 'html.parser')

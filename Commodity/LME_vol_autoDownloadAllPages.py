@@ -307,15 +307,6 @@ def Workingbackup_download_href_traderReport_weekly(url, targetDir):
 
 
 
-
-
-
-
-
-
-
-
-
 def extract_allExcelFileSubFolders_toSql(sourceDir, dbName):
     # pathlist = Path(sourceDir).glob('**/*.*')
     # pathlist = Path(sourceDir).glob('**/*.xlsx')

@@ -138,17 +138,19 @@ def convertDDMM_date(df, convertByColnumNum):
 
 #--------------------------------------
 
-def sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath):
+def sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath, metalName, date_fromFolderName):
     myDataFrameLists = pd.read_html(htmlFileFullPath)   
     if len(myDataFrameLists) == 0:
         msg = "empty Stock table from website: " + htmlFileFullPath
-        mydownPy.logError(errorFileTargetDir, msg)  
+        mydownPy.logError(errorFileTargetDir, msg) 
+        print ("error:  empty Stock table from website: " + htmlFileFullPath)
         return
     else: 
-        htmlFilePath = constA.getFilePathInfo(htmlFileFullPath, 0) #/temp/2021-04-01
-        metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
-        date_fromFolderName  = constA.getFilePathInfo(htmlFilePath, 1) #2021-04-01
-              
+        # htmlFilePath = constA.getFilePathInfo(htmlFileFullPath, 0) #/temp/2021-04-01
+        # metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
+        # date_fromFolderName  = constA.getFilePathInfo(htmlFilePath, 1) #2021-04-01
+            
+        
         #----------build the dataframe and save it
         df_price = (myDataFrameLists[0])
         df_price = df_price.replace({np.NAN: None}) 
@@ -167,7 +169,7 @@ def sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath):
         cursor = cnxn.cursor()        
          #----------table stock ---
         query = """DELETE FROM %s where Date = '%s' and Future = '%s' ;""" % (_sqlTable_LME_baseMetal_stock, date_fromFolderName, metalName)
-        cursor.execute(query)         
+        cursor.execute(query)  
         params = (date_fromFolderName, metalName)
         count = 0
         for (columnName, columnData) in df_stock.iteritems():
@@ -200,36 +202,47 @@ def sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath):
         
         #----------table closing prices ---
         query = """DELETE FROM %s where Date = '%s' and Contract = '%s';""" % (_sqlTable_LME_baseMetal_ColsePrice2021, date_fromFolderName, metalName)
-        cursor.execute(query)        
+        cursor.execute(query)  
+        
+
         params = (date_fromFolderName, metalName)        
         count = 0
         for (columnName, columnData) in df_ClosePrice.iteritems():
             if count >0: # remove the first column of names
-                params1 = tuple(columnData)
-                params =  params + params1             
+
+                if metalName.lower() == "cobalt":
+                    a = (columnData[0],columnData[1],columnData[2],columnData[3], None, columnData[4],columnData[5])
+                    params =  params + (a)
+                    pass
+                else:
+                    params1 = tuple(columnData)
+                    params =  params + params1             
                 # a = (date_fromFolderName, metalName)
-                # params = (a + tuple(columnData))
-            count +=1
+                # params = (a + tuple(columnData))                 
+            count +=1            
         query = """INSERT INTO %s VALUES (?,?,?,?, ?,?,?,?, ?);""" %(_sqlTable_LME_baseMetal_ColsePrice2021)
         cursor.execute(query, params)         
         cnxn.commit()         
-        # -----close database connection ----------
+        # -----close database connection ----------G:\Projects\HFinvest\Commodity\data\LME\temp_A\2022-01-24\Aluminium.html
+        
         cursor.close()
         cnxn.close()        
 # htmlFileFullPath = constLME_a2.commodityLME_workDir_A +'/2021-09-17/Cobalt.html'
+# htmlFileFullPath = constLME_a2.commodityLME_workDir_A +'/2022-01-21/Cobalt.html'
 # sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath)
 # print()       
 
-def sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath):
+def sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath, metalName, date_fromFolderName):
     myDataFrameLists = pd.read_html(htmlFileFullPath)   
     if len(myDataFrameLists) == 0:
         msg = "empty Stock table from website: " + htmlFileFullPath
         mydownPy.logError(errorFileTargetDir, msg)  
+        print("error: empty Stock table from website  " + htmlFileFullPath)
         return
     else: 
-        htmlFilePath = constA.getFilePathInfo(htmlFileFullPath, 0) #/temp/2021-04-01
-        metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
-        date_fromFolderName  = constA.getFilePathInfo(htmlFilePath, 1) #2021-04-01
+        # htmlFilePath = constA.getFilePathInfo(htmlFileFullPath, 0) #/temp/2021-04-01
+        # metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
+        # date_fromFolderName  = constA.getFilePathInfo(htmlFilePath, 1) #2021-04-01
               
         #----------build the dataframe and save it
         df_ClosePrice = (myDataFrameLists[0])
@@ -267,8 +280,7 @@ def sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath):
 # htmlFileFullPath = constLME_a2.commodityLME_workDir_A +'/2021-09-17/Steel Rebar.html'
 # sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath)
 # print()    
-
-def sql_Lithium_HTML_Price(htmlFileFullPath):
+def sql_Lithium_HTML_Price(htmlFileFullPath, metalName):
     myDataFrameLists = pd.read_html(htmlFileFullPath)   
     if len(myDataFrameLists) == 0:
         msg = "empty Stock table from website: " + htmlFileFullPath
@@ -276,7 +288,7 @@ def sql_Lithium_HTML_Price(htmlFileFullPath):
         return
     else: 
         # htmlFilePath = constA.getFilePathInfo(htmlFileFullPath, 0)
-        metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
+        # metalName    = constA.getFilePathInfo(htmlFileFullPath, 2).strip()
         # date_fromFolderName  = constA.getFilePathInfo(htmlFilePath, 1) 
               
         #----------build the dataframe and save it
@@ -303,32 +315,25 @@ def sql_Lithium_HTML_Price(htmlFileFullPath):
              
             query = """INSERT INTO %s VALUES (?,?,? );""" %(_sqlTable_LME_Lithium_ColsePrice2021)
             cursor.execute(query, params)
-        cnxn.commit()
-        
+        cnxn.commit()       
         # -----close database connection ----------
         cursor.close()
         cnxn.close()           
 # htmlFileFullPath = constLME_a2.commodityLME_workDir_A +'/2021-09-17/Lithium.html'
 # sql_Lithium_HTML_Price(htmlFileFullPath)
-# print() 
-      
+# print()       
 def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite): 
     driver = webdriver.Chrome('chromedriver.exe')
-    driver.implicitly_wait(10)
-    
+    driver.implicitly_wait(10)    
     driver.get(url)
-    time.sleep(3)
-    
+    time.sleep(3)    
     # from selenium.common.exceptions import NoSuchElementException
-
     try:
         driver.find_element_by_id("onetrust-accept-btn-handler").click()
         # elem = driver.find_element_by_xpath(".//*[@id='SORM_TB_ACTION0']")
         # elem.click()
     except NoSuchElementException:  #spelling error making this code not work as expected
         pass
-
-
     # driver.find_element_by_id("onetrust-accept-btn-handler").click() 
     time.sleep(3)    
         # pyautogui.hotkey("f5")
@@ -366,28 +371,79 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     pyautogui.typewrite(winPath)
     time.sleep(2)
     
-    pyautogui.hotkey('enter')
-    time.sleep(25) #wait for download finish
-    
-    driver.quit()    
+    pyautogui.hotkey('enter')   
     # time.sleep(2)
+    #--------------------check if the file is download with data
+    # fileSize = os.stat(fileFullPath).st_size
+    # if fileSize < 1000: # 5k
+    #     msg = "website download data <1K: " + fileFullPath + " ; url: " + url 
+    #     mydownPy.logError(errorFileTargetDir, msg)
+    # else: # save, update the data
+    #     print('file donwloaded: ' + url)    
 
-    #check if the file is download with data
-    fileSize = os.stat(fileFullPath).st_size
-    if fileSize < 1000: # 5k
-        msg = "website download data <1K: " + fileFullPath + " ; url: " + url 
-        mydownPy.logError(errorFileTargetDir, msg)
-    else: # save, update the data
-        print('file donwloaded: ' + url)        
+    # tables = pd.read_html(driver.page_source)
+    
+    htmlFileFullPath = driver.page_source
+    metalName    =  destFileName  
+    date_fromFolderName = dateStr
+    if metalName.lower() == constLME_a2.KEY_Gold.lower() or metalName.lower() == constLME_a2.KEY_Silver.lower() or metalName.lower() == constLME_a2.Key_SteelRebar.lower() :
+        sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath, metalName, date_fromFolderName) 
+        pass 
+    elif (metalName.lower() == constLME_a2.Key_Lithium.lower()):
+        sql_Lithium_HTML_Price(htmlFileFullPath, metalName)
+        pass
+    else:
+        sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath, metalName, date_fromFolderName)
+        pass  
+    
+    time.sleep(20) #wait for download finish    
+    driver.quit()     
     return fileFullPath
 
-# url =  constLME_a2.DICT_URL_A.get(constLME_a2.Key_Aluminium)
+# url =  constLME_a2.DICT_URL_A.get(constLME_a2.KEY_Gold)
 # destFilePath =  constLME_a2.commodityLME_workDir_A
-# destFileName =  constLME_a2.Key_Aluminium
-# dateSearchBy =  "/html/body/main/div[1]/div/div/div[2]/div[1]/div/div[1]/span[3]"
+# destFileName =  constLME_a2.KEY_Gold
+# # dateSearchBy =  "/html/body/main/div[1]/div/div/div[2]/div[1]/div/div[1]/span[3]"
+# dateSearchBy =  _dateSearchBy_xpath
 # waitTime_loadWebsite = _waitTime_loadWebsite_LME
 # saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite) 
 # print()
+
+def daily_save_sql_webPages_nonFerrous_gold_Silver_Steel():  
+    destFilePath =  constLME_a2.commodityLME_workDir_A
+    dateSearchBy =  _dateSearchBy_xpath 
+    waitTime_loadWebsite = _waitTime_loadWebsite_LME   
+    #------------do not change-------    
+    for key, value in constLME_a2.DICT_URL_A.items():
+        url = value
+        destFileName = key
+        htmlFileFullPath = saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite) 
+        # # li = [] li.append(htmlFileFullPath)         
+# daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()
+# print()
+
+def weekly_save_sql_webPage_Lithium():
+    destFilePath =  constLME_a2.commodityLME_workDir_A
+    dateSearchBy =  _dateSearchBy_xpath 
+    waitTime_loadWebsite = _waitTime_loadWebsite_LME    
+    url = constLME_a2.Lithium_url
+    destFileName = constLME_a2.Key_Lithium
+    
+    htmlFileFullPath = saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite) 
+    # sql_Lithium_HTML_Price(htmlFileFullPath)
+# weekly_save_sql_webPage_Lithium()
+# print()     
+   
+def LME_A_daily_Run():    
+    if datetime.today().weekday() == 5:# or datetime.today().weekday() == 6:
+        weekly_save_sql_webPage_Lithium()
+    elif datetime.today().weekday() == 6:
+        pass
+    else:    
+        daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()     
+# daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()    
+LME_A_daily_Run()
+
 
 def subFolders_toSql(sourceDir):  # not updated no working
     pathlist = Path(sourceDir).glob('**/*.html')
@@ -430,44 +486,4 @@ def subFolders_toSql(sourceDir):  # not updated no working
                 pass
 # sourceDir = constLME_a2.commodityLME_workDir_A+ '/workFolder'
 # subFolders_toSql(sourceDir) 
-# print()               
-
-def daily_save_sql_webPages_nonFerrous_gold_Silver_Steel():  
-    destFilePath =  constLME_a2.commodityLME_workDir_A
-    dateSearchBy =  _dateSearchBy_xpath 
-    waitTime_loadWebsite = _waitTime_loadWebsite_LME   
-    #------------do not change-------
-    for key, value in constLME_a2.DICT_URL_A.items():
-        url = value
-        destFileName = key
-        htmlFileFullPath = saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite) 
-        # print(htmlFileFullPath)        
-        if key == constLME_a2.KEY_Gold or key == constLME_a2.KEY_Silver or key == constLME_a2.Key_SteelRebar :
-            sql_Gold_Silver_Steel_HTML_Price(htmlFileFullPath) 
-            pass       
-        else:
-            sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath)
-            pass        
-# daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()
-# print()
-
-def weekly_save_sql_webPage_Lithium():
-    destFilePath =  constLME_a2.commodityLME_workDir_A
-    dateSearchBy =  _dateSearchBy_xpath 
-    waitTime_loadWebsite = _waitTime_loadWebsite_LME    
-    url = constLME_a2.Lithium_url
-    destFileName = constLME_a2.Key_Lithium
-    
-    htmlFileFullPath = saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite) 
-    sql_Lithium_HTML_Price(htmlFileFullPath)
-
-# weekly_save_sql_webPage_Lithium()
-# print()        
-def LME_A_daily_Run():
-    
-    if datetime.today().weekday() == 5 or datetime.today().weekday() == 6:
-        weekly_save_sql_webPage_Lithium()
-    else:    
-        daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()     
-    
-LME_A_daily_Run()
+# print()  

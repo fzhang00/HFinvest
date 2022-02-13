@@ -289,54 +289,54 @@ SEC_13F_sina_stock_Q()
 
 #-------not needed-------
 
-def webpage_table_13F_sina(saveDir):  
+# def webpage_table_13F_sina(saveDir):  
     
-    # file_object = open('./sample.txt', 'a', encoding = 'utf-16')
-    cols = ['Date', "Ticker", "Industry","NumOfHolder","ShareM", 
-            "QoQ","MarketValue_100M","Ratio_InstitutionHolding"]
-    df = pd.DataFrame(columns = cols)  
+#     # file_object = open('./sample.txt', 'a', encoding = 'utf-16')
+#     cols = ['Date', "Ticker", "Industry","NumOfHolder","ShareM", 
+#             "QoQ","MarketValue_100M","Ratio_InstitutionHolding"]
+#     df = pd.DataFrame(columns = cols)  
     
-    url = 'http://global.finance.sina.com.cn/clues/13f/?nav13f_id=SymbolStats'    
-    driver = webdriver.Chrome('chromedriver.exe')
-    driver.get(url)
-    time.sleep(2)
-    nextButton = driver.find_element_by_id("next")
-    dateStr = constA.todayDate_str
+#     url = 'http://global.finance.sina.com.cn/clues/13f/?nav13f_id=SymbolStats'    
+#     driver = webdriver.Chrome('chromedriver.exe')
+#     driver.get(url)
+#     time.sleep(2)
+#     nextButton = driver.find_element_by_id("next")
+#     dateStr = constA.todayDate_str
     
-    for page in range(100):
-        print ("downloading page: " + str(page) )
-        webObj2 = driver.find_elements_by_xpath("//table[@id= 'SymbolStats']/tbody/tr")
-        numRows = len(webObj2)
-        # webObj = driver.find_element_by_xpath("//*[@id= 'SymbolStats']/tbody/tr[1]/td")
-        webObj = driver.find_elements_by_xpath("//table[@id= 'SymbolStats']/tbody/tr[1]/td")
-        numCols = len(webObj)
+#     for page in range(100):
+#         print ("downloading page: " + str(page) )
+#         webObj2 = driver.find_elements_by_xpath("//table[@id= 'SymbolStats']/tbody/tr")
+#         numRows = len(webObj2)
+#         # webObj = driver.find_element_by_xpath("//*[@id= 'SymbolStats']/tbody/tr[1]/td")
+#         webObj = driver.find_elements_by_xpath("//table[@id= 'SymbolStats']/tbody/tr[1]/td")
+#         numCols = len(webObj)
         
-        for row in range (numRows):
-            print ('downloading row: ' + str(row) )
-            pathStr = "//table[@id= 'SymbolStats']/tbody/tr[" + str(row+1) + "]/td" 
-            currentRow = driver.find_elements_by_xpath(pathStr)
+#         for row in range (numRows):
+#             print ('downloading row: ' + str(row) )
+#             pathStr = "//table[@id= 'SymbolStats']/tbody/tr[" + str(row+1) + "]/td" 
+#             currentRow = driver.find_elements_by_xpath(pathStr)
             
-            li = [dateStr]
-            for col in range (2, numCols-2):
-                li.append(currentRow[col].text)
-            # print (li)
-            df1 = pd.DataFrame([li], columns = cols) 
-            df = df.append(df1, ignore_index=True)
-        nextButton.click_and_hold() 
-        time.sleep(1)
-        nextButton.release()
-        # nextButton.click()
-        time.sleep(4)    
-    driver.quit()
+#             li = [dateStr]
+#             for col in range (2, numCols-2):
+#                 li.append(currentRow[col].text)
+#             # print (li)
+#             df1 = pd.DataFrame([li], columns = cols) 
+#             df = df.append(df1, ignore_index=True)
+#         nextButton.click_and_hold() 
+#         time.sleep(1)
+#         nextButton.release()
+#         # nextButton.click()
+#         time.sleep(4)    
+#     driver.quit()
     
-    csvFileFullPath = saveDir +'/' +  dateStr + '_SEC_13F_sina_Q.csv'   
-    df.to_csv(csvFileFullPath, index= False) 
-    print('SEC_13F_sina downloaded: ' + csvFileFullPath)
-    return csvFileFullPath
-# saveDir = dir_SEC_13F_sina
-# webpage_table_13F_sina(saveDir)    
-# df = pd.read_csv('./sample.txt', sep=" ", header = None, encoding = 'utf-16')    
-# print ()
+#     csvFileFullPath = saveDir +'/' +  dateStr + '_SEC_13F_sina_Q.csv'   
+#     df.to_csv(csvFileFullPath, index= False) 
+#     print('SEC_13F_sina downloaded: ' + csvFileFullPath)
+#     return csvFileFullPath
+# # saveDir = dir_SEC_13F_sina
+# # webpage_table_13F_sina(saveDir)    
+# # df = pd.read_csv('./sample.txt', sep=" ", header = None, encoding = 'utf-16')    
+# # print ()
 
 
 

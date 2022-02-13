@@ -88,7 +88,8 @@ def save_EquityMarketStat_csvFile_daily_Volume(url, dir_destFile):
     driver.get(url)
     time.sleep(3)
     # accept cookie
-    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    driver.find_element_by_xpath("//html/body/div[3]/div[1]/div/div/button[2]").click()
     time.sleep(2)
 
     elems = driver.find_elements_by_tag_name('a')

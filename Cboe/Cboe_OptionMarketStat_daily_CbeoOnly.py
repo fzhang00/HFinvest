@@ -150,7 +150,8 @@ def saveWebPage_OptionCboeOnly_daily(url, dir_destFile):
     time.sleep(3)
 
     #--- agreemnet 
-    driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+    driver.find_element_by_xpath("//html/body/div[3]/div[1]/div/div/button[2]").click()
     time.sleep(2)    
 #https://stackoverflow.com/questions/47828481/convert-dynamically-loaded-table-into-pandas-dataframe 
 # soup = BeautifulSoup(htmlSource, 'html.parser')

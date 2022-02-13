@@ -135,7 +135,8 @@ def saveWebPage_Option_USMarket_summary_daily(url, dir_destFile):
     time.sleep(2)
     
     try:   #--- agreemnet 
-        driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+        # driver.find_element_by_xpath("/html/body/div[3]/div[2]/div/div/button").click()
+        driver.find_element_by_xpath("//html/body/div[3]/div[1]/div/div/button[2]").click()
         time.sleep(1)    
     except NoSuchElementException:  #spelling error making this code not work as expected
         pass    

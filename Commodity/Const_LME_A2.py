@@ -13,21 +13,24 @@ commodityLMEDir         = commodityDir + "/LME"      #"./data/LME"
 # commodityLME_workDir    = commodityLMEDir  + "/temp" #"./data/LME/temp"
 commodityLME_workDir_A    = commodityLMEDir  + "/temp_A" #"./data/LME/temp"
 
-Aluminium_url   = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium'           
-Copper_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Copper'              
-Zinc_url        = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Zinc'                
-Nickel_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Nickel'              
-Lead_url        = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Lead' 
-Tin_url         = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Tin'                 
-AluminiumAlloy_url  = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium-Alloy'                  
-NASAAC_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-NASAAC'              
+Aluminium_url   = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium'           
+Copper_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Copper#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Copper'              
+Zinc_url        = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Zinc#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Zinc'                
+Nickel_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Nickel#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Nickel'              
+Lead_url        = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Lead#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Lead' 
+Tin_url         = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Tin#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Tin'                 
+AluminiumAlloy_url  = 'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium-Alloy#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-Aluminium-Alloy'                  
+NASAAC_url      = 'https://www.lme.com/en/Metals/Non-ferrous/LME-NASAAC#Trading+day+summary'#'https://www.lme.com/en/Metals/Non-ferrous/LME-NASAAC'              
 
-Cobalt_url      = 'https://www.lme.com/en/Metals/EV/LME-Cobalt'
-Lithium_url     = 'https://www.lme.com/en/Metals/EV/Lithium-prices'
-SteelRebar_url  = 'https://www.lme.com/en/Metals/Ferrous/LME-Steel-Rebar'
-Gold_url    = 'https://www.lme.com/en/Metals/Precious/LME-Gold'
-Silver_url  = 'https://www.lme.com/en/Metals/Precious/LME-Silver'
-     
+Cobalt_url      = 'https://www.lme.com/en/Metals/EV/LME-Cobalt#Trading+day+summary'#'https://www.lme.com/en/Metals/EV/LME-Cobalt'
+Lithium_url     = 'https://www.lme.com/en/Metals/EV/About-Lithium' #'https://www.lme.com/en/Metals/EV/Lithium-prices'
+
+# SteelRebar_url  = 'https://www.lme.com/en/Metals/Ferrous/LME-Steel-Rebar'
+SteelRebar_url  = 'https://www.lme.com/en/Metals/Ferrous/lme-Steel-Rebar-FOB-Turkey-Platts#Trading+day+summary'
+#Gold_url    = 'https://www.lme.com/en/Metals/Precious/LME-Gold'
+Gold_url    = 'https://www.lme.com/en/Metals/Precious/LME-Gold#Trading+day+summary'
+# Silver_url  = 'https://www.lme.com/en/Metals/Precious/LME-Silver'
+Silver_url  = 'https://www.lme.com/en/Metals/Precious/LME-Silver#Trading+day+summary'    
 Key_Aluminium       = 'Aluminium'        
 Key_Copper          = 'Copper'  
 Key_Zinc            = 'Zinc'  

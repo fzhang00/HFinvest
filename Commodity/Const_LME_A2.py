@@ -61,7 +61,8 @@ DICT_URL_A  = {
                 KEY_Gold			: Gold_url     ,
                 KEY_Silver			: Silver_url     }
 
-
+# DICT_URL_A  = {    
+#                 Key_Nickel          : Nickel_url     }
 # DICT_URL_A_FILENAME = { KEY_NONFERROUS : _NONFERROUS_FILENAME,  KEY_GOLD : _GOLD_FILENAME, KEY_SILVER : _SILVER_FILENAME }
 
 

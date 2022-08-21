@@ -1,12 +1,41 @@
 use [SP500_Ratios]
 
+--DROP TABLE IF exists SP500_ClosePrice_PerSales;
+--CREATE TABLE SP500_ClosePrice_PerSales(
+--	Date  date NOT NULL,	"PricePerSales" float, YOY float  );
+select * from SP500_ClosePrice_PerSales order by [Date] desc;
+
+--DROP TABLE IF exists SP500_SalesPerShare_Estimate;
+--CREATE TABLE SP500_SalesPerShare_Estimate(
+--	Date  date NOT NULL,	Sector varchar(35), "SalesPerShare_Estimate" float, YOY float  );
+select * from SP500_SalesPerShare_Estimate --where Sector = 'Materials' 
+order by [Date] desc, Sector;
+
+--DROP TABLE IF exists SP500_OperatingMargin_Estimate;
+--CREATE TABLE SP500_OperatingMargin_Estimate(
+--	Date  date NOT NULL,	Sector varchar(35), "OperatingMargin_Estimate" float, YOY float  );
+select * from SP500_OperatingMargin_Estimate --where Sector = 'Materials' 
+order by [Date] desc, Sector;
+
+--DROP TABLE IF exists SP500_EPS_Reported;
+--CREATE TABLE SP500_EPS_Reported(
+--	Date  date NOT NULL,	Sector varchar(35), "EPS_Reported" float, YOY float  );
+select * from SP500_EPS_Reported --where Sector = 'Materials' 
+order by [Date] desc, Sector;
+
+
+--DROP TABLE IF exists SP500_OperatingEPS_EstimateTTM;
+--CREATE TABLE SP500_OperatingEPS_EstimateTTM(
+--	Date  date NOT NULL,	Sector varchar(35), "EPS_EstimateTTM" float, YOY float  );
+select * from SP500_OperatingEPS_EstimateTTM --where Sector = 'Materials' 
+order by [Date] desc, Sector;
+
 --DROP TABLE IF exists SP500_Sector_Industry_MarketCap;
 --CREATE TABLE SP500_Sector_Industry_MarketCap(
 --	Date  date NOT NULL,
 --	Sector varchar(35), Industry varchar(60), 
 --	"MarketCap(B)" float  );
 select * from SP500_Sector_Industry_MarketCap order by [Date] desc;
-
 
 --DROP TABLE IF exists SP500_Sector_Weight;
 --CREATE TABLE SP500_Sector_Weight(

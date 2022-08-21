@@ -37,9 +37,9 @@ _dir_sp500_SectorWeight = './SectorWeight/'
 'https://en.wikipedia.org/wiki/Global_Industry_Classification_Standard'
 #----------------
 # _sqlTable_SP500_Ratios_daily_sector_shillerPE = 'SP500_Ratios_daily_PE_sector_shillerPE'
-_sqlTable_SP500_ClosePrice = 'SP500_ClosePrice'
-_sqlTable_SP500_ClosePrice_Sector = 'SP500_ClosePrice_Sector'
-_sqlTable_SP500_Volume_Sector = 'SP500_Volume_Sector'
+_sqlTable_SP500_ClosePrice = 'SP500_ClosePrice' 
+# _sqlTable_SP500_ClosePrice_Sector = 'SP500_ClosePrice_Sector'
+# _sqlTable_SP500_Volume_Sector = 'SP500_Volume_Sector'
 
 _sqlTable_SP500_Sector_Weight = 'SP500_Sector_Weight'
 _sqlTable_SP500_Sector_PriceVolume = 'SP500_Sector_PriceVolume'

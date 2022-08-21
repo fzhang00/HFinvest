@@ -182,6 +182,51 @@ def webpage_table_13F_sina_stock(saveDir):
 # csvFileFullPath = webpage_table_13F_sina_stock(saveDir)  
 # print()
 
+# def SQL_13F_sina_stock(csvFileFullPath, dbName):
+#     df = pd.read_csv(csvFileFullPath)  
+#     df[df.columns[7]]   = df[df.columns[7]].str.rstrip('%')
+#     df[df.columns[9]]   = df[df.columns[9]].str.rstrip('%')
+#     df[df.columns[10]]  = df[df.columns[10]].str.rstrip('%')
+#         # df[col] = pd.to_numeric(df[col], errors='coerce',downcast= 'integer')  
+#     for i in range(len(df)):
+#         try:
+#             float(df.iat[i, 7])            
+#         except ValueError:
+#             df.iat[i, 7] = None
+#         try:
+#             float(df.iat[i, 9])            
+#         except ValueError:
+#             df.iat[i, 9] = None
+#         try:
+#             float(df.iat[i, 10])            
+#         except ValueError:
+#             df.iat[i, 10] = None            
+#     dfdata = df.iloc[: , [0,1, 3, 5,6,7,8,9,10]  ]
+#     dfdata = dfdata.replace({np.NAN: None})
+
+#     cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+_server+';DATABASE='+_database+';UID='+_username+';PWD='+_password)
+#     cursor = cnxn.cursor()
+#     #--------------- 
+#     dateStr = dfdata.iat[0,0]
+#     query = """DELETE FROM %s where Date = '%s' ;""" % (dbName, dateStr)
+#     cursor.execute(query)    
+    
+#     for index, row in dfdata.iterrows():
+#         params = tuple(row)
+#         query = """INSERT INTO %s VALUES (?,?,?,?, ?,?,?,?, ? );""" %(dbName)
+#         cursor.execute(query, params)        
+#     cnxn.commit() 
+#     #---------------       
+#     cursor.close()
+#     cnxn.close()
+#     # print ("----SEC 13F stock database updated : " +  (datetime.today()).strftime('%Y-%m-%d') )
+#     print ("----SEC 13F stock database updated : " +  dateStr)
+   
+# # csvFileFullPath = _Dir_SEC_13F_sina + "/2016-03-31_SEC_13F_sina_Q.csv"
+# # dbName = _sqlTable_SEC_13F_sina_Stock
+# # SQL_13F_sina_stock(csvFileFullPath, dbName)
+# # print()
+
 def SQL_13F_sina_stock(csvFileFullPath, dbName):
     df = pd.read_csv(csvFileFullPath)  
     df[df.columns[7]]   = df[df.columns[7]].str.rstrip('%')
@@ -222,11 +267,10 @@ def SQL_13F_sina_stock(csvFileFullPath, dbName):
     # print ("----SEC 13F stock database updated : " +  (datetime.today()).strftime('%Y-%m-%d') )
     print ("----SEC 13F stock database updated : " +  dateStr)
    
-# csvFileFullPath = _Dir_SEC_13F_sina + "/2016-03-31_SEC_13F_sina_Q.csv"
-# dbName = _sqlTable_SEC_13F_sina_Stock
-# SQL_13F_sina_stock(csvFileFullPath, dbName)
-# print()
-
+csvFileFullPath = _Dir_SEC_13F_sina + "/2022-03-31_2022-04-16_SEC_13F_sina_Q.csv"
+dbName = _sqlTable_SEC_13F_sina_Stock
+SQL_13F_sina_stock(csvFileFullPath, dbName)
+print()
 def Stock_Industry_lookup(csvFileFullPath, dbName):
     df = pd.read_csv(csvFileFullPath)  
     dfdata = df.iloc[: , [2 ,3, 4 ]  ]

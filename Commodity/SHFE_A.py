@@ -340,7 +340,7 @@ def saveWebPage_SHFE_OIVolPrice_weekly(url, filePath, volPriceFileName, dateSear
     
     #Hit Enter to save
     pyautogui.hotkey('enter')
-    time.sleep(waitTime_loadWebsite * 2) #wait for download finish
+    time.sleep(20) #wait for download finish
     
     driver.quit()
     time.sleep(1)
@@ -597,7 +597,7 @@ def saveWebPageShangHai_weeklyStock(url, filePath, stockFileName, dateSearchBy, 
     
     #Hit Enter to save
     pyautogui.hotkey('enter')
-    time.sleep(waitTime_loadWebsite * 2) #wait for download finish
+    time.sleep(20) #wait for download finish
     
     driver.quit()
     time.sleep(1)

@@ -42,9 +42,12 @@ errorFileTargetDir = '../'
 
 # _dateSearchBy_ClassName_nonFerrous_gold_silver = "delayed-date.left"
 _dateSearchBy_xpath = "/html/body/main/div[1]/div/div/div[2]/div[1]/div/div[1]/span[3]"  #"delayed-date.left"
+# _dateSearchBy_xpath2 = "/html/body/main/div[1]/div[4]/div/div[2]/div[1]/div/div[1]/span[3]"
 
+# global dateBackupNickleStr
 
 _dateSearchKeyword = "Data valid for"
+
 _waitTime_loadWebsite_LME = 3
 
 _columnName_goldSilver = ['Date', 'Volume', 'Open Interest']
@@ -63,7 +66,6 @@ _sqlTable_LME_baseMetal_ColsePrice2021      = 'LME_baseMetal_ColsePrice2021'
 _sqlTable_LME_precious_steel_price2021  = 'LME_precious_steel_price2021'
 _sqlTable_LME_Lithium_ColsePrice2021    = 'LME_Lithium_ColsePrice2021'
 # _sqlTable_LME_precious_VolOpenInterest = 'LME_precious_VolOpenInterest_M'
-
 
 
 #------- ---------
@@ -322,7 +324,9 @@ def sql_Lithium_HTML_Price(htmlFileFullPath, metalName):
 # htmlFileFullPath = constLME_a2.commodityLME_workDir_A +'/2021-09-17/Lithium.html'
 # sql_Lithium_HTML_Price(htmlFileFullPath)
 # print()       
+dateBackupNickleStr = '2022-03-25'
 def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSearchBy, waitTime_loadWebsite): 
+    global dateBackupNickleStr
     driver = webdriver.Chrome('chromedriver.exe')
     driver.implicitly_wait(10)    
     driver.get(url)
@@ -343,13 +347,26 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     if destFileName == constLME_a2.Key_Lithium :
         dateStr = constA.todayDate_str # weekly data no date infor in webpage
         pass
+    elif destFileName == constLME_a2.Key_Nickel:
+        dateStr = dateBackupNickleStr
+        pass    
     else:
+        # try:
+        #     date_field = driver.find_element_by_xpath(dateSearchBy)
+        #     # print(date_field.text)
+        #     dateStr1 = date_field.text    
+        #     dateStr = getDateFromString(dateStr1, _dateSearchKeyword)
+        #     # dateStr = dateSearch_LME(dateSearchBy, dateStr)
+                     
+            
+        # except NoSuchElementException:  #spelling error making this code not work as expected
+        #     pass 
+        # dateBackupNickleStr = dateStr   
+        
         date_field = driver.find_element_by_xpath(dateSearchBy)
-        # print(date_field.text)
         dateStr1 = date_field.text    
         dateStr = getDateFromString(dateStr1, _dateSearchKeyword)
-        # dateStr = dateSearch_LME(dateSearchBy, dateStr)
-    
+        
     # -------- make file dir, delete old file and set the file name   
     destFilePath_2 = destFilePath + '/' + dateStr  
     makeTodayDataDir(destFilePath_2)    
@@ -359,31 +376,38 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
     if os.path.isfile(fileFullPath):
         os.remove(fileFullPath)
         print('file removed: ' + fileFullPath)
-        time.sleep(5)
+        time.sleep(3)
         
     #-----convert python dir to windows dir 
     fileAbsPath = os.path.abspath(fileFullPath)   
     winPath = fileAbsPath.replace(os.sep,ntpath.sep)
     
     pyautogui.hotkey('ctrl', 's')
-    time.sleep(waitTime_loadWebsite)
+    time.sleep(2)
     
     pyautogui.typewrite(winPath)
     time.sleep(2)
     
     pyautogui.hotkey('enter')   
-    # time.sleep(2)
+    time.sleep(20)
+    driver.quit()
     #--------------------check if the file is download with data
     # fileSize = os.stat(fileFullPath).st_size
     # if fileSize < 1000: # 5k
     #     msg = "website download data <1K: " + fileFullPath + " ; url: " + url 
     #     mydownPy.logError(errorFileTargetDir, msg)
     # else: # save, update the data
-    #     print('file donwloaded: ' + url)    
+    #     print('file donwloaded: ' + url)    G:\Projects\HFinvest\Commodity\data\LME\temp_A\2022-03-25\Nickel.html
+    
 
     # tables = pd.read_html(driver.page_source)
     
-    htmlFileFullPath = driver.page_source
+    
+    if destFileName == constLME_a2.Key_Nickel:
+        print("LME_A2 download no sql: "+ destFileName)
+        return fileFullPath
+    
+    htmlFileFullPath = driver.page_source    
     metalName    =  destFileName  
     date_fromFolderName = dateStr
     if metalName.lower() == constLME_a2.KEY_Gold.lower() or metalName.lower() == constLME_a2.KEY_Silver.lower() or metalName.lower() == constLME_a2.Key_SteelRebar.lower() :
@@ -396,8 +420,9 @@ def saveWebPage_nonFerrous_gold_Silver(url, destFilePath, destFileName, dateSear
         sql_NonFerrous_HTML_Stock_Price1(htmlFileFullPath, metalName, date_fromFolderName)
         pass  
     
-    time.sleep(20) #wait for download finish    
-    driver.quit()     
+       
+        
+    print("LME_A2 download : "+ destFileName)
     return fileFullPath
 
 # url =  constLME_a2.DICT_URL_A.get(constLME_a2.KEY_Gold)
@@ -413,6 +438,7 @@ def daily_save_sql_webPages_nonFerrous_gold_Silver_Steel():
     destFilePath =  constLME_a2.commodityLME_workDir_A
     dateSearchBy =  _dateSearchBy_xpath 
     waitTime_loadWebsite = _waitTime_loadWebsite_LME   
+    
     #------------do not change-------    
     for key, value in constLME_a2.DICT_URL_A.items():
         url = value
@@ -442,6 +468,7 @@ def LME_A_daily_Run():
     else:    
         daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()     
 # daily_save_sql_webPages_nonFerrous_gold_Silver_Steel()    
+# weekly_save_sql_webPage_Lithium()
 LME_A_daily_Run()
 
 

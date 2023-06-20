@@ -1,9 +1,16 @@
 import yfinance as yf
 import pyodbc
 from datetime import date as dt
-
+# from key import *
+RYAN_SQL = {'driver': 'ODBC Driver 17 for SQL Server',
+            'server':'RyanPC' , 
+            'database':'Commodity_A1' ,
+            'username': 'hl',
+            'password': '123'} 
 # Define the list of symbols
-symbols = ["AAPL", "GOOGL", "MSFT", "TEC.TO", "TSM", "ASML"]
+symbols = ["AAPL", "GOOGL", "MSFT", "TEC.TO", "TSM", "ASML", "VSP.TO",
+           "AMAT", "TLT", "TD", "RY", "V", "BMO", "CNR", "ENB", "NTR", "NVDA",
+           "ON", "TSLA"]
 
 def insert_data(cursor, symbol: str, start: str, end: str):
     # Download historical data using yfinance
@@ -66,7 +73,8 @@ def create_table(cursor, table_name):
 
 
 # Connect to the MS SQL Server
-conn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER=;DATABASE=TickerData;UID=;PWD=')
+conn = pyodbc.connect(f"DRIVER={RYAN_SQL['driver']};SERVER={RYAN_SQL['server']};"
+                      f"DATABASE=Ticker;UID={RYAN_SQL['username']};PWD={RYAN_SQL['password']};Encrypt=no")
 
 # Create a cursor to execute SQL queries
 cursor = conn.cursor()

@@ -9,8 +9,9 @@ RYAN_SQL = {'driver': 'ODBC Driver 17 for SQL Server',
             'password': '123'} 
 # Define the list of symbols
 symbols = ["AAPL", "GOOGL", "MSFT", "TEC.TO", "TSM", "ASML", "VSP.TO",
-           "AMAT", "TLT", "TD", "RY", "V", "BMO", "CNR", "ENB", "NTR", "NVDA",
-           "ON", "TSLA"]
+           "AMAT", "TLT", "TD", "RY", "V", "BMO", "CNR.TO", "ENB", "NTR", "NVDA",
+           "ON", "TSLA", "TMF", "TD.TO", "BMO.TO", "NA.TO", "XOM", "PWR", "QQQ",
+            "HGR.TO", "GOLD", "CCO", "CADUSD", "JP1!", "HMC", "^GSPC" ]
 
 def insert_data(cursor, symbol: str, start: str, end: str):
     # Download historical data using yfinance

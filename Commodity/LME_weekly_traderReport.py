@@ -224,7 +224,7 @@ def downloadExcelFile(targetDir, fileName, url):
     return newFilefullPath 
   
 def download_href_traderReport_weekly(url, targetDir):
-    driver = webdriver.Chrome('chromedriver.exe')
+    driver = webdriver.Chrome()
     driver.get(url)
     time.sleep(2)    
     

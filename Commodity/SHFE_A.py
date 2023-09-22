@@ -552,7 +552,7 @@ return the folder dir for the weekly SHFE data
 """    
 def saveWebPageShangHai_weeklyStock(url, filePath, stockFileName, dateSearchBy, searchKeyword, waitTime_loadWebsite): 
     # driver = webdriver.Chrome('chromedriver.exe')
-    driver = webdriver.Chrome('chromedriver.exe')  # Optional argument, if not specified will search path.
+    driver = webdriver.Chrome()  # Optional argument, if not specified will search path.
     driver.get(url)
     #refresh the webpage first
     time.sleep(1)

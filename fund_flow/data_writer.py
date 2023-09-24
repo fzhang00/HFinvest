@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import pyodbc
 from datetime import datetime
 import pandas as pd
 import sqlalchemy
@@ -18,17 +17,20 @@ conn = sqlalchemy.create_engine('mssql+pyodbc://'+db_info['username']+':'+db_inf
                             '/' + db_info['database'] + \
                             '?driver=ODBC+Driver+17+for+SQL+Server')
 
+
 # Function to check if a table exists in the database
 def table_exists(conn, table_name):
     query = f"SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{table_name}'"
     result = conn.execute(query)
     return result.fetchone()[0] > 0
 
+
 def get_latest_date(cursor, table_name):
     # Query the latest date for the given symbol
     query = f"SELECT MAX([Date]) FROM {table_name}"
     latest_date = cursor.execute(query)
     return latest_date.fetchone()[0]
+
 
 def download_etfdb_fundflow(url):
     """Download fund flow data. Raw data are strings. """
@@ -43,7 +45,6 @@ def download_etfdb_fundflow(url):
     for i in range(len(headers)):
         if headers[i]=="+/-":
             headers[i] = " ".join(headers[i-1:i+1])
-
 
     # Extract last updated date
     last_updated=""
@@ -60,9 +61,7 @@ def download_etfdb_fundflow(url):
             rows.append(data)
     df = pd.DataFrame(data=rows, columns=headers)
     df['Date'] = publish_date
-
     return df
-
 
 
 def to_sql_table(table_name, df):
@@ -77,10 +76,15 @@ def to_sql_table(table_name, df):
     else:
         print("Already up to date. ")
 
+
 def convert_to_num(df):
     """Convert downloaded etf table from string to number.
-    Specifically, convert $xx,xxx.xx to float. xx% to float. 
-    If a cell is not convertable, replace it with NaN. """
+    Specifically, convert 
+        - '$xx,xxx.xx' to float. 
+        - 'xx%' to float. 
+        - 'xx.xx' to float.
+    If a cell is not convertable, replace it with NaN. 
+    Date and Names columns are skipped. """
     str_cols = ['Industry', 'Date', 'power_ranking_sort_text']
     remove_dollar = lambda x: pd.to_numeric(x.replace('$', '').replace(',', ''), errors='ignore')
     remove_pct = lambda x: pd.to_numeric(x.replace('%',''), errors='ignore')
@@ -96,10 +100,9 @@ def convert_to_num(df):
                     df[col] = df[col].apply(pd.to_numeric, errors='coerce')
     return df
 
-if __name__ == "__main__":
-    # URL of the webpage with the table
-    url = 'https://etfdb.com/etfs/industry/#industry-power-rankings__fund-flow-leaderboard&sort_name=aum_position&sort_order=asc&page=1'
 
+if __name__ == "__main__":
+    url = "https://etfdb.com/etfs/industry/"
     raw_df = download_etfdb_fundflow(url)
     to_sql_table('etf_fund_flow', raw_df)
     df = convert_to_num(raw_df)
